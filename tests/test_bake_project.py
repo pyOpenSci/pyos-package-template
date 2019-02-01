@@ -169,16 +169,16 @@ def test_bake_selecting_license(cookies):
             assert license in result.project.join('setup.py').read()
 
 
-def test_bake_not_open_source(cookies):
-    with bake_in_temp_dir(cookies, extra_context={'open_source_license': 'Not open source'}) as result:
-        found_toplevel_files = [f.basename for f in result.project.listdir()]
-        assert 'setup.py' in found_toplevel_files
-        assert 'LICENSE' not in found_toplevel_files
-        assert 'License' not in result.project.join('README.rst').read()
+# def test_bake_not_open_source(cookies):
+#     with bake_in_temp_dir(cookies, extra_context={'open_source_license': 'Not open source'}) as result:
+#         found_toplevel_files = [f.basename for f in result.project.listdir()]
+#         assert 'setup.py' in found_toplevel_files
+#         assert 'LICENSE' not in found_toplevel_files
+#         assert 'License' not in result.project.join('README.rst').read()
 
 
 def test_using_pytest(cookies):
-    with bake_in_temp_dir(cookies, extra_context={'use_pytest': 'y'}) as result:
+    with bake_in_temp_dir(cookies) as result:
         assert result.project.isdir()
         test_file_path = result.project.join('tests/test_python_boilerplate.py')
         lines = test_file_path.readlines()
@@ -224,7 +224,7 @@ def test_using_pytest(cookies):
 #     setup_path = os.path.join(project_path, 'setup.py')
 #     with open(setup_path, 'r') as setup_file:
 #         assert 'entry_points' not in setup_file.read()
-
+#
 
 # def test_bake_with_console_script_files(cookies):
 #     context = {'command_line_interface': 'click'}
