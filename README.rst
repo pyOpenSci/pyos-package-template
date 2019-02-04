@@ -35,4 +35,4 @@ Generate a Python package project:
     cookiecutter https://github.com/pyOpenSci/cookiecutter-pyopensci.git
 
 For more details, see the
-```cookiecutter-pypackage tutorial`` <https://cookiecutter-pypackage.readthedocs.io/en/latest/tutorial.html>`__
+```cookiecutter-pyopensci tutorial`` <https://cookiecutter-pyopensci.readthedocs.io/en/latest/tutorial.html>`__
