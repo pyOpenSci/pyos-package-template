@@ -31,8 +31,8 @@ def test_max_number(generate_numbers):
     assert our_result == max(generate_numbers)
 
 
-def test_max_number_bad(generate_numbers):
-    """Sample test function that should fail."""
-
-    our_result = {{ cookiecutter.project_slug }}.max_number(generate_numbers)
-    assert our_result == max(generate_numbers) + 1
+# def test_max_number_bad(generate_numbers):
+#     """Sample test function that fails. Uncomment to see."""
+#
+#     our_result = {{ cookiecutter.project_slug }}.max_number(generate_numbers)
+#     assert our_result == max(generate_numbers) + 1
