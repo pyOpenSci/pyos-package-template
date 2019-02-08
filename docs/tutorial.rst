@@ -4,7 +4,7 @@ Tutorial
 .. note:: Did you find any of these instructions confusing? `Edit this file`_
           and submit a pull request with your improvements!
 
-.. _`Edit this file`: https://github.com/audreyr/cookiecutter-pypackage/blob/master/docs/tutorial.rst
+.. _`Edit this file`: https://github.com/pyOpenSci/cookiecutter-pyopensci/blob/master/docs/tutorial.rst
 
 To start with, you will need a `GitHub account`_ and an account on `PyPI`_. Create these before you get started on this tutorial. If you are new to Git and GitHub, you should probably spend a few minutes on some of the tutorials at the top of the page at `GitHub Help`_.
 
@@ -49,14 +49,29 @@ Step 2: Generate Your Package
 
 Now it's time to generate your Python package.
 
-Use cookiecutter, pointing it at the cookiecutter-pypackage repo:
+Use cookiecutter, pointing it at the cookiecutter-pyopensci repo:
 
 .. code-block:: bash
 
-    cookiecutter https://github.com/audreyr/cookiecutter-pypackage.git
+    cookiecutter https://github.com/pyOpenSci/cookiecutter-pyopensci.git
 
 You'll be asked to enter a bunch of values to set the package up.
-If you don't know what to enter, stick with the defaults.
+If you don't know what to enter, stick with the defaults. Here's a list of the options, and a brief description:
+
+*full_name*: Enter package creator's full name.
+*email*: Enter email address.
+*github_username*: Package creator's github username.
+*project_name*: Choose a short and descriptive name for your package.
+*project_slug*: A shorthand name for your project, using "_" instead of spaces and avoiding "-".
+*project_short_description*: Short (one sentence) description of your package and what it does.
+*pypi_username*: Username for deploying to PyPI. If you don't have one, just leave as default for now. This is not important for now.
+*version*: Version number for your package. If unsure, leave as default.
+*use_pypi_deployment_with_travis*: Travis CI can automatically deploy your project to PyPI when you update to a new version number. If you are unsure, leave as "n". This can be changed later.
+*add_pyup_badge*: PyUp.io is a service that helps keep your package compatitible with updates to its dependencies. 
+*open_source_license*: Select an open source software license. For more guidance, see the `license section`_ of the `pyOpenSci guidebook`_. If you would like to use a license not on this list, just choose one and replace the LICENSE file with the license of your choosing.
+
+.. _`license section`: https://pyopensci.github.io/dev_guide/packaging/packaging_guide.html#license
+.. _`pyOpenSci guidebook`: https://pyopensci.github.io/dev_guide
 
 
 Step 3: Create a GitHub Repo
@@ -106,18 +121,7 @@ Login using your Github credentials. It may take a few minutes for Travis CI to 
 
 Add the public repo to your Travis CI account by clicking the ``X`` to switch it "on" in the box next to the ``mypackage`` repo. Do not try to follow the other instructions, that will be taken care of next.
 
-In your terminal, your virtualenv should still be activated. If it isn't, activate it now. Run the Travis CLI tool to do your Travis CI setup:
-
-.. code-block:: bash
-
-    travis encrypt --add deploy.password
-
-This will:
-
-* Encrypt your PyPI password in your Travis config.
-* Activate automated deployment on PyPI when you push a new tag to master branch.
-
-See :ref:`travis-pypi-setup` for more information.
+If you chose to turn on automatic PyPI deployment via Travis CI, see :ref:`travis-pypi-setup` for more information.
 
 .. [*] For private projects go to `Travis CI com`_
 
@@ -140,7 +144,7 @@ Now your documentation will get rebuilt when you make documentation changes to y
 
 .. _`ReadTheDocs`: https://readthedocs.org/
 
-Step 7: Set Up pyup.io
+Step 7 (optional): Set Up pyup.io
 ----------------------
 
 `pyup.io`_ is a service that helps you to keep your requirements files up to date. It sends you automated
@@ -155,16 +159,20 @@ Once your repo is set up correctly, the pyup.io badge will show your current upd
 
 .. _`pyup.io`: https://pyup.io/
 
-Step 8: Release on PyPI
+
+Step 8 (optional): Release on PyPI
 -----------------------
 
 The Python Package Index or `PyPI`_ is the official third-party software repository for the Python programming language. Python developers intend it to be a comprehensive catalog of all open source Python packages.
 
-When you are ready, release your package the standard Python way.
+**Note**: If you are submitting your package for pyOpenSci peer-review, we ask that you wait to release your package on PyPI. This makes it easier to implement changes during the review process. If you are already on PyPI, that's no problem of course!
 
-See `PyPI Help`_ for more information about submitting a package.
+When you are ready, see `PyPI Help`_ for more information about submitting a package.
 
 Here's a release checklist you can use: https://gist.github.com/audreyr/5990987
+
+If you turned on automatic deployment to PyPI via Travis, see :ref:`travis-pypi-setup` for more infoj
+
 
 .. _`PyPI`: https://pypi.python.org/pypi
 .. _`PyPI Help`: http://peterdowns.com/posts/first-time-with-pypi.html
@@ -175,4 +183,4 @@ Having problems?
 
 Visit our :ref:`troubleshooting` page for help. If that doesn't help, go to our `Issues`_ page and create a new Issue. Be sure to give as much information as possible.
 
-.. _`Issues`: https://github.com/audreyr/cookiecutter-pypackage/issues
+.. _`Issues`: https://github.com/pyOpenSci/cookiecutter-pyopensci/issues

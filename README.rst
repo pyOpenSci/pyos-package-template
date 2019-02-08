@@ -19,6 +19,7 @@ Features
 -  **Tox** and **pytest** testing: Setup to easily test for Python 2.7,
    3.4, 3.5, 3.6
 -  **Travis-CI**: Ready for Travis Continuous Integration testing
+-  **codecov**: Code coverage report and badge using codecov and Travis
 -  **Sphinx** docs: Documentation ready for generation with, for
    example, **ReadTheDocs**
 -  **Bumpversion**: Pre-configured version bumping with a single command
@@ -28,7 +29,7 @@ Quickstart
 ----------
 
 Install the latest Cookiecutter if you haven't installed it yet (this
-requires Cookiecutter 1.4.0 or higher)::
+requires Cookiecutter 1.4.0 or higher)
 
 ::
 
@@ -41,4 +42,4 @@ Generate a Python package project:
     cookiecutter https://github.com/pyOpenSci/cookiecutter-pyopensci.git
 
 For more details, see the
-```cookiecutter-pypackage tutorial`` <https://cookiecutter-pypackage.readthedocs.io/en/latest/tutorial.html>`__
+```cookiecutter-pyopensci tutorial`` <https://cookiecutter-pyopensci.readthedocs.io/en/latest/tutorial.html>`__
