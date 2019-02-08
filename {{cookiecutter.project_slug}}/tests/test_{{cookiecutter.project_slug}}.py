@@ -24,14 +24,14 @@ def test_sum_numbers(generate_numbers):
     assert our_result == sum(generate_numbers)
 
 
-def test_max_number(generate_numbers)
+def test_max_number(generate_numbers):
     """Sample test function for max_number, using pytest fixture."""
 
     our_result = {{ cookiecutter.project_slug }}.max_numbers(generate_numbers)
     assert our_result == max(generate_numbers)
 
 
-def test_max_number_bad(generate_numbers)
+def test_max_number_bad(generate_numbers):
     """Sample test function that should fail."""
 
     our_result = {{ cookiecutter.project_slug }}.max_numbers(generate_numbers)
