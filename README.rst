@@ -11,6 +11,7 @@ Cookiecutter pyOpenSci
 
 -  GitHub repo: https://github.com/pyOpenSci/cookiecutter-pyopensci
 -  Documentation: https://cookiecutter-pyopensci.readthedocs.io/
+-  pyOpenSci Guidebook: https://pyopensci.github.io/dev_guide
 -  Free software: BSD license
 
 Features
