@@ -59,15 +59,25 @@ You'll be asked to enter a bunch of values to set the package up.
 If you don't know what to enter, stick with the defaults. Here's a list of the options, and a brief description:
 
 *full_name*: Enter package creator's full name.
+
 *email*: Enter email address.
+
 *github_username*: Package creator's github username.
+
 *project_name*: Choose a short and descriptive name for your package.
+
 *project_slug*: A shorthand name for your project, using "_" instead of spaces and avoiding "-".
+
 *project_short_description*: Short (one sentence) description of your package and what it does.
+
 *pypi_username*: Username for deploying to PyPI. If you don't have one, just leave as default for now. This is not important for now.
+
 *version*: Version number for your package. If unsure, leave as default.
+
 *use_pypi_deployment_with_travis*: Travis CI can automatically deploy your project to PyPI when you update to a new version number. If you are unsure, leave as "n". This can be changed later.
+
 *add_pyup_badge*: PyUp.io is a service that helps keep your package compatitible with updates to its dependencies. 
+
 *open_source_license*: Select an open source software license. For more guidance, see the `license section`_ of the `pyOpenSci guidebook`_. If you would like to use a license not on this list, just choose one and replace the LICENSE file with the license of your choosing.
 
 .. _`license section`: https://pyopensci.github.io/dev_guide/packaging/packaging_guide.html#license
