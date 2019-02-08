@@ -47,7 +47,7 @@ def max_number(number_list):
 
     cur_max = number_list[0]
     for n in number_list[1:]:
-        if n>cur_max:
+        if n > cur_max:
             cur_max = n
 
     return cur_max
