@@ -65,36 +65,39 @@ You'll be asked to enter a bunch of values to set the package up.
 If you don't know what to enter, stick with the defaults. Here's a
 list of the options, and a brief description:
 
-*full_name*: Enter package creator's full name.
+* **full_name**: Enter package creator's full name.
 
-*email*: Enter email address.
+* **email**: Enter email address.
 
-*github_username*: Package creator's github username.
+* **github_username**: Package creator's github username.
 
-*project_name*: Choose a short and descriptive name for your package.
+* **project_name**: Choose a short and descriptive name for your package.
 
-*project_slug*: A shorthand name for your project, using "_" instead of
-spaces and avoiding "-".
+* **project_slug**: A shorthand name for your project, using "_" instead of
+  spaces and avoiding "-".
 
-*project_short_description*: Short (one sentence) description of your
-package and what it does.
+* **project_short_description**: Short (one sentence) description of your
+  package and what it does.
 
-*pypi_username*: Username for deploying to PyPI. If you don't have one,
-just leave as default for now. This is not important for now.
+* **pypi_username**: Username for deploying to PyPI. If you don't have one,
+  just leave as default for now. This is not important for now.
 
-*version*: Version number for your package. If unsure, leave as default.
+* **version**: Version number for your package. If unsure, leave as default.
 
-*use_pypi_deployment_with_travis*: Travis CI can automatically deploy your
-project to PyPI when you update to a new version number. If you are unsure,
-leave as "n". This can be changed later.
+* **use_pypi_deployment_with_travis**: Travis CI can automatically deploy your
+  project to PyPI when you update to a new version number. If you are unsure,
+  leave as "n". This can be changed later.
 
-*add_pyup_badge*: PyUp.io is a service that helps keep your package
-compatitible with updates to its dependencies.
+* **add_pyup_badge**: PyUp.io is a service that helps keep your package
+  compatitible with updates to its dependencies.
 
-*open_source_license*: Select an open source software license. For
-more guidance, see the `license section`_ of the `pyOpenSci guidebook`_.
-If you would like to use a license not on this list, just choose one and
-replace the LICENSE file with the license of your choosing.
+* **open_source_license**: Select an open source software license. For
+  more guidance, see the `license section`_ of the `pyOpenSci guidebook`_.
+  If you would like to use a license not on this list, just choose one and
+  replace the LICENSE file with the license of your choosing.
+
+The result will be a newly-created repository in a new folder called
+``[project_slug]``. Next, we'll upload this repository to GitHub.
 
 .. _`license section`: https://pyopensci.github.io/dev_guide/packaging/packaging_guide.html#license
 .. _`pyOpenSci guidebook`: https://pyopensci.github.io/dev_guide
@@ -103,13 +106,18 @@ replace the LICENSE file with the license of your choosing.
 Step 3: Create a GitHub Repo
 ----------------------------
 
+Next we need to create an online repository on GitHub where you can push
+your newly-created local repository.
+
 Go to your GitHub account and create a new repo named ``mypackage``,
 where ``mypackage`` matches the ``[project_slug]`` from your answers
-to running cookiecutter. This is so that Travis CI and pyup.io can find
+to running ``cookiecutter``. This is so that Travis CI and pyup.io can find
 it when we get to Step 5.
 
-``If your virtualenv folder is within your project folder, be sure to
-add the virtualenv folder name to your .gitignore file.``
+.. note::
+
+   If your virtualenv folder is within your project folder, be sure to
+   add the virtualenv folder name to your .gitignore file.
 
 You will find one folder named after the ``[project_slug]``. Move into
 this folder, and then setup git to use your GitHub repo and upload the code:
@@ -117,26 +125,36 @@ this folder, and then setup git to use your GitHub repo and upload the code:
 .. code-block:: bash
 
     cd mypackage
+    # Create an empty repository
     git init .
+    # Add and commit all the files in this repository
     git add .
     git commit -m "Initial skeleton."
+    # Add our GitHub.com repository as a "remote" and push to it
     git remote add origin git@github.com:myusername/mypackage.git
     git push -u origin master
 
 Where ``myusername`` and ``mypackage`` are adjusted for your username
 and package name.
 
-You'll need a ssh key to push the repo. You can `Generate`_ a key
-or `Add`_ an existing one.
+You'll need an ssh key to push the repo to GitHub. You can
+`Generate a key <generate>`_ or `Add an existing key <Add>`_ that allows your to do so.
 
 .. _`Generate`: https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 .. _`Add`: https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
 
 
-Step 4: Install Dev Requirements
---------------------------------
+Step 4: Install Development Requirements
+----------------------------------------
 
-You should still be in the folder containing the ``requirements_dev.txt`` file.
+Next you'll need to install the packages needed to develop your
+repository. Any repository should come packaged with a list of the
+packages needed to work with it (both as a developer and as a user).
+When you ran the ``cookiecutter`` command, a sample requirements file
+was created, called ``requirements_dev.txt``.
+
+You should still be in the root folder of your repository. It should
+contain a ``requirements_dev.txt`` file.
 
 Your virtualenv should still be activated. If it isn't, activate it
 now. Install the new project's local development requirements:
@@ -145,13 +163,18 @@ now. Install the new project's local development requirements:
 
     pip install -r requirements_dev.txt
 
+This will install all of the packages specified in ``requirements_dev.txt``
+into your environment.
+
 
 Step 5: Set Up Travis CI
 ------------------------
 
 `Travis CI org`_ [*]_ is a continuous integration tool used to
 prevent integration problems. Every commit to the master branch will
-trigger automated builds of the application.
+trigger automated builds of the application, and it is common to
+run a series of **tests** along with each build to ensure the code
+still behaves the way we'd expect.
 
 Login using your Github credentials. It may take a few minutes
 for Travis CI to load up a list of all your GitHub repos. They will
@@ -175,7 +198,9 @@ Step 6: Set Up ReadTheDocs
 --------------------------
 
 `ReadTheDocs`_ hosts documentation for the open source community.
-Think of it as Continuous Documentation.
+Think of it as Continuous Documentation. When you make changes to
+a branch, `ReadTheDocs`_ will automatically re-build your documentation
+so they reflect the latest changes.
 
 Log into your account at `ReadTheDocs`_ . If you don't have one,
 create one and log into it.
@@ -221,10 +246,12 @@ software repository for the Python programming language. Python
 developers intend it to be a comprehensive catalog of all open
 source Python packages.
 
-**Note**: If you are submitting your package for pyOpenSci peer-review,
-we ask that you wait to release your package on PyPI. This makes
-it easier to implement changes during the review process. If you
-are already on PyPI, that's no problem of course!
+.. note::
+
+   If you are submitting your package for pyOpenSci peer-review,
+   we ask that you wait to release your package on PyPI. This makes
+   it easier to implement changes during the review process. If you
+   are already on PyPI, that's no problem of course!
 
 When you are ready, see `PyPI Help`_ for more information about
 submitting a package.
