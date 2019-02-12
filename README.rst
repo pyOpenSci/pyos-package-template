@@ -1,11 +1,11 @@
+Cookiecutter pyOpenSci
+======================
+
 .. image:: https://travis-ci.org/pyOpenSci/cookiecutter-pyopensci.svg?branch=master
     :target: https://travis-ci.org/pyOpenSci/cookiecutter-pyopensci
 
 .. image:: https://ci.appveyor.com/api/projects/status/github/pyOpenSci/cookiecutter-pyopensci?branch=master&svg=true
     :target: https://ci.appveyor.com/project/pyOpenSci/cookiecutter-pyopensci/branch/master
-
-Cookiecutter pyOpenSci
-======================
 
 **Cookiecutter** template for a pyOpenSci Python packge.
 
