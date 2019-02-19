@@ -25,11 +25,7 @@ Advanced Features
    :maxdepth: 2
 
    travis_pypi_setup
-<<<<<<< HEAD
-=======
-   console_script_setup
    troubleshooting
->>>>>>> origin/master
 
 
 Indices and tables
