@@ -1,5 +1,5 @@
-Template Contents
-=================
+Cookiecutter Template Contents
+==============================
 
 After you run cookiecutter to create your package from the template, you'll have a directory full of files and subdirectories. What are they all for? This page explains. For starting out, the most important files and directories are marked with \*.
 
