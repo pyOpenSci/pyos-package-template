@@ -5,7 +5,7 @@ After you run cookiecutter to create your package from the template, you'll have
 
 First, here is the full contents of the template project that cookiecutter creates:
 
-.. code-block::
+.. code-block:: bash
 
     example_project/
     ├── .editorconfig
