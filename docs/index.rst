@@ -6,6 +6,7 @@ Getting Started
 .. toctree::
    :maxdepth: 2
 
+   cookiecutter_contents
    tutorial
    pypi_release_checklist
 
@@ -24,8 +25,11 @@ Advanced Features
    :maxdepth: 2
 
    travis_pypi_setup
+<<<<<<< HEAD
+=======
    console_script_setup
    troubleshooting
+>>>>>>> origin/master
 
 
 Indices and tables
