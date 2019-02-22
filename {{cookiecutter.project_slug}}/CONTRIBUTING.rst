@@ -125,3 +125,7 @@ $ git push
 $ git push --tags
 
 Travis will then deploy to PyPI if tests pass.
+
+Code of Conduct
+---------------
+Please note that the {{ cookiecutter.project_name }} project is released with a Contributor Code of Conduct. By contributing to this project you agree to abide by its terms.
