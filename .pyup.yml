@@ -1,0 +1,4 @@
+# Specify requirement files by hand
+requirements:
+  - requirements_dev.txt
+  - {{cookiecutter.project_slug}}/requirements_dev.txt
