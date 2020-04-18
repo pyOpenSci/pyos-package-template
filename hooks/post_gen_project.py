@@ -16,3 +16,14 @@ if __name__ == '__main__':
     if '{{ cookiecutter.add_conda_environment_file }}' == 'n':
         remove_file('environment.yml')
         remove_file('environment-dev.yml')
+
+    if (
+        '{{ cookiecutter.add_git_pre_commit_hook_isort }}' == 'n'
+        and '{{ cookiecutter.add_git_pre_commit_hook_black }}' == 'n'
+        and '{{ cookiecutter.add_git_pre_commit_hook_flake8 }}' == 'n'
+        and '{{ cookiecutter.add_git_pre_commit_hook_mypy }}' == 'n'
+    ):
+        remove_file('.pre-commit-config.yaml')
+
+    if '{{ cookiecutter.add_git_pre_commit_hook_black }}' == 'n':
+        remove_file('pyproject.toml')

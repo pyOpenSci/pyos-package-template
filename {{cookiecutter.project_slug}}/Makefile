@@ -89,3 +89,8 @@ install: clean ## install the package to the active Python's site-packages
 
 develop: clean ## install the package in development mode
 	python setup.py develop
+{% if cookiecutter.add_git_pre_commit_hook_isort == 'y'
+      or cookiecutter.add_git_pre_commit_hook_black == 'y'
+      or cookiecutter.add_git_pre_commit_hook_flake8 == 'y'
+      or cookiecutter.add_git_pre_commit_hook_mypy == 'y'
+%}	pre-commit install{% endif %}
