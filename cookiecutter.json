@@ -10,6 +10,5 @@
   "use_pypi_deployment_with_travis": "n",
   "add_pyup_badge": "n",
   "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3"],
-  "add_env_file": "n",
-  "add_develop_env_file": "n"
+  "add_conda_environment_file": "n"
 }

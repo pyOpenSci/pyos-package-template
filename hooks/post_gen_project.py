@@ -13,8 +13,5 @@ if __name__ == '__main__':
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
         remove_file('LICENSE')
 
-    if '{{ cookiecutter.add_env_file }}' == 'n':
-        remove_file('environment.yml')
-
-    if '{{ cookiecutter.add_develop_env_file }}' == 'n':
-        remove_file('environment-dev.yml')
+    if '{{ cookiecutter.add_conda_environment_file }}' == 'n':
+        remove_file(['environment.yml', 'environment-dev.yml'])
