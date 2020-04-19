@@ -12,3 +12,6 @@ if __name__ == '__main__':
 
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
         remove_file('LICENSE')
+
+    if '{{ cookiecutter.add_env_file }}' == 'n':
+        remove_file('environment.yml')
