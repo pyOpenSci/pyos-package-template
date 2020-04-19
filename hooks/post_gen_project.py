@@ -15,3 +15,6 @@ if __name__ == '__main__':
 
     if '{{ cookiecutter.add_env_file }}' == 'n':
         remove_file('environment.yml')
+
+    if '{{ cookiecutter.add_develop_env_file }}' == 'n':
+        remove_file('environment-dev.yml')
