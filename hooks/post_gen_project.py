@@ -14,4 +14,5 @@ if __name__ == '__main__':
         remove_file('LICENSE')
 
     if '{{ cookiecutter.add_conda_environment_file }}' == 'n':
-        remove_file(['environment.yml', 'environment-dev.yml'])
+        remove_file('environment.yml')
+        remove_file('environment-dev.yml')
