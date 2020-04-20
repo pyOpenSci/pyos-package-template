@@ -6,6 +6,7 @@ import subprocess
 import yaml
 import datetime
 from cookiecutter.utils import rmtree
+import pytest
 
 # from click.testing import CliRunner
 
@@ -148,3 +149,12 @@ def test_using_pytest(cookies):
         run_inside_dir('python setup.py test', str(result.project)) == 0
 
 
+def test_env_file_exists(cookies):
+    with bake_in_temp_dir(
+        cookies,
+        extra_context={'add_conda_environment_file': 'y'}
+    ) as result:
+        # check if env_files exists
+        found_toplevel_files = [f.basename for f in result.project.listdir()]
+        assert 'environment.yml' in found_toplevel_files
+        assert 'environment-dev.yml' in found_toplevel_files
