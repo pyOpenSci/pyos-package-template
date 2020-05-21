@@ -3,7 +3,7 @@
 
 """The setup script."""
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -13,9 +13,13 @@ with open('HISTORY.rst') as history_file:
 
 requirements = []
 
-setup_requirements = ['pytest-runner', ]
+setup_requirements = ['pytest-runner']
 
-test_requirements = ['pytest', ]
+test_requirements = ['pytest']
+
+with open('requirements_dev.txt', 'r') as f:
+    dev_requirements = [l for l in f.read().split('\n') if l.strip()]
+dev_requirements += requirements
 
 {%- set license_classifiers = {
     'MIT license': 'License :: OSI Approved :: MIT License',
@@ -45,6 +49,7 @@ setup(
     ],
     description="{{ cookiecutter.project_short_description }}",
     install_requires=requirements,
+    extras_require={'dev': dev_requirements},
 {%- if cookiecutter.open_source_license in license_classifiers %}
     license="{{ cookiecutter.open_source_license }}",
 {%- endif %}

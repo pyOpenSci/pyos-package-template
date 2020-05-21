@@ -158,3 +158,31 @@ def test_env_file_exists(cookies):
         found_toplevel_files = [f.basename for f in result.project.listdir()]
         assert 'environment.yml' in found_toplevel_files
         assert 'environment-dev.yml' in found_toplevel_files
+
+
+@pytest.mark.parametrize(
+    'hook,config_file',
+    [
+        ('black', 'pyproject.toml'),
+        ('mypy', 'setup.cfg'),
+        ('isort', 'setup.cfg'),
+        ('flake8', 'setup.cfg'),
+    ]
+)
+def test_bake_git_pre_commit_hooks(cookies, hook, config_file):
+    with bake_in_temp_dir(
+        cookies,
+        extra_context={'add_git_pre_commit_hook_{}'.format(hook): 'y'}
+    ) as result:
+        # check if .pre-commit-config.yaml exists
+        found_toplevel_files = [f.basename for f in result.project.listdir()]
+        filename = '.pre-commit-config.yaml'
+        assert filename in found_toplevel_files
+        # check if the hook was registered
+        result_config = yaml.load(result.project.join(filename).open())
+        assert (
+            any(hook in repo['hooks'][0]['id'] for repo in result_config['repos'])
+        )
+        # check if the configuration for the hook is stored
+        config_content = result.project.join(config_file).open().read()
+        assert hook in config_content

@@ -1,0 +1,7 @@
+{% if cookiecutter.add_git_pre_commit_hook_black == 'y' %}
+[tool.black]
+line-length = 79
+skip-string-normalization = true
+target-version = ["py34", "py35", "py36", "py37", "py38"]
+exclude = "docs/"
+{% endif %}
