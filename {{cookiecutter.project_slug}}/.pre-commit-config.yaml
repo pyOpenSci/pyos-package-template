@@ -7,11 +7,13 @@ repos:{% if cookiecutter.add_git_pre_commit_hook_isort == 'y' %}
       rev: 18ad293fc9d1852776afe35015a932b68d26fb14
       hooks:
         - id: isort
+          exclude: ^docs/
 {% endif %}{% if cookiecutter.add_git_pre_commit_hook_black == 'y' %}
     - repo: https://github.com/psf/black
       rev: 19.10b0
       hooks:
         - id: black
+          exclude: ^docs/
 {% endif %}{% if cookiecutter.add_git_pre_commit_hook_flake8 == 'y' %}
     - repo: https://gitlab.com/pycqa/flake8
       rev: 3.7.9
@@ -19,6 +21,7 @@ repos:{% if cookiecutter.add_git_pre_commit_hook_isort == 'y' %}
         - id: flake8
           types:
             - python
+          exclude: ^docs/
 {% endif %}{% if cookiecutter.add_git_pre_commit_hook_mypy == 'y' %}
     - repo: https://github.com/pre-commit/mirrors-mypy
       rev: 'master'

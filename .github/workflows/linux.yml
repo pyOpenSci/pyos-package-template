@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  pre-commit:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install cookiecutter
+    - name: Create a new project
+      run: |
+        cd ..
+        cookiecutter --no-input cookiecutter-pyopensci \
+          full_name="PyOpenSci Example" \
+          email="example@pyopensci.org" \
+          github_username="pyopensci-example" \
+          project_name="PyOpenSci Example" \
+          project_slug="pyopensci_example" \
+          project_short_description="PyOpenSci Example on CI" \
+          pypi_username="pyopensci-example" \
+          version="1.0" \
+          use_pypi_deployment_with_travis="n" \
+          add_pyup_badge="n" \
+          open_source_license="MIT license" \
+          add_conda_environment_file="y" \
+          add_git_pre_commit_hook_black="y" \
+          add_git_pre_commit_hook_flake8="y" \
+          add_git_pre_commit_hook_isort="y" \
+          add_git_pre_commit_hook_mypy="y"
+    - name: Run pre-commit
+      run: |
+        cd ..
+        cd pyopensci_example
+        make develop
+        git add .
+        pre-commit run --all-files || ( git status --short ; git diff ; exit 1 )

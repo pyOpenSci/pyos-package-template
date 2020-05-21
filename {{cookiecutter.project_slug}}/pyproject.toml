@@ -3,4 +3,5 @@
 line-length = 79
 skip-string-normalization = true
 target-version = ["py34", "py35", "py36", "py37", "py38"]
+exclude = "docs/"
 {% endif %}
