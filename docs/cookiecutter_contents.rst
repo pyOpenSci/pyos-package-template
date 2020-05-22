@@ -14,7 +14,7 @@ First, here is the full contents of the template project that cookiecutter creat
     ├── CONTRIBUTING.rst
     ├── CONTRIBUTORS.rst
     ├── docs\*
-    │   ├── conf.py 
+    │   ├── conf.py
     │   ├── contributing.rst
     │   ├── contributors.rst
     │   ├── history.rst
@@ -49,7 +49,7 @@ These documents store important info about your project.
 
 * **CONTRIBUTORS.rst**: List of contributors to your project. Starts with just you. As others contribute, you should credit them here.
 
-* **HISTORY.rst**: Use this to track changes to your package as you release new versions. 
+* **HISTORY.rst**: Use this to track changes to your package as you release new versions.
 
 docs/\*
 -------
@@ -83,7 +83,7 @@ The actual code for your Python package. Comes with a single main module templat
 
 * **example_project.py**: Template main module file for your package. Contains two very basic example functions: sum_numbers and max_number. These are used for example tests (more on that in a minute).
 
-* **__init__.py**: This file tells Python to treat the directory as containing a package. It also has some basic metadata (author, email, version #). You don't have to modify anything here. 
+* **__init__.py**: This file tells Python to treat the directory as containing a package. It also has some basic metadata (author, email, version #). You don't have to modify anything here.
 
 tests/
 ------
@@ -101,13 +101,13 @@ Files to facilitate installing your package.
 
     pip install -r requirements_dev.txt
 
-* **setup.py**: Allows users to install your package from the commandline: "python setup.py install". You should not have to modify this at all. 
+* **setup.py**: Allows users to install your package from the commandline: "python setup.py install". You should not have to modify this at all.
 
-* **setup.cfg**: Contains extra configuration options for setup.py. 
+* **setup.cfg**: Contains extra configuration options for setup.py.
 
 tox.ini
 -------
-Config file for tox_. tox runs your tests on several versions of Python. The default is 2.7, 3.4, 3.5, and 3.6. If your package is only Python3 compatible, you can remove 2.7 from this config file. Otherwise, you can leave this file as-is. Notice that tox calls pytest for each version of Python. 
+Config file for tox_. tox runs your tests on several versions of Python. The default is 3.6, 3.7 and 3.8. Notice that tox calls pytest for each version of Python.
 
 .. _tox: https://tox.readthedocs.io/en/latest/
 
@@ -122,6 +122,6 @@ Configuration file for `Travis CI`_. Travis builds and tests your package each t
 ----------------------------
 These simple files make working on your package easier. You shouldn't need to modify them.
 
-* **.gitignore**: Tells git which files and patterns to exclude from tracking. If you do "git add .", git will add all files and directories EXCEPT those that match patterns in .gitignore. 
+* **.gitignore**: Tells git which files and patterns to exclude from tracking. If you do "git add .", git will add all files and directories EXCEPT those that match patterns in .gitignore.
 
 * **.editorconfig**: Specifies text editor options like tabs vs. spaces, trailing whitespace handling, etc. editorconfig allows you to specify these options at the project level and distribute them to contributors. You probably don't have to use it: many code editors will already adopt the typical standards for Python. Not all editors come with support for .editorconfig files built in, but most have a plugin you can install. Read more: http://editorconfig.org

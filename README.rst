@@ -17,8 +17,8 @@ Cookiecutter pyOpenSci
 Features
 --------
 
--  **Tox** and **pytest** testing: Setup to easily test for Python 2.7,
-   3.4, 3.5, 3.6
+-  **Tox** and **pytest** testing: Setup to easily test for Python 3.6,
+   3.7, 3.8
 -  **Travis-CI**: Ready for Travis Continuous Integration testing
 -  **codecov**: Code coverage report and badge using codecov and Travis
 -  **Sphinx** docs: Documentation ready for generation with, for
