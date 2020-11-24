@@ -1,3 +1,5 @@
+.. _pypi-release-checklist:
+
 PyPI Release Checklist
 ======================
 
