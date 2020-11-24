@@ -99,8 +99,8 @@ list of the options, and a brief description:
 The result will be a newly-created repository in a new folder called
 ``[project_slug]``. Next, we'll upload this repository to GitHub.
 
-.. _`license section`: https://pyopensci.github.io/dev_guide/packaging/packaging_guide.html#license
-.. _`pyOpenSci guidebook`: https://pyopensci.github.io/dev_guide
+.. _`license section`: https://www.pyopensci.org/contributing-guide/authoring/overview#license
+.. _`pyOpenSci guidebook`: https://www.pyopensci.org/contributing-guide/intro.html
 
 
 Step 3: Create a GitHub Repo
@@ -256,7 +256,7 @@ source Python packages.
 When you are ready, see `PyPI Help`_ for more information about
 submitting a package.
 
-Here's a release checklist you can use: https://gist.github.com/audreyr/5990987
+Here's a release checklist you can use: :ref:`pypi-release-checklist`:
 
 If you turned on automatic deployment to PyPI via Travis, see
 :ref:`travis-pypi-setup` for more info.
