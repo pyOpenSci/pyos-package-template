@@ -1,0 +1,72 @@
+copyright_holder:
+  type: str
+  prompt: "Who is the copyright holder, for example, yourself or your organization?"
+  help: "Used in the license file and project description."
+
+author_name:
+  type: str
+  prompt: "Who is the author of the package to be?"
+  help: "Used in the package description."
+  default: "{{ copyright_holder }}"
+
+author_email:
+  type: str
+  prompt: "The author's email address."
+  help: "Used in the package description."
+
+project_name:
+  type: str
+  prompt: "What is the name of the project?"
+  help: "Used as the title in the README.md and other places."
+
+project_slug:
+  type: str
+  prompt: "What is the project slug?"
+  help: "Used as the generated directory name and in hyperlinks."
+  default: "{{ project_name|lower|replace(' ', '-') }}"
+
+package_name:
+  type: str
+  prompt: "What is the Python package name?"
+  help: "Used as the name of the package and the top-level import."
+  default: "{{ project_slug|replace('-', '_') }}"
+
+package_description:
+  type: str
+  multiline: true
+  prompt: "Please provide a short description for the package."
+  help: "Used in the package description."
+
+dev_platform:
+  type: str
+  prompt: "Which development platform are you planning to use?"
+  help: "Used to generate certain documentation and hyperlinks."
+  choices:
+    - "GitHub"
+    - "GitLab"
+
+dev_platform_url:
+  type: str
+  when: false
+  default: "https://{{ dev_platform|lower }}.com"
+
+username:
+  type: str
+  prompt: "Your or your organizaton's username on {{ dev_platform }}."
+  help: "Used to generate certain documentation and hyperlinks."
+
+license:
+    type: str
+    prompt: "Which license do you want to use?"
+    help: "Used in the license file."
+    choices:
+        - "MIT"
+        - "BSD-3-Clause"
+        - "Apache-2.0"
+
+year:
+    type: str
+    prompt: "What is the starting year of the project?"
+    help: "Used in copyright statements."
+    placeholder: "2024"
+

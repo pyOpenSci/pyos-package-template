@@ -1,0 +1,21 @@
+# {{ project_name }}
+
+| |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|---|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Package | [![Latest PyPI Version](https://img.shields.io/pypi/v/{{project_slug}}.svg)](https://pypi.org/project/{{project_slug}}/) [![Supported Python Versions](https://img.shields.io/pypi/pyversions/{{project_slug}}.svg)](https://pypi.org/project/{{project_slug}}/) [![Documentation](https://readthedocs.org/projects/{{project_slug}}/badge/?version=latest)](https://{{project_slug}}.readthedocs.io/en/latest/?badge=latest)                                                                                                                                                                              |
+| Meta | [![{{ license }}](https://img.shields.io/pypi/l/{{project_slug}}.svg)](LICENSE) [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](.github/CODE_OF_CONDUCT.md) [![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/) [![Code Style Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) [![Linting: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) |
+| Automation |                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+
+_{{ package_description }}_
+
+## Copyright
+{% if license == "MIT" %}
+* Copyright © {{ year }} {{ copyright_holder }}.
+* Free software distributed under the [MIT License](./LICENSE).
+{% elif license == "BSD-3-Clause" %}
+* Copyright © {{ year }} {{ copyright_holder }}.
+* Free software distributed under the [3-Clause BSD License](./LICENSE).
+{% elif license == "Apache-2.0" %}
+* Copyright © {{ year }} {{ copyright_holder }}.
+* Free software distributed under the [Apache Software License 2.0](./LICENSE).
+{% endif %}
