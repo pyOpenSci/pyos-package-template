@@ -4,7 +4,7 @@
 
 [tool.black]
 line-length = 88
-target-version = ["py312"]
+target-version = ["py38"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -48,6 +48,16 @@ lines-after-imports = 1
 [tool.hatch.envs.default]
 skip-install = true
 
+[tool.hatch.envs.dev]
+description = """
+Describe the environment for local development.
+"""
+dependencies = [
+    "copier ~=9.3",
+]
+path = ".venv"
+
+
 [tool.hatch.envs.test]
 description = """
 Test the instantiation of the template.
@@ -55,11 +65,12 @@ Test the instantiation of the template.
 dependencies = [
     "copier ~=9.3",
     "GitPython ~=3.1",
+    "hatch ~=1.12",
     "pytest ~=8.3",
 ]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.8", "3.12"]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest {args}"

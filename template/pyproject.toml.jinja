@@ -68,10 +68,10 @@ dev = [
 only-packages = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/{{ project_module }}"]
+packages = ["src/{{ package_name }}"]
 
 [tool.hatch.build.hooks.vcs]
-version-file = "src/{{ project_module }}/_version.py"
+version-file = "src/{{ package_name }}/_version.py"
 
 [tool.hatch.version]
 source = "vcs"
@@ -91,8 +91,8 @@ markers = ["raises"]
 
 [tool.coverage.paths]
 source = [
-    "src/{{ project_module }}",
-    "*/site-packages/{{ project_module }}",
+    "src/{{ package_name }}",
+    "*/site-packages/{{ package_name }}",
 ]
 
 [tool.coverage.run]
@@ -134,7 +134,7 @@ ignore = [
 
 [tool.ruff.lint.isort]
 case-sensitive = true
-known-first-party = ["src", "{{ project_module }}"]
+known-first-party = ["src", "{{ package_name }}"]
 lines-after-imports = 1
 
 [tool.pydoclint]
