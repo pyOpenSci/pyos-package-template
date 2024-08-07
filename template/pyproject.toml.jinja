@@ -98,6 +98,9 @@ source = [
 [tool.coverage.run]
 branch = true
 parallel = true
+omit = [
+    "src/{{ package_name }}/_version.py",
+]
 
 [tool.coverage.report]
 exclude_lines = ["pragma: no cover"]
@@ -117,6 +120,9 @@ ignore = [
     "ANN003",  # 'Missing type annotation for {*kwargs} in method'.
     "ANN101",  # 'Missing type annotation for {self} in method'.
     "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
+]
+exclude = [
+    "src/{{ package_name }}/_version.py",
 ]
 
 [tool.ruff.lint.extend-per-file-ignores]
@@ -142,6 +148,7 @@ style = "google"  # TODO: Other styles are possible here, like 'numpy'
 arg-type-hints-in-docstring = false
 check-return-types = false
 check-yield-types = false
+exclude = "_version.py"
 
 # TODO: Adjust mypy configuration.
 #[tool.mypy]
