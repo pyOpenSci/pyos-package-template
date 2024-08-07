@@ -1,0 +1,68 @@
+site_name: {{ project_name }}
+site_description: {{ package_description }}
+site_author: {{ author_name }}
+site_url: https://{{ project_slug }}.readthedocs.io/
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+theme:
+  features:
+    - content.code.annotate
+    - navigation.indexes
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_submodules: true
+            show_category_heading: true
+            show_if_no_docstring: true
+            show_signature_annotations: true
+      default_handler: python
+  - awesome-pages
+
+extra:
+  social:
+    - icon: fontawesome/brands/{{ dev_platform | lower }}
+      link: {{ dev_platform_url }}/{{ username }}
+      name: {{ author_name }}
+
+copyright: Copyright &copy {{ year }} {{ copyright_holder }}
+
+repo_url: {{ dev_platform_url }}/{{ username }}/{{ project_slug }}
+repo_name: {{ username }}/{{ project_slug }}
+
+watch:
+  - src/{{ package_name }}
