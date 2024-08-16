@@ -49,7 +49,7 @@ def license(request: pytest.FixtureRequest) -> str:
     return request.param
 
 
-@pytest.fixture()
+@pytest.fixture
 def destination_path(
     tmp_path_factory: pytest.TempPathFactory,
     dev_platform: str,
@@ -159,6 +159,18 @@ def test_template_suite(
         )
         subprocess.run(
             "hatch run style:check",
+            cwd=project_dir,
+            check=True,
+            shell=True,
+        )
+        subprocess.run(
+            "hatch run safety:check",
+            cwd=project_dir,
+            check=True,
+            shell=True,
+        )
+        subprocess.run(
+            "hatch version",
             cwd=project_dir,
             check=True,
             shell=True,
