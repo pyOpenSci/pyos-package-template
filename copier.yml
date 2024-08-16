@@ -50,8 +50,8 @@ license:
   type: str
   help: "Which license do you want to use? Used in the license file."
   choices:
-    - "MIT"
     - "BSD-3-Clause"
+    - "MIT"
     - "Apache-2.0"
 
 year:
