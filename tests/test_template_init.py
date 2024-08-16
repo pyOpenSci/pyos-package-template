@@ -125,7 +125,7 @@ def test_template_suite(
         defaults=True,
     )
 
-    # Initialize a git repository such that hatch-vcs can be used.
+    # Initialize a git repository.
     project_dir = parent.resolve(strict=True)
     repo = Repo.init(project_dir)
     repo.index.add(
@@ -164,7 +164,7 @@ def test_template_suite(
             shell=True,
         )
         subprocess.run(
-            "hatch run safety:check",
+            "hatch run audit:check",
             cwd=project_dir,
             check=True,
             shell=True,
