@@ -170,11 +170,18 @@ def test_template_suite(
             shell=True,
         )
         subprocess.run(
-            "hatch version",
+            "pre-commit run --all-files -v check-readthedocs",
             cwd=project_dir,
             check=True,
             shell=True,
         )
+        if dev_platform.lower() == "github":
+            subprocess.run(
+                "pre-commit run --all-files -v check-github-workflows",
+                cwd=project_dir,
+                check=True,
+                shell=True,
+            )
     except subprocess.CalledProcessError as error:
         logger.error(  # noqa: TRY400
             "Command = %r; Return code = %d.",
