@@ -70,8 +70,11 @@ only-packages = true
 [tool.hatch.build.targets.wheel]
 packages = ["src/{{ package_name }}"]
 
+[tool.hatch.build.hooks.vcs]
+version-file = "src/{{ package_name }}/_version.py"
+
 [tool.hatch.version]
-path = "src/{{ package_name }}/_version.py"
+source = "vcs"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

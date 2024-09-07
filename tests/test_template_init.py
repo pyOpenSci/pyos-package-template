@@ -125,7 +125,7 @@ def test_template_suite(
         defaults=True,
     )
 
-    # Initialize a git repository.
+    # Initialize a git repository such that hatch-vcs can be used.
     project_dir = parent.resolve(strict=True)
     repo = Repo.init(project_dir)
     repo.index.add(
