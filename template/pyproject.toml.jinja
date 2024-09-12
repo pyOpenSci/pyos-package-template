@@ -76,15 +76,6 @@ version-file = "src/{{ package_name }}/_version.py"
 [tool.hatch.version]
 source = "vcs"
 
-[tool.black]
-line-length = 88
-target-version = ["py38"]
-extend-exclude = '''
-(
-    _version.py
-)
-'''
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = ["raises"]
@@ -185,14 +176,14 @@ docstrings = "pydoclint"
 code = "ruff check"
 check = ["docstrings", "code"]
 
-[tool.hatch.envs.safety]
+[tool.hatch.envs.audit]
 description = """Check dependencies for security vulnerabilities."""
 extra-dependencies = [
-    "safety",
+    "pip-audit",
 ]
 
-[tool.hatch.envs.safety.scripts]
-check = ["safety check --full-report"]
+[tool.hatch.envs.audit.scripts]
+check = ["pip-audit"]
 
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""

@@ -2,10 +2,6 @@
 # Tool Configuration
 ################################################################################
 
-[tool.black]
-line-length = 88
-target-version = ["py38"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
@@ -67,6 +63,7 @@ dependencies = [
     "GitPython ~=3.1",
     "hatch ~=1.12",
     "pytest ~=8.3",
+    "pre-commit"
 ]
 
 [[tool.hatch.envs.test.matrix]]

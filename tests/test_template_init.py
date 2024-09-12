@@ -49,7 +49,7 @@ def license(request: pytest.FixtureRequest) -> str:
     return request.param
 
 
-@pytest.fixture()
+@pytest.fixture
 def destination_path(
     tmp_path_factory: pytest.TempPathFactory,
     dev_platform: str,
@@ -163,6 +163,25 @@ def test_template_suite(
             check=True,
             shell=True,
         )
+        subprocess.run(
+            "hatch run audit:check",
+            cwd=project_dir,
+            check=True,
+            shell=True,
+        )
+        subprocess.run(
+            "pre-commit run --all-files -v check-readthedocs",
+            cwd=project_dir,
+            check=True,
+            shell=True,
+        )
+        if dev_platform.lower() == "github":
+            subprocess.run(
+                "pre-commit run --all-files -v check-github-workflows",
+                cwd=project_dir,
+                check=True,
+                shell=True,
+            )
     except subprocess.CalledProcessError as error:
         logger.error(  # noqa: TRY400
             "Command = %r; Return code = %d.",
