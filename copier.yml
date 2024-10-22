@@ -30,7 +30,13 @@ package_description:
   multiline: true
   help: "Please provide a short description for the package."
 
+use_git:
+  type: bool
+  default: yes
+  help: "Do you plan to use git with a development platform, like GitHub or GitLab?"
+
 dev_platform:
+  when: "{{ use_git }}"
   type: str
   help: "Which development platform are you planning to use? Used to generate certain documentation and hyperlinks."
   choices:
@@ -43,6 +49,7 @@ dev_platform_url:
   default: "https://{{ dev_platform|lower }}.com"
 
 username:
+  when: "{{ use_git }}"
   type: str
   help: "Your or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
 
