@@ -5,6 +5,8 @@ on:
   workflow_call: {}
 
 jobs:
+{%- if use_lint %}
+{%- raw %}
   lint:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -32,7 +34,10 @@ jobs:
 
       - name: Build documentation
         run: hatch run docs:build
+{%- endraw %}
+{%- endif %}
 
+{%- raw %}
   test:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -67,3 +72,4 @@ jobs:
     - name: Report coverage
       shell: bash
       run: bash <(curl -s https://codecov.io/bash)
+{%- endraw %}

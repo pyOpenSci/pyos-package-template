@@ -1,4 +1,5 @@
 repos:
+{%- if use_lint %}
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
@@ -40,3 +41,4 @@ repos:
       - id: mdformat
         additional_dependencies:
           [mdformat-gfm, mdformat-frontmatter, mdformat-footnote]
+{%- endif %}

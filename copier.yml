@@ -33,7 +33,7 @@ package_description:
 use_git:
   type: bool
   default: yes
-  help: "Do you plan to use git with a development platform, like GitHub or GitLab?"
+  help: "Do you want to use git with a development platform, like GitHub or GitLab?"
 
 dev_platform:
   when: "{{ use_git }}"
@@ -52,6 +52,11 @@ username:
   when: "{{ use_git }}"
   type: str
   help: "Your or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
+
+use_lint:
+  type: bool
+  default: yes
+  help: "Do you want to lint your code and generally check the formatting of your files?"
 
 license:
   type: str
