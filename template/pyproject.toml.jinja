@@ -12,13 +12,14 @@ requires = ["hatchling", "hatch-vcs"]
 
 [project]
 name = "{{ package_name }}"
+dynamic = ["version"]
 description = "{{ package_description }}"
 authors = [
     { name = "{{ author_name }}", email = "{{ author_email }}" },
 ]
 license = "{{ license }}"
 readme = {"file" = "README.md", "content-type" = "text/markdown"}
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 # Please consult https://pypi.org/classifiers/ for a full list.
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
@@ -33,7 +34,6 @@ classifiers = [
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -43,7 +43,6 @@ classifiers = [
 ]
 # TODO: add keywords
 keywords = []
-dynamic = ["version"]
 # TODO: add dependencies
 dependencies = []
 
@@ -232,7 +231,7 @@ extra-dependencies = [
 ]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.8", "3.12"]
+python = ["3.9", "3.12"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing}"
