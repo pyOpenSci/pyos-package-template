@@ -28,11 +28,11 @@ repos:
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.29.1
     hooks:
-{% if dev_platform == "GitHub" %}
+{%- if dev_platform == "GitHub" %}
       - id: check-github-workflows
-{% elif dev_platform == "GitLab" %}
+{%- elif dev_platform == "GitLab" %}
       - id: check-gitlab-ci
-{% endif %}
+{%- endif %}
       - id: check-readthedocs
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.17

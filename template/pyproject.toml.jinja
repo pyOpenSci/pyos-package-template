@@ -47,12 +47,12 @@ keywords = []
 dependencies = []
 
 [project.urls]
+{%- if use_git %}
 Homepage = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}"
-Documentation = "https://{{ project_slug }}.readthedocs.io"
-{% if use_git -%}
 "Source Code" = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}"
 "Bug Tracker" = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}/issues"
 {%- endif %}
+Documentation = "https://{{ project_slug }}.readthedocs.io"
 Download = "https://pypi.org/project/{{ project_slug }}/#files"
 
 [project.optional-dependencies]
