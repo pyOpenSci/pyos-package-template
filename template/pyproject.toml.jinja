@@ -164,6 +164,7 @@ exclude = "_version.py"
 #init_typed = true
 #warn_required_dynamic_aliases = true
 
+{%- if use_hatch_envs %}
 ################################################################################
 # Hatch Environments
 ################################################################################
@@ -245,4 +246,5 @@ python = ["3.9", "3.12"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing}"
+{%- endif %}
 {%- endif %}

@@ -53,6 +53,11 @@ username:
   type: str
   help: "Your or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
 
+use_hatch_envs:
+  type: bool
+  default: yes
+  help: "Do you want to use hatch environments for running isolated commands like linting, building docs, or testing?"
+
 use_lint:
   type: bool
   default: yes
