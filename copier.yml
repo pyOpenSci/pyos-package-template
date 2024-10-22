@@ -58,6 +58,11 @@ use_lint:
   default: yes
   help: "Do you want to lint your code and generally check the formatting of your files?"
 
+use_test:
+  type: bool
+  default: yes
+  help: "Do you want to test your code? Generally, we strongly recommend that you do, but for a quick demo you may want to avoid this."
+
 license:
   type: str
   help: "Which license do you want to use? Used in the license file."

@@ -65,7 +65,10 @@ jobs:
 
     - name: Check types
       run: hatch run types:check
+{%- endraw %}
 
+{%- if use_test %}
+{%- raw %}
     - name: Test suite
       run: hatch run +py=${{ matrix.python-version }} test:run
 
@@ -73,3 +76,4 @@ jobs:
       shell: bash
       run: bash <(curl -s https://codecov.io/bash)
 {%- endraw %}
+{%- endif %}
