@@ -39,7 +39,9 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering",
+    {%- if use_types %}
     "Typing :: Typed",
+    {%- endif %}
 ]
 # TODO: add keywords
 keywords = []
@@ -146,6 +148,7 @@ check-yield-types = false
 exclude = "_version.py"
 {%- endif %}
 
+{%- if use_types %}
 # TODO: Adjust mypy configuration.
 #[tool.mypy]
 #plugins = [
@@ -163,6 +166,7 @@ exclude = "_version.py"
 #init_forbid_extra = true
 #init_typed = true
 #warn_required_dynamic_aliases = true
+{%- endif %}
 
 {%- if use_hatch_envs %}
 ################################################################################
@@ -194,6 +198,7 @@ extra-dependencies = [
 [tool.hatch.envs.audit.scripts]
 check = ["pip-audit"]
 
+{%- if use_types %}
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
 dependencies = [
@@ -202,6 +207,7 @@ dependencies = [
 
 [tool.hatch.envs.types.scripts]
 check = "mypy src/{{ package_name }}"
+{%- endif %}
 
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""

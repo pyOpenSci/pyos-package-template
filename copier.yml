@@ -63,6 +63,11 @@ use_lint:
   default: yes
   help: "Do you want to lint your code and generally check the formatting of your files?"
 
+use_types:
+  type: bool
+  default: yes
+  help: "Do you want to use typing annotations and type check your code?"
+
 use_test:
   type: bool
   default: yes
