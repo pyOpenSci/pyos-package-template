@@ -30,7 +30,18 @@ package_description:
   multiline: true
   help: "Please provide a short description for the package."
 
+use_vcs_version:
+  type: bool
+  default: yes
+  help: "Do you want to use dynamic versioning of your package or static? Dynamic means that versions use your version control system (VCS), such as git tags, for creating versions."
+
+use_git:
+  type: bool
+  default: yes
+  help: "Do you want to use git with a development platform, like GitHub or GitLab?"
+
 dev_platform:
+  when: "{{ use_git }}"
   type: str
   help: "Which development platform are you planning to use? Used to generate certain documentation and hyperlinks."
   choices:
@@ -43,8 +54,29 @@ dev_platform_url:
   default: "https://{{ dev_platform|lower }}.com"
 
 username:
+  when: "{{ use_git }}"
   type: str
   help: "Your or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
+
+use_hatch_envs:
+  type: bool
+  default: yes
+  help: "Do you want to use hatch environments for running isolated commands like linting, building docs, or testing?"
+
+use_lint:
+  type: bool
+  default: yes
+  help: "Do you want to lint your code and generally check the formatting of your files?"
+
+use_types:
+  type: bool
+  default: yes
+  help: "Do you want to use typing annotations and type check your code?"
+
+use_test:
+  type: bool
+  default: yes
+  help: "Do you want to test your code? Generally, we strongly recommend that you do, but for a quick demo you may want to avoid this."
 
 license:
   type: str
