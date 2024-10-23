@@ -30,6 +30,11 @@ package_description:
   multiline: true
   help: "Please provide a short description for the package."
 
+use_vcs_version:
+  type: bool
+  default: yes
+  help: "Do you want to use dynamic versioning of your package or static? Dynamic means that versions use your version control system (VCS), such as git tags, for creating versions."
+
 use_git:
   type: bool
   default: yes

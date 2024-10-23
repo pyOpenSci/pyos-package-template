@@ -4,7 +4,7 @@
 
 [build-system]
 build-backend = "hatchling.build"
-requires = ["hatchling", "hatch-vcs"]
+requires = ["hatchling"{% if use_vcs_version %}, "hatch-vcs"{% endif %}]
 
 ################################################################################
 # Project Configuration
@@ -12,7 +12,11 @@ requires = ["hatchling", "hatch-vcs"]
 
 [project]
 name = "{{ package_name }}"
+{% if use_vcs_version %}
 dynamic = ["version"]
+{% else %}
+version = "0.1.0"
+{% endif %}
 description = "{{ package_description }}"
 authors = [
     { name = "{{ author_name }}", email = "{{ author_email }}" },
@@ -73,11 +77,13 @@ only-packages = true
 [tool.hatch.build.targets.wheel]
 packages = ["src/{{ package_name }}"]
 
+{%- if use_vcs_version %}
 [tool.hatch.build.hooks.vcs]
 version-file = "src/{{ package_name }}/_version.py"
 
 [tool.hatch.version]
 source = "vcs"
+{%- endif %}
 
 {%- if use_test %}
 [tool.pytest.ini_options]
@@ -93,9 +99,11 @@ source = [
 [tool.coverage.run]
 branch = true
 parallel = true
+{%- if use_vcs_version %}
 omit = [
     "src/{{ package_name }}/_version.py",
 ]
+{%- endif %}
 
 [tool.coverage.report]
 exclude_lines = ["pragma: no cover"]
@@ -118,9 +126,11 @@ ignore = [
     "ANN101",  # 'Missing type annotation for {self} in method'.
     "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
 ]
+{%- if use_vcs_version %}
 exclude = [
     "src/{{ package_name }}/_version.py",
 ]
+{%- endif %}
 
 [tool.ruff.lint.extend-per-file-ignores]
 "__init__.py" = [
@@ -145,7 +155,9 @@ style = "google"  # TODO: Other styles are possible here, like 'numpy'
 arg-type-hints-in-docstring = false
 check-return-types = false
 check-yield-types = false
+{%- if use_vcs_version %}
 exclude = "_version.py"
+{%- endif %}
 {%- endif %}
 
 {%- if use_types %}
