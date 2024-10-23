@@ -4,7 +4,7 @@
 
 [build-system]
 build-backend = "hatchling.build"
-requires = ["hatchling", "hatch-vcs"]
+requires = ["hatchling"{% if use_vcs_version %}, "hatch-vcs"{% endif %}]
 
 ################################################################################
 # Project Configuration
@@ -12,7 +12,11 @@ requires = ["hatchling", "hatch-vcs"]
 
 [project]
 name = "{{ package_name }}"
+{% if use_vcs_version %}
 dynamic = ["version"]
+{% else %}
+version = "0.1.0"
+{% endif %}
 description = "{{ package_description }}"
 authors = [
     { name = "{{ author_name }}", email = "{{ author_email }}" },
@@ -39,7 +43,9 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering",
+    {%- if use_types %}
     "Typing :: Typed",
+    {%- endif %}
 ]
 # TODO: add keywords
 keywords = []
@@ -47,10 +53,12 @@ keywords = []
 dependencies = []
 
 [project.urls]
+{%- if use_git %}
 Homepage = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}"
-Documentation = "https://{{ project_slug }}.readthedocs.io"
 "Source Code" = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}"
 "Bug Tracker" = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}/issues"
+{%- endif %}
+Documentation = "https://{{ project_slug }}.readthedocs.io"
 Download = "https://pypi.org/project/{{ project_slug }}/#files"
 
 [project.optional-dependencies]
@@ -69,12 +77,15 @@ only-packages = true
 [tool.hatch.build.targets.wheel]
 packages = ["src/{{ package_name }}"]
 
+{%- if use_vcs_version %}
 [tool.hatch.build.hooks.vcs]
 version-file = "src/{{ package_name }}/_version.py"
 
 [tool.hatch.version]
 source = "vcs"
+{%- endif %}
 
+{%- if use_test %}
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = ["raises"]
@@ -88,14 +99,18 @@ source = [
 [tool.coverage.run]
 branch = true
 parallel = true
+{%- if use_vcs_version %}
 omit = [
     "src/{{ package_name }}/_version.py",
 ]
+{%- endif %}
 
 [tool.coverage.report]
 exclude_lines = ["pragma: no cover"]
 precision = 2
+{%- endif %}
 
+{%- if use_lint %}
 [tool.ruff]
 line-length = 88
 
@@ -111,9 +126,11 @@ ignore = [
     "ANN101",  # 'Missing type annotation for {self} in method'.
     "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
 ]
+{%- if use_vcs_version %}
 exclude = [
     "src/{{ package_name }}/_version.py",
 ]
+{%- endif %}
 
 [tool.ruff.lint.extend-per-file-ignores]
 "__init__.py" = [
@@ -138,8 +155,12 @@ style = "google"  # TODO: Other styles are possible here, like 'numpy'
 arg-type-hints-in-docstring = false
 check-return-types = false
 check-yield-types = false
+{%- if use_vcs_version %}
 exclude = "_version.py"
+{%- endif %}
+{%- endif %}
 
+{%- if use_types %}
 # TODO: Adjust mypy configuration.
 #[tool.mypy]
 #plugins = [
@@ -157,11 +178,14 @@ exclude = "_version.py"
 #init_forbid_extra = true
 #init_typed = true
 #warn_required_dynamic_aliases = true
+{%- endif %}
 
+{%- if use_hatch_envs %}
 ################################################################################
 # Hatch Environments
 ################################################################################
 
+{%- if use_lint %}
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
 dependencies = [
@@ -175,6 +199,7 @@ docstrings = "pydoclint"
 code = "ruff check {args}"
 format = "ruff format {args}"
 check = ["docstrings", "code"]
+{%- endif %}
 
 [tool.hatch.envs.audit]
 description = """Check dependencies for security vulnerabilities."""
@@ -185,6 +210,7 @@ extra-dependencies = [
 [tool.hatch.envs.audit.scripts]
 check = ["pip-audit"]
 
+{%- if use_types %}
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
 dependencies = [
@@ -193,6 +219,7 @@ dependencies = [
 
 [tool.hatch.envs.types.scripts]
 check = "mypy src/{{ package_name }}"
+{%- endif %}
 
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""
@@ -221,6 +248,7 @@ check = [
     "twine check dist/*",
 ]
 
+{%- if use_test %}
 [tool.hatch.envs.test]
 description = """Run the test suite."""
 extra-dependencies = [
@@ -236,3 +264,5 @@ python = ["3.9", "3.12"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing}"
+{%- endif %}
+{%- endif %}
