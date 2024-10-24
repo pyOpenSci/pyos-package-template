@@ -71,6 +71,7 @@ def answers() -> dict[str, str]:
         "package_name": "alien_clones",
         "package_description": "Wubba Lubba Dub-Dub",
         "username": "rickprime",
+        "documentation": "mkdocs",
         "year": str(today.year),
     }
 
