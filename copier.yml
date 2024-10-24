@@ -60,7 +60,7 @@ username:
 
 documentation:
   type: str
-  help: "Do you want to include documentation for your project and which framework do you want?"
+  help: "Do you want to include documentation for your project and which framework do you want to use?"
   choices:
     "Sphinx (https://www.pyopensci.org/pyos-sphinx-theme)": sphinx
     "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
