@@ -9,7 +9,10 @@ build:
   commands:
     - pip install --upgrade pip setuptools wheel
     - pip install hatch
+{%- if documentation == "mkdocs" %}
     - hatch run docs:build -- --strict --site-dir "${READTHEDOCS_OUTPUT}/html"
 
 mkdocs:
   configuration: mkdocs.yml
+{%- elif documentation == "sphinx" %}
+{%- endif %}

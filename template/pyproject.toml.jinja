@@ -223,15 +223,21 @@ check = "mypy src/{{ package_name }}"
 
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""
+{%- if documentation == "mkdocs" %}
 extra-dependencies = [
     "mkdocs-material ~=9.5",
     "mkdocstrings[python] ~=0.24",
     "mkdocs-awesome-pages-plugin ~=2.9",
 ]
+{%- elif documentation == "sphinx" %}
+{%- endif %}
 
 [tool.hatch.envs.docs.scripts]
+{%- if documentation == "mkdocs" %}
 build = "mkdocs build {args:--clean --strict}"
 serve = "mkdocs serve {args}"
+{%- elif documentation == "sphinx" %}
+{%- endif %}
 
 [tool.hatch.envs.install]
 description = """Test the installation the package."""

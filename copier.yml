@@ -58,6 +58,14 @@ username:
   type: str
   help: "Your or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
 
+documentation:
+  type: str
+  help: "Do you want to include documentation for your project and which framework do you want?"
+  choices:
+    "Sphinx (https://www.pyopensci.org/pyos-sphinx-theme)": sphinx
+    "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
+    No: ""
+
 use_hatch_envs:
   type: bool
   default: yes
