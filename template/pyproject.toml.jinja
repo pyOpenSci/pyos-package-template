@@ -231,6 +231,12 @@ extra-dependencies = [
     "mkdocs-awesome-pages-plugin ~=2.9",
 ]
 {%- elif documentation == "sphinx" %}
+dependencies = [
+    "pydata_sphinx_theme ~=0.16",
+    "myst-parser ~=4.0",
+    "Sphinx ~=8.0",
+    "sphinx-autobuild ==2024.10.3"
+]
 {%- endif %}
 
 [tool.hatch.envs.docs.scripts]
@@ -239,6 +245,8 @@ build = "mkdocs build {args:--clean --strict}"
 serve = "mkdocs serve {args}"
 {%- elif documentation == "sphinx" %}
 {%- endif %}
+build = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "make -C docs {args:html}"]
+serve = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-autobuild docs --watch src/{{ package_name }} {args:-b html docs/build/serve}"]
 {%- endif %}
 
 [tool.hatch.envs.install]
