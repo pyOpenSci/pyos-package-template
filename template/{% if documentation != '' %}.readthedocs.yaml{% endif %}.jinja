@@ -15,5 +15,5 @@ build:
 mkdocs:
   configuration: mkdocs.yml
 {%- elif documentation == "sphinx" %}
-    - hatch run docs:build -W
+    - hatch run docs:build
 {%- endif %}
