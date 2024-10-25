@@ -1,17 +1,12 @@
-{{ project_name }}
-========================================================================================
+# {{ project_name }}
 
-Overview
---------
+## Overview
 
 {{ package_description }}
 
-:doc:`api/modules`
-  The complete API documentation, organized by module.
+[API Documentation](./api/modules.rst)
 
-
-Copyright
----------
+## Copyright
 {% if license == "MIT" %}
 - Copyright © {{ year }} {{ copyright_holder }}.
 - Free software distributed under the MIT License.
@@ -24,14 +19,7 @@ Copyright
 {% endif %}
 
 
-Indices and tables
-------------------
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-.. toctree::
-   :hidden:
-
-   api/modules
+```{toctree}
+:hidden:
+./api/modules.rst
+```
