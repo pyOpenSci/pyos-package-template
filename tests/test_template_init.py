@@ -54,7 +54,7 @@ def license(request: pytest.FixtureRequest) -> str:
     params=["mkdocs", "sphinx", ""],
 )
 def documentation(request: pytest.FixtureRequest) -> str:
-    """Provide a recognized license classification."""
+    """Provide a documentation option."""
     return request.param
 
 
