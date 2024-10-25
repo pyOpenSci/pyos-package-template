@@ -245,8 +245,8 @@ build = "mkdocs build {args:--clean --strict}"
 serve = "mkdocs serve {args}"
 {%- elif documentation == "sphinx" %}
 {%- endif %}
-build = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "make -C docs {args:html}"]
-serve = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-autobuild docs --watch src/{{ package_name }} {args:-b html docs/build/serve}"]
+build = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-build {args:-W -b html docs docs/_build}"]
+serve = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-autobuild docs --watch src/{{ package_name }} {args:-b html docs/_build/serve}"]
 {%- endif %}
 
 [tool.hatch.envs.install]
