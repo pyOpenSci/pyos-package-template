@@ -1,17 +1,37 @@
 {{ project_name }}
 ========================================================================================
 
+Overview
+--------
+
 {{ package_description }}
+
+:doc:`api/modules`
+  The complete API documentation, organized by module.
+
 
 Copyright
 ---------
 {% if license == "MIT" %}
 - Copyright © {{ year }} {{ copyright_holder }}.
-- Free software distributed under the [MIT License](../LICENSE).
+- Free software distributed under the MIT License.
 {% elif license == "BSD-3-Clause" %}
 - Copyright © {{ year }} {{ copyright_holder }}.
-- Free software distributed under the [3-Clause BSD License](../LICENSE).
+- Free software distributed under the 3-Clause BSD License.
 {% elif license == "Apache-2.0" %}
 - Copyright © {{ year }} {{ copyright_holder }}.
-- Free software distributed under the [Apache Software License 2.0](../LICENSE).
+- Free software distributed under the Apache Software License 2.0.
 {% endif %}
+
+
+Indices and tables
+------------------
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
+.. toctree::
+   :hidden:
+
+   api/modules

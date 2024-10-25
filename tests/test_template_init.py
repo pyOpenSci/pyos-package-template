@@ -49,6 +49,15 @@ def license(request: pytest.FixtureRequest) -> str:
     return request.param
 
 
+@pytest.fixture(
+    scope="module",
+    params=["mkdocs", "sphinx", ""],
+)
+def documentation(request: pytest.FixtureRequest) -> str:
+    """Provide a recognized license classification."""
+    return request.param
+
+
 @pytest.fixture
 def destination_path(
     tmp_path_factory: pytest.TempPathFactory,
@@ -71,7 +80,6 @@ def answers() -> dict[str, str]:
         "package_name": "alien_clones",
         "package_description": "Wubba Lubba Dub-Dub",
         "username": "rickprime",
-        "documentation": "mkdocs",
         "year": str(today.year),
     }
 
@@ -81,6 +89,7 @@ def test_init_template(
     answers: dict[str, str],
     dev_platform: str,
     license: str,
+    documentation: str,
 ) -> None:
     """Expect that the template can be initialized with any provided license."""
     parent = destination_path / license / answers["project_slug"]
@@ -92,6 +101,7 @@ def test_init_template(
             **answers,
             "dev_platform": dev_platform,
             "license": license,
+            "documentation": documentation,
         },
         defaults=True,
     )
@@ -111,6 +121,7 @@ def test_template_suite(
     destination_path: Path,
     dev_platform: str,
     answers: dict[str, str],
+    documentation: str,
 ) -> None:
     """Expect that the test suite passes for the initialized template."""
     parent = destination_path / answers["project_slug"]
@@ -122,6 +133,7 @@ def test_template_suite(
             **answers,
             "dev_platform": dev_platform,
             "license": "MIT",
+            "documentation": documentation,
         },
         defaults=True,
     )
@@ -152,12 +164,13 @@ def test_template_suite(
             check=True,
             shell=True,
         )
-        subprocess.run(
-            "hatch run docs:build",
-            cwd=project_dir,
-            check=True,
-            shell=True,
-        )
+        if documentation:
+            subprocess.run(
+                "hatch run docs:build",
+                cwd=project_dir,
+                check=True,
+                shell=True,
+            )
         subprocess.run(
             "hatch run style:check",
             cwd=project_dir,
