@@ -15,38 +15,52 @@ project_name:
   type: str
   help: "What is the name of the project? Used as the title in the README.md and other places."
 
-project_slug:
-  type: str
-  help: "What is the project slug? Used in hyperlinks."
-  default: "{{ project_name|lower|replace(' ', '-') }}"
-
-package_name:
-  type: str
-  help: "What is the Python package name? Used as the name of the package and the top-level import."
-  default: "{{ project_slug|replace('-', '_') }}"
-
 package_description:
   type: str
   multiline: true
   help: "Please provide a short description for the package."
 
+use_default:
+  type: str
+  help: "Do you want to skip all remaining questions and simply use the provided default values?"
+  choices:
+    "No, I want to fully customize the template.": no
+    "Yes, with all the bells and whistles.": full
+    "Yes, but with a minimal setup.": minimal
+  default: no
+
+project_slug:
+  when: "{{ use_default == 'no' }}"
+  type: str
+  help: "What is the project slug? Used in hyperlinks."
+  default: "{{ project_name|lower|replace(' ', '-') }}"
+
+package_name:
+  when: "{{ use_default == 'no' }}"
+  type: str
+  help: "What is the Python package name? Used as the name of the package and the top-level import."
+  default: "{{ project_slug|replace('-', '_') }}"
+
 use_vcs_version:
+  when: "{{ use_default == 'no' }}"
   type: bool
-  default: yes
+  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to use dynamic versioning of your package or static? Dynamic means that versions use your version control system (VCS), such as git tags, for creating versions."
 
 use_git:
+  when: "{{ use_default == 'no' }}"
   type: bool
-  default: yes
+  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to use git with a development platform, like GitHub or GitLab?"
 
 dev_platform:
-  when: "{{ use_git }}"
+  when: "{{ use_default == 'no' and use_git }}"
   type: str
   help: "Which development platform are you planning to use? Used to generate certain documentation and hyperlinks."
   choices:
     - "GitHub"
     - "GitLab"
+  default: "GitHub"
 
 dev_platform_url:
   type: str
@@ -59,42 +73,51 @@ username:
   help: "Your or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
 
 documentation:
+  when: "{{ use_default == 'no' }}"
   type: str
   help: "Do you want to include documentation for your project and which framework do you want to use?"
   choices:
     "Sphinx (https://www.pyopensci.org/pyos-sphinx-theme)": sphinx
     "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
     No: ""
+  default: "{% if use_default != 'minimal' %}sphinx{% else %}{% endif %}"
 
 use_hatch_envs:
+  when: "{{ use_default == 'no' }}"
   type: bool
-  default: yes
+  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to use hatch environments for running isolated commands like linting, building docs, or testing?"
 
 use_lint:
+  when: "{{ use_default == 'no' }}"
   type: bool
-  default: yes
+  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to lint your code and generally check the formatting of your files?"
 
 use_types:
+  when: "{{ use_default == 'no' }}"
   type: bool
-  default: yes
+  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to use typing annotations and type check your code?"
 
 use_test:
+  when: "{{ use_default == 'no' }}"
   type: bool
-  default: yes
+  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to test your code? Generally, we strongly recommend that you do, but for a quick demo you may want to avoid this."
 
 license:
+  when: "{{ use_default == 'no' }}"
   type: str
   help: "Which license do you want to use? Used in the license file."
   choices:
     - "MIT"
     - "BSD-3-Clause"
     - "Apache-2.0"
+  default: MIT
 
 year:
+  when: "{{ use_default == 'no' }}"
   type: str
   help: "What is the starting year of the project? Used in copyright statements."
   default: "2024"
