@@ -280,7 +280,7 @@ extra-dependencies = [
 ]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.10", "3.13"]
+python = ["3.10", "3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing}"
