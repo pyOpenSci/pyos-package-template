@@ -24,10 +24,10 @@ use_default:
   type: str
   help: "Do you want to skip all remaining questions and simply use the provided default values?"
   choices:
-    "No, I want to fully customize the template.": no
-    "Yes, with all the bells and whistles.": full
-    "Yes, but with a minimal setup.": minimal
-  default: no
+    "No, I want to fully customize the template.": "no"
+    "Yes, with all the bells and whistles.": "full"
+    "Yes, but with a minimal setup.": "minimal"
+  default: "no"
 
 project_slug:
   when: "{{ use_default == 'no' }}"
