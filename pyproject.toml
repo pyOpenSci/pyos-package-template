@@ -4,6 +4,9 @@
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "installs: Tests that install packages, e.g. from executing hatch env scripts",
+]
 
 [tool.ruff]
 line-length = 88
