@@ -29,6 +29,14 @@ from typing import Callable
 import pytest
 from copier import run_copy
 from git import Repo
+from validate_pyproject import api as validator_api
+
+try:
+    import tomllib
+except ImportError:
+    # < python3.11
+    # same thing right
+    import tomli as tomllib
 
 TEMPLATE = Path(__file__).parents[1]
 
@@ -222,3 +230,59 @@ def test_dev_platform_gitlab(generated: Callable[..., Path]):
         check=True,
         shell=True,
     )
+
+
+def test_non_hatch_deps(
+    answers: dict[str, str],
+    documentation: str,
+    tmp_path: Path,
+) -> None:
+    """When we aren't using hatch, we should still get the optional dependencies."""
+    parent = tmp_path / answers["project_slug"]
+    parent.mkdir()
+
+    run_copy(
+        src_path=str(TEMPLATE),
+        dst_path=parent,
+        vcs_ref="HEAD",
+        data={
+            **answers,
+            "use_hatch_envs": False,
+            "use_lint": True,
+            "use_types": True,
+            "use_test": True,
+            "use_git": False,
+            "documentation": documentation,
+            "license": "MIT",
+        },
+        defaults=True,
+    )
+
+
+    pyproject_file = parent / "pyproject.toml"
+    with pyproject_file.open("rb") as pfile:
+        pyproject = tomllib.load(pfile)
+
+    # validate pyproject.toml file if present
+    validator_api.Validator()(pyproject)
+
+    optional_deps = pyproject["project"]["optional-dependencies"]
+    groups = ("dev", "tests", "style", "types", "audit")
+    assert all(group in optional_deps for group in groups)
+
+    # we don't want to hardcode all our deps here,
+    # bc that would be a very fragile test indeed.
+    # Instead we just assume their presence and that the validity of the pyproject file
+    # means that they have been correctly specified.
+    # except for the docs, where we want to test our switch works :)
+    if documentation:
+        assert "docs" in optional_deps
+        assert any(dep.startswith(documentation) for dep in optional_deps["docs"])
+
+
+
+
+
+
+
+
