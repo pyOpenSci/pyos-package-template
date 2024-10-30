@@ -5,6 +5,7 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = [
+    "docs: Tests relating to generated documentation!",
     "installs: Tests that install packages, e.g. from executing hatch env scripts",
 ]
 

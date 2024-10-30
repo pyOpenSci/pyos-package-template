@@ -179,6 +179,7 @@ def test_template_suite(
         raise
 
 
+@pytest.mark.docs
 @pytest.mark.installs
 def test_docs_build(documentation: str, generated: Callable[..., Path]):
     """The docs should build."""
@@ -206,8 +207,27 @@ def test_dev_platform_github(generated: Callable[..., Path]):
     """Test github stuff idk!."""
     project = generated(use_git=True, dev_platform="GitHub")
 
+    workflows_dir =  project / '.github' / 'workflows'
+    assert workflows_dir.exists()
+    workflows = list(workflows_dir.iterdir())
+    assert len(workflows) > 0
+    assert all(workflow.suffix in ('.yml', '.yaml') for workflow in workflows)
+
     subprocess.run(
         "pre-commit run --all-files -v check-github-workflows",
+        cwd=project,
+        check=True,
+        shell=True,
+    )
+
+
+@pytest.mark.installs
+def test_dev_platform_gitlab(generated: Callable[..., Path]):
+    """Test gitlab stuff idk!."""
+    project = generated(use_git=True, dev_platform="GitLab")
+
+    subprocess.run(
+        "pre-commit run --all-files -v check-gitlab-ci",
         cwd=project,
         check=True,
         shell=True,
