@@ -65,8 +65,18 @@ Download = "https://pypi.org/project/{{ project_slug }}/#files"
 dev = [
     "hatch",
     "pre-commit",
+    {%- if not use_hatch_envs %}
+    "{{ package_name }}[
+        {%- if documentation!="" %}docs,{% endif -%}
+        {%- if use_test %}tests,{% endif -%}
+        {%- if use_lint %}style,{% endif -%}
+        {%- if use_types %}types,{% endif -%}
+    audit]",
+    {%- endif %}
 ]
-
+{%- if not use_hatch_envs %}
+{% include pathjoin('includes', 'pyproject', 'deps-pep-621.toml.jinja') %}
+{%- endif %}
 ################################################################################
 # Tool Configuration
 ################################################################################
