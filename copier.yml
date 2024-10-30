@@ -109,11 +109,18 @@ use_test:
 license:
   when: "{{ use_default == 'no' }}"
   type: str
-  help: "Which license do you want to use? Used in the license file."
+  help: |
+    Which license do you want to use? Includes a LICENSE file in the repository root.
+    For more information, see: 
+    - https://www.pyopensci.org/python-package-guide/documentation/repository-files/license-files.html
+    - https://opensource.org/licenses
   choices:
-    - "MIT"
-    - "BSD-3-Clause"
-    - "Apache-2.0"
+    "Permissive - MIT": "MIT"
+    "Permissive - BSD-3-Clause": "BSD-3-Clause"
+    "Permissive - Apache-2.0": "Apache-2.0"
+    "Copyleft - GPL-3.0": "GPL-3.0-only"
+    "Copyleft - EUPL-1.2": "EUPL-1.2"
+    "Intermediate - MPL-2.0": "MPL-2.0"
   default: MIT
 
 year:
