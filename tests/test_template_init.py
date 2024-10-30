@@ -278,11 +278,3 @@ def test_non_hatch_deps(
     if documentation:
         assert "docs" in optional_deps
         assert any(dep.startswith(documentation) for dep in optional_deps["docs"])
-
-
-
-
-
-
-
-
