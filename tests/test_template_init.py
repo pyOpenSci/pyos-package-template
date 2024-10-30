@@ -207,11 +207,11 @@ def test_dev_platform_github(generated: Callable[..., Path]):
     """Test github stuff idk!."""
     project = generated(use_git=True, dev_platform="GitHub")
 
-    workflows_dir =  project / '.github' / 'workflows'
+    workflows_dir =  project / ".github" / "workflows"
     assert workflows_dir.exists()
     workflows = list(workflows_dir.iterdir())
     assert len(workflows) > 0
-    assert all(workflow.suffix in ('.yml', '.yaml') for workflow in workflows)
+    assert all(workflow.suffix in (".yml", ".yaml") for workflow in workflows)
 
     subprocess.run(
         "pre-commit run --all-files -v check-github-workflows",
