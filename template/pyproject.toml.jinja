@@ -12,11 +12,11 @@ requires = ["hatchling"{% if use_vcs_version %}, "hatch-vcs"{% endif %}]
 
 [project]
 name = "{{ package_name }}"
-{% if use_vcs_version %}
+{%- if use_vcs_version %}
 dynamic = ["version"]
 {% else %}
 version = "0.1.0"
-{% endif %}
+{% endif -%}
 description = "{{ package_description }}"
 authors = [
     { name = "{{ author_name }}", email = "{{ author_email }}" },
