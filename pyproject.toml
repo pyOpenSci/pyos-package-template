@@ -63,6 +63,7 @@ dependencies = [
     "GitPython ~=3.1",
     "hatch ~=1.12",
     "pytest ~=8.3",
+    "pytest-xdist ~=3.6",
     "pre-commit"
 ]
 
@@ -70,4 +71,4 @@ dependencies = [
 python = ["3.10", "3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.test.scripts]
-run = "pytest {args}"
+run = "pytest {args:--numprocesses=auto}"
