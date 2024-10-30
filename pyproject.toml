@@ -70,6 +70,9 @@ dependencies = [
     "pytest-xdist ~=3.6",
     "pre-commit",
     "ruamel.yaml>=0.18.0",
+    "validate-pyproject >=0.22",
+    "trove-classifiers>=2021.10.20",
+    "tomli >=2.0.2; python_version<'3.11'",
 ]
 
 [[tool.hatch.envs.test.matrix]]
