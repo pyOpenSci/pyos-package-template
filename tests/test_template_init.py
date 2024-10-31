@@ -80,10 +80,9 @@ def answers() -> dict[str, str]:
 def generated(tmp_path: Path, answers: dict[str, str]) -> Callable[..., Path]:
     """Fixture closure to generate a template project, overriding passed data values."""
     def _generated(**kwargs) -> Path:
-        out_path = tmp_path
         run_copy(
             src_path=str(TEMPLATE),
-            dst_path=out_path,
+            dst_path=tmp_path,
             vcs_ref="HEAD",
             data={
                 **answers,
@@ -92,9 +91,9 @@ def generated(tmp_path: Path, answers: dict[str, str]) -> Callable[..., Path]:
             defaults=True,
         )
 
-        init_git(out_path)
+        init_git(tmp_path)
 
-        return out_path
+        return tmp_path
     return _generated
 
 
