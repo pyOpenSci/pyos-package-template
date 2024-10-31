@@ -43,15 +43,6 @@ def dev_platform(request: pytest.FixtureRequest) -> str:
 
 @pytest.fixture(
     scope="module",
-    params=["MIT", "BSD-3-Clause", "Apache-2.0"],
-)
-def license(request: pytest.FixtureRequest) -> str:
-    """Provide a recognized license classification."""
-    return request.param
-
-
-@pytest.fixture(
-    scope="module",
     params=["mkdocs", "sphinx", ""],
 )
 def documentation(request: pytest.FixtureRequest) -> str:
