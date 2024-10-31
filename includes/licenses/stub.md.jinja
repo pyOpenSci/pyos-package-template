@@ -1,0 +1,26 @@
+{%- if license_path is not defined -%}
+{# to not make a link, explicitly pass False. leaving undefined uses default location #}
+{%- set license_path = "./LICENSE" -%}
+{%- endif -%}
+{%- macro license_link(name) -%}
+{%- if not license_path %}{{ name }}{% else %}[{{ name }}]({{ license_path }}){% endif -%}
+{%- endmacro -%}
+{%- if license == "MIT" -%}
+- Copyright © {{ year }} {{ copyright_holder }}.
+- Free software distributed under the {{ license_link('MIT License') }}.
+{%- elif license == "BSD-3-Clause" -%}
+- Copyright © {{ year }} {{ copyright_holder }}.
+- Free software distributed under the {{ license_link('3-Clause BSD License') }}.
+{%- elif license == "Apache-2.0" -%}
+- Copyright © {{ year }} {{ copyright_holder }}.
+- Free software distributed under the {{ license_link('Apache Software License 2.0') }}.
+{%- elif license == "GPL-3.0-only" -%}
+- Copyright © {{ year }} {{ copyright_holder }}.
+- Free software licensed under the {{ license_link('GNU Public License 3.0') }}.
+{%- elif license == "EUPL-1.2" -%}
+- Copyright © {{ year }} {{ copyright_holder }}.
+- Free software licensed under the {{ license_link('European Union Public License 1.2 or later') }}.
+{%- elif license == "MPL-2.0" -%}
+- Copyright © {{ year }} {{ copyright_holder }}.
+- This Source Code Form is subject to the terms of the {{ license_link('Mozilla Public License, v2.0') }}.
+{%- endif -%}
