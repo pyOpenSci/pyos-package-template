@@ -41,6 +41,8 @@ classifiers = [
     {% elif license == "Apache-2.0" %}
     "License :: OSI Approved :: Apache Software License",
     {% endif -%}
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
     {%- if use_types %}
     "Typing :: Typed",
     {%- endif %}
@@ -232,6 +234,7 @@ extra-dependencies = [
     "mkdocs-awesome-pages-plugin ~=2.9",
 ]
 {%- elif documentation == "sphinx" %}
+python = "3.10"
 dependencies = [
     "pydata_sphinx_theme ~=0.16",
     "myst-parser ~=4.0",
