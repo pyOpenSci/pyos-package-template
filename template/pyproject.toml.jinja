@@ -17,7 +17,14 @@ dynamic = ["version"]
 {% else %}
 version = "0.1.0"
 {% endif %}
-description = "{{ package_description }}"
+{%- set wrapped_description = package_description | trim | wordwrap(width=88) %}
+description = {% if "\n" in wrapped_description -%}
+"""
+{{ wrapped_description }}
+"""
+{%- else -%}
+"{{ wrapped_description }}"
+{%- endif %}
 authors = [
     { name = "{{ author_name }}", email = "{{ author_email }}" },
 ]
