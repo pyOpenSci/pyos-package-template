@@ -233,33 +233,20 @@ def test_dev_platform_gitlab(generated: Callable[..., Path]):
 
 
 def test_non_hatch_deps(
-    answers: dict[str, str],
     documentation: str,
-    tmp_path: Path,
+    generated: Callable[..., Path],
 ) -> None:
     """When we aren't using hatch, we should still get the optional dependencies."""
-    parent = tmp_path / answers["project_slug"]
-    parent.mkdir()
-
-    run_copy(
-        src_path=str(TEMPLATE),
-        dst_path=parent,
-        vcs_ref="HEAD",
-        data={
-            **answers,
-            "use_hatch_envs": False,
-            "use_lint": True,
-            "use_types": True,
-            "use_test": True,
-            "use_git": False,
-            "documentation": documentation,
-            "license": "MIT",
-        },
-        defaults=True,
+    project = generated(
+        use_hatch_envs=False,
+        use_lint=True,
+        use_types=True,
+        use_test=True,
+        use_git=False,
+        documentation=documentation,
     )
 
-
-    pyproject_file = parent / "pyproject.toml"
+    pyproject_file = project / "pyproject.toml"
     with pyproject_file.open("rb") as pfile:
         pyproject = tomllib.load(pfile)
 
@@ -272,7 +259,7 @@ def test_non_hatch_deps(
 
     # we don't want to hardcode all our deps here,
     # bc that would be a very fragile test indeed.
-    # Instead we just assume their presence and that the validity of the pyproject file
+    # Instead, we just assume their presence and that the validity of the pyproject file
     # means that they have been correctly specified.
     # except for the docs, where we want to test our switch works :)
     if documentation:
