@@ -68,7 +68,8 @@ dependencies = [
     "hatch ~=1.12",
     "pytest ~=8.3",
     "pytest-xdist ~=3.6",
-    "pre-commit"
+    "pre-commit",
+    "ruamel.yaml>=0.18.0",
 ]
 
 [[tool.hatch.envs.test.matrix]]
