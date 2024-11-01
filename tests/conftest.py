@@ -62,9 +62,10 @@ def cleanup_hatch_envs(
     hatch_dir = tmp_path_factory.mktemp("hatch")
     monkeypatch_session.setenv("HATCH_DATA_DIR", str(hatch_dir))
 
-    yield
-
-    shutil.rmtree(hatch_dir, ignore_errors=True)
+    try:
+        yield
+    finally:
+        shutil.rmtree(hatch_dir, ignore_errors=True)
 
 # ---------------------------------------------
 # Fixtures - exports
