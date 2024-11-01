@@ -60,7 +60,6 @@ def cleanup_hatch_envs(
         return
 
     hatch_dir = tmp_path_factory.mktemp("hatch")
-    hatch_dir.mkdir(exist_ok=True)
     monkeypatch_session.setenv("HATCH_DATA_DIR", str(hatch_dir))
 
     yield
