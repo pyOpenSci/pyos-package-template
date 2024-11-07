@@ -1,7 +1,5 @@
 # pyOpenSci Package Template
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+[![All Contributors](https://img.shields.io/github/all-contributors/pyOpenSci/pyos-package-template?color=ee8449)](#contributors-) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14052273.svg)](https://doi.org/10.5281/zenodo.14052273)
 
 [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-black.json)](https://github.com/copier-org/copier)
 
@@ -16,7 +14,7 @@ tutorial.
 
 To use this template:
 
-1. install copier using [pipx](https://pipx.pypa.io/stable/) or pip preferably with a [virtual environment](https://www.pyopensci.org/python-package-guide/CONTRIBUTING.html#create-a-virtual-environment).
+1. Install copier using [pipx](https://pipx.pypa.io/stable/) or pip preferably with a [virtual environment](https://www.pyopensci.org/python-package-guide/CONTRIBUTING.html#create-a-virtual-environment).
 
     ```sh
     pipx install copier
