@@ -1,53 +1,74 @@
-name: CD
+name: Publish to PyPI
 
 on:
-  push:
-    tags:
-    - 'v?[0-9]+.[0-9]+.[0-9]+'
-    - 'v?[0-9]+.[0-9]+.[0-9]+(a|b|rc|post|dev)[0-9]+'
+  release:
+    types: [published]
 
 jobs:
-  prerequisites:
-    uses: ./.github/workflows/test.yml
-
-  release:
-    needs: [prerequisites]
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        python-version: ["3.12"]
-    runs-on: ${{ matrix.os }}
-    permissions:
-      # Write permissions are needed to create OIDC tokens.
-      id-token: write
-      # Write permissions are needed to make GitHub releases.
-      contents: write
-
+  # Setup build separate from publish for added security
+  # See https://github.com/pypa/gh-action-pypi-publish/issues/217#issuecomment-1965727093
+  build:
+    runs-on: ubuntu-latest
+    # This ensures that the publish action only runs in the main repository
+    # rather than forks
+    # Environment is encouraged for increased security
+    environment: build
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # This fetch element is only important if you are use SCM based
+          # versioning (that looks at git tags to gather the version)
+          fetch-depth: 100
+            # Need the tags so that setuptools-scm can form a valid version number
+      - name: Fetch git tags
+        run: git fetch origin 'refs/tags/*:refs/tags/*'
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          # You can modify what version of Python you want to use for your release
+          python-version: "3.11"
 
-    - name: Install hatch
-      uses: pypa/hatch@install
+      # Security recommends we should pin deps. Should we pin the workflow version?
+      - name: Install hatch
+        uses: pypa/hatch@install
 
-    - name: Build package
-      run: hatch build
+      - name: Build package using Hatch
+        run: |
+          hatch build
+          echo ""
+          echo "Generated files:"
+          ls -lh dist/
 
-    # We rely on a trusted publisher configuration being present on PyPI,
-    # see https://docs.pypi.org/trusted-publishers/.
-    - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-
-    - name: GH release
-      uses: softprops/action-gh-release@v2
-      with:
-        body: >
-          Please see
-          https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md
-          for the full release notes.
-        draft: false
-        prerelease: false
+      # Store an artifact of the build to use in the publish step below
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+  publish:
+    name: >-
+      Publish Python 🐍 distribution 📦 to PyPI
+    # Modify the repo name below to be your project's repo name.
+    if: github.repository_owner == 'pyopensci'
+    needs: 
+      - build
+    runs-on: ubuntu-latest
+    # Environment required here for trusted publisher
+    environment:
+      name: pypi
+      # Modify the url to be the name of your package
+      url: https://pypi.org/p/yourPackage
+    permissions:
+      id-token: write  # this permission is mandatory for PyPI publishing
+  steps:
+      - name: Download dists
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish package to PyPI
+        # Only publish to real PyPI on release
+        if: github.event_name == 'release'
+        uses: pypa/gh-action-pypi-publish@release/v1
