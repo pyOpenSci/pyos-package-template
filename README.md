@@ -17,7 +17,7 @@ To use this template:
 
 1. Install copier using [pipx](https://pipx.pypa.io/stable/) or pip preferably with a [virtual environment](https://www.pyopensci.org/python-package-guide/CONTRIBUTING.html#create-a-virtual-environment).
 
-    GLobal Installation:
+    Global Installation:
     
     ```console
     pipx install copier
