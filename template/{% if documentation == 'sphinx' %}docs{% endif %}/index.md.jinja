@@ -1,0 +1,18 @@
+# {{ project_name }}
+
+## Overview
+
+{{ package_description }}
+
+[API Documentation](./api/modules.rst)
+
+## Copyright
+
+{% with license_path = False -%}
+{% include pathjoin("includes", "licenses", "stub.md.jinja") %}
+{%- endwith %}
+
+```{toctree}
+:hidden:
+./api/modules.rst
+```

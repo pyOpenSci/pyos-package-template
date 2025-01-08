@@ -1,0 +1,9 @@
+# {{ project_name }}
+
+{{ package_description }}
+
+## Copyright
+
+{%- with license_path = "../LICENSE" -%}
+{% include pathjoin("includes", "licenses", "stub.md.jinja") %}
+{%- endwith -%}

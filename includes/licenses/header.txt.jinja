@@ -60,12 +60,27 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations under
 # the License.
+{%- elif license == "GPL-3.0-only" -%}
+# Copyright © {{ year }} {{ copyright_holder }}
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the [GNU General Public License 3.0](./LICENSE) 
+# as published by the Free Software Foundation
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with 
+# this program. If not, see https://www.gnu.org/licenses/.
+{%- elif license == "EUPL-1.2" -%}
+# Copyright © {{ year }} {{ copyright_holder }}.
+# Free software licensed under the EUPL 1.2 or later
+{%- elif license == "MPL-2.0" -%}
+# Copyright © {{ year }} {{ copyright_holder }}.
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
 {%- endif %}
-
-
-"""Test that the package can be imported."""
-
-
-def test_import():
-    """Test that the package can be imported."""
-    import {{ package_name }}  # noqa: F401

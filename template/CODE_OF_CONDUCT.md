@@ -58,6 +58,8 @@ representative at an online or offline event.
 
 ## Enforcement
 
+[//]: # (TODO: You need to choose whom and how to contact them.)
+
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
 \[INSERT CONTACT METHOD\].

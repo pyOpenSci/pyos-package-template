@@ -4,6 +4,10 @@
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "docs: Tests relating to generated documentation!",
+    "installs: Tests that install packages, e.g. from executing hatch env scripts",
+]
 
 [tool.ruff]
 line-length = 88
@@ -63,11 +67,13 @@ dependencies = [
     "GitPython ~=3.1",
     "hatch ~=1.12",
     "pytest ~=8.3",
-    "pre-commit"
+    "pytest-xdist ~=3.6",
+    "pre-commit",
+    "ruamel.yaml>=0.18.0",
 ]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.9", "3.10", "3.11", "3.12"]
+python = ["3.10", "3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.test.scripts]
-run = "pytest {args}"
+run = "pytest {args:--numprocesses=auto}"
