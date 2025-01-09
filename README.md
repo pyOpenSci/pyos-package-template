@@ -57,7 +57,7 @@ will require internet access to run properly.
 
 The command below will create the package directory in your current working directory. 
 
-`copier copy gh:pyopensci/pyos-package-template . `
+`copier copy gh:pyopensci/pyos-package-template .`
 
 If you wish to create the package directory in another directory you can specify it like this:
 
