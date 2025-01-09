@@ -1,4 +1,5 @@
-"""Ruff is forcing me to write a docstring for conftest.py."""
+"""Fixtures used in our test suite for the pyOpenSci Python package
+template."""
 
 import shutil
 from pathlib import Path
@@ -16,6 +17,7 @@ if TYPE_CHECKING:
 COPIER_CONFIG_PATH = Path(__file__).parents[1] / "copier.yml"
 INCLUDES_PATH = Path(__file__).parents[1] / "includes"
 
+
 def _load_copier_config() -> dict:
     yaml = YAML(typ="safe")
     with COPIER_CONFIG_PATH.open("r") as yfile:
@@ -29,6 +31,7 @@ COPIER_CONFIG = _load_copier_config()
 # pytest hooks
 # --------------------------------------------------
 
+
 def pytest_addoption(parser: "Parser") -> None:
     """Add options to pytest."""
     parser.addoption(
@@ -40,9 +43,11 @@ def pytest_addoption(parser: "Parser") -> None:
         "otherwise, use a temporary directoy and remove it afterwards.",
     )
 
+
 # --------------------------------------------------
 # Fixtures - autouse
 # --------------------------------------------------
+
 
 @pytest.fixture(scope="session", autouse=True)
 def cleanup_hatch_envs(
@@ -67,9 +72,11 @@ def cleanup_hatch_envs(
     finally:
         shutil.rmtree(hatch_dir, ignore_errors=True)
 
+
 # ---------------------------------------------
 # Fixtures - exports
 # ---------------------------------------------
+
 
 @pytest.fixture(scope="session")
 def monkeypatch_session() -> Generator[MonkeyPatch, None, None]:
