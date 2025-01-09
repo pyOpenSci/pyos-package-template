@@ -1,4 +1,4 @@
-# pyOpenSci Package Template
+# pyOpenSci Python Package Template
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -113,7 +113,6 @@ Below is what the template workflow will look like when you run it. In the examp
 🎤 What is the starting year of the project? Used in copyright statements.
    2024
 ```
-
 
 ### Stay up-to-date
 
