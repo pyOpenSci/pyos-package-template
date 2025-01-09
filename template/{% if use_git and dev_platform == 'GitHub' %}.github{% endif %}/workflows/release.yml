@@ -62,7 +62,7 @@ jobs:
       url: https://pypi.org/p/yourPackage
     permissions:
       id-token: write  # this permission is mandatory for PyPI publishing
-  steps:
+    steps:
       - name: Download dists
         uses: actions/download-artifact@v4
         with:

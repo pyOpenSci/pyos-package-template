@@ -18,11 +18,11 @@ To use this template:
 1. Install copier using [pipx](https://pipx.pypa.io/stable/) or pip preferably with a [virtual environment](https://www.pyopensci.org/python-package-guide/CONTRIBUTING.html#create-a-virtual-environment).
 
     Global Installation:
-    
+
     ```console
     pipx install copier
     ```
-   
+
     or Environment specific installation:
 
     ```console
@@ -37,8 +37,9 @@ To use this template:
     ```console
     copier copy gh:pyopensci/pyos-package-template path/here
     ```
-    
-   The command below will create the package directory in your current working directory. 
+
+   The command below will create the package directory in your current working directory.
+
     ```console
     copier copy gh:pyopensci/pyos-package-template .
     ```
@@ -48,14 +49,13 @@ To use this template:
    as your source. You can read more about generating your project
    in the [copier documentation](https://copier.readthedocs.io/en/stable/generating/).
 
-
 ## Run the template workflow
 
-Once you have installed copier, you are ready to create your Python package template. 
-First, run the command below from your favorite shell. Note that this is copying our template from GitHub so it 
+Once you have installed copier, you are ready to create your Python package template.
+First, run the command below from your favorite shell. Note that this is copying our template from GitHub so it
 will require internet access to run properly.
 
-The command below will create the package directory in your current working directory. 
+The command below will create the package directory in your current working directory.
 
 `copier copy gh:pyopensci/pyos-package-template .`
 
@@ -64,12 +64,12 @@ If you wish to create the package directory in another directory you can specify
 `copier copy gh:pyopensci/pyos-package-template dirname-here`
 
 ## Template overview
-The copier template will ask you a series of questions which you can respond to. The questions will 
-help you customize the template. 
+
+The copier template will ask you a series of questions which you can respond to. The questions will
+help you customize the template.
 
 Below is what the template workflow will look like when you run it. In the example below, you  
 "fully customize" the template.  
-
 
 ```console
 ➜ copier copy gh:pyopensci/pyos-package-template .      
