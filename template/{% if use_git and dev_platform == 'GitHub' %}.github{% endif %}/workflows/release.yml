@@ -5,9 +5,12 @@ on:
     types: [published]
 
 jobs:
+  prerequisites:
+    uses: ./.github/workflows/test.yml
   # Setup build separate from publish for added security
   # See https://github.com/pypa/gh-action-pypi-publish/issues/217#issuecomment-1965727093
   build:
+    needs: [prerequisites]
     runs-on: ubuntu-latest
     # Environment is encouraged for increased security
     environment: build
@@ -50,7 +53,7 @@ jobs:
       Publish Python 🐍 distribution 📦 to PyPI
     # Modify the repo name below to be your project's repo name.
     if: github.repository_owner == "{{ username }}"
-    needs: 
+    needs:
       - build
     runs-on: ubuntu-latest
     # Environment required here for trusted publisher
