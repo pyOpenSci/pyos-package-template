@@ -30,7 +30,7 @@ jobs:
 
       # Security recommends we should pin deps. Should we pin the workflow version?
       - name: Install hatch
-        uses: pypa/hatch@install
+        uses: pypa/hatch@a3c83ab3d481fbc2dc91dd0088628817488dd1d5
 
       - name: Build package using Hatch
         run: |
