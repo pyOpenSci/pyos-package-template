@@ -51,7 +51,7 @@ jobs:
     name: >-
       Publish Python 🐍 distribution 📦 to PyPI
     # Modify the repo name below to be your project's repo name.
-    if: github.repository_owner == 'pyopensci'
+    if: github.repository_owner == "{{ username }}"
     needs: 
       - build
     runs-on: ubuntu-latest
@@ -59,7 +59,7 @@ jobs:
     environment:
       name: pypi
       # Modify the url to be the name of your package
-      url: https://pypi.org/p/yourPackage
+      url: https://pypi.org/p/${{ package_name }}
     permissions:
       id-token: write  # this permission is mandatory for PyPI publishing
     steps:
