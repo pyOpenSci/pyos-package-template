@@ -9,8 +9,6 @@ jobs:
   # See https://github.com/pypa/gh-action-pypi-publish/issues/217#issuecomment-1965727093
   build:
     runs-on: ubuntu-latest
-    # This ensures that the publish action only runs in the main repository
-    # rather than forks
     # Environment is encouraged for increased security
     environment: build
     steps:
