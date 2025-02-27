@@ -164,7 +164,7 @@ known-first-party = ["src", "{{ package_name }}"]
 lines-after-imports = 1
 
 [tool.pydoclint]
-style = "google"  # TODO: Other styles are possible here, like 'numpy'
+style = "numpy"
 arg-type-hints-in-docstring = false
 check-return-types = false
 check-yield-types = false
@@ -208,7 +208,7 @@ dependencies = [
 detached = true
 
 [tool.hatch.envs.style.scripts]
-docstrings = "pydoclint"
+docstrings = "pydoclint src/"
 code = "ruff check {args}"
 format = "ruff format {args}"
 check = ["docstrings", "code"]
