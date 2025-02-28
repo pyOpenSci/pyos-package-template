@@ -208,7 +208,7 @@ dependencies = [
 detached = true
 
 [tool.hatch.envs.style.scripts]
-docstrings = "pydoclint src/"
+docstrings = "pydoclint src/ tests/"
 code = "ruff check {args}"
 format = "ruff format {args}"
 check = ["docstrings", "code"]
