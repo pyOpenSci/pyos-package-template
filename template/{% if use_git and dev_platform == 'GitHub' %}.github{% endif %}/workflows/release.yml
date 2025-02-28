@@ -48,6 +48,7 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
+          if-no-files-found: error
   publish:
     name: >-
       Publish Python 🐍 distribution 📦 to PyPI
@@ -69,6 +70,7 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
+          merge-multiple: true
       - name: Publish package to PyPI
         # Only publish to real PyPI on release
         if: github.event_name == 'release'
