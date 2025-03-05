@@ -70,5 +70,5 @@ jobs:
           merge-multiple: true
       - name: Publish package to PyPI
         # Only publish to real PyPI on release
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && github.event.action == 'published'
         uses: pypa/gh-action-pypi-publish@release/v1
