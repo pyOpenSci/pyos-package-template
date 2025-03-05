@@ -1,5 +1,4 @@
-"""Fixtures used in our test suite for the pyOpenSci Python package
-template."""
+"""Provide fixtures to the entire test suite."""
 
 import shutil
 from pathlib import Path
