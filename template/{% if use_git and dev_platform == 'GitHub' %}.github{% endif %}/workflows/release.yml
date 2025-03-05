@@ -13,7 +13,6 @@ jobs:
     needs: [prerequisites]
     runs-on: ubuntu-latest
     # Environment is encouraged for increased security
-    environment: build
     steps:
       - name: Checkout
         uses: actions/checkout@v4
