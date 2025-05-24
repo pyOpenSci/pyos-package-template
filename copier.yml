@@ -127,6 +127,6 @@ year:
   when: "{{ use_default == 'no' }}"
   type: str
   help: "What is the starting year of the project? Used in copyright statements."
-  default: "2024"
+  default: "2025"
 
 _subdirectory: "template"
