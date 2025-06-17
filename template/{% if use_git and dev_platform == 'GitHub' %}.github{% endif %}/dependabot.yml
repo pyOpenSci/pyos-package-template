@@ -1,0 +1,15 @@
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "dependencies: "
+      include: scope
+    groups:
+      actions:
+        patterns:
+          - "*"
