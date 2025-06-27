@@ -20,14 +20,26 @@ package_description:
   multiline: true
   help: "Please provide a short description for the package."
 
+documentation:
+  #when: "{{ use_default == 'no' }}"
+  type: str
+  help: "Do you want to include documentation for your project and which framework do you want to use?"
+  choices:
+    "Sphinx (https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html)": sphinx
+    "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
+    No: ""
+  default: "{% if use_default != 'minimal' %}sphinx{% else %}{% endif %}"
+
+# This is the quick exit option for the template. It defaults to
+# basic package setup (and we will add basic tests and docs)
 use_default:
   type: str
-  help: "Do you want to skip all remaining questions and simply use the provided default values?"
+  help: "Do you want to skip all remaining questions and use the default values?"
   choices:
     "No, I want to fully customize the template.": "no"
     "Yes, with all the bells and whistles.": "full"
-    "Yes, but with a minimal setup.": "minimal"
-  default: "no"
+    "Yes, but with a minimal setup (package, tests and docs only).": "minimal"
+  default: "minimal"
 
 project_slug:
   when: "{{ use_default == 'no' }}"
@@ -72,15 +84,7 @@ username:
   type: str
   help: "Your or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
 
-documentation:
-  when: "{{ use_default == 'no' }}"
-  type: str
-  help: "Do you want to include documentation for your project and which framework do you want to use?"
-  choices:
-    "Sphinx (https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html)": sphinx
-    "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
-    No: ""
-  default: "{% if use_default != 'minimal' %}sphinx{% else %}{% endif %}"
+
 
 use_hatch_envs:
   when: "{{ use_default == 'no' }}"
