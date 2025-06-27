@@ -20,15 +20,7 @@ package_description:
   multiline: true
   help: "Please provide a short description for the package."
 
-documentation:
-  #when: "{{ use_default == 'no' }}"
-  type: str
-  help: "Do you want to include documentation for your project and which framework do you want to use?"
-  choices:
-    "Sphinx (https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html)": sphinx
-    "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
-    No: ""
-  default: "{% if use_default != 'minimal' %}sphinx{% else %}{% endif %}"
+
 
 # This is the quick exit option for the template. It defaults to
 # basic package setup (and we will add basic tests and docs)
@@ -40,6 +32,16 @@ use_default:
     "Yes, with all the bells and whistles.": "full"
     "Yes, but with a minimal setup (package, tests and docs only).": "minimal"
   default: "minimal"
+
+documentation:
+  when: "{{ use_default == 'no' }}"
+  type: str
+  help: "Do you want to include documentation for your project and which framework do you want to use?"
+  choices:
+    "Sphinx (https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html)": sphinx
+    "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
+    No: "I don't need documentation for my project."
+  default: "sphinx"
 
 project_slug:
   when: "{{ use_default == 'no' }}"
@@ -84,8 +86,6 @@ username:
   type: str
   help: "Your or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
 
-
-
 use_hatch_envs:
   when: "{{ use_default == 'no' }}"
   type: bool
@@ -104,11 +104,12 @@ use_types:
   default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to use typing annotations and type check your code?"
 
+# Default to a basic test suite
 use_test:
   when: "{{ use_default == 'no' }}"
   type: bool
-  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
-  help: "Do you want to test your code? Generally, we strongly recommend that you do, but for a quick demo you may want to avoid this."
+  default: "yes"
+  help: "Do you want to test your code? We strongly recommend that you add tests to your package."
 
 license:
   when: "{{ use_default == 'no' }}"
