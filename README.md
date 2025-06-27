@@ -51,15 +51,13 @@ To use this template:
 
 ## Run the template workflow
 
-Once you have installed copier, you are ready to create your Python package template.
-First, run the command below from your favorite shell. Note that this is copying our template from GitHub so it
-will require internet access to run properly.
+Once you have installed copier, you are ready to create your Python package using our template.
 
-The command below will create the package directory in your current working directory.
+1. First, run the command below from your favorite shell and in a directory where you want to store your package. Note that this step copies our template from GitHub so it requires internet access.
 
 `copier copy gh:pyopensci/pyos-package-template .`
 
-If you wish to create the package directory in another directory you can specify it like this:
+If you wish to create the package in another directory you can specify the directory like this:
 
 `copier copy gh:pyopensci/pyos-package-template dirname-here`
 
@@ -70,9 +68,9 @@ help you customize the template.
 
 ### Quickstart: A minimal example package
 
-If you use the minimal option in our template, the template questions will be
-simple and will create the simplest version of a Python package including a
-test directory and a docs directory using Sphinx.
+If you use the **minimal** option in our template, the template questions will be
+short. This workflow creates the simplest version of a Python package including a
+`tests\` directory and a `docs\` directory using Sphinx.
 
 ```console
 pyos-package-template (☊ minimal) [🏎️ 💨 ×6] via 🐍 v3.12.5 (test.py3.12)
@@ -119,7 +117,8 @@ Copying from template version 0.6.1.post44.dev0+7863796
 
 Once you have created your package, you can install it in editable mode using pip:
 
-First, CD to the directory where your new package lives:
+First, CD to the directory where your new package lives and install the package in editable mode:
+
 ```console
 $ cd my_directory
 $ conda activate myenv # activate your environment with your favorite environment manager
@@ -127,7 +126,7 @@ $ pip install -e . # install your package in editable mode
 $ python # open up a python prompt
 ```
 
-Test our the example package!
+We have included a small module in the package in case you want to test it out.
 
 ```python
 >>> from your_package import example # we have called the sample module, example.py
@@ -136,11 +135,18 @@ Test our the example package!
 >>> quit() # exit the python prompt and return to your shell
 ```
 
-Then, install the package in editable mode:
+### Build your package
+You can build your package using `Hatch` which is included in the template.
+First, make sure you have `Hatch` installed in your environment. Then,
+run `hatch build`.
+
+```console
+$ hatch build
+─────────────────── sdist ────────────────
+dist/yourpackage-0.1.0.tar.gz
+─────────────────── wheel ──────────────────
+dist/yourpackage-0.1.0-py2.py3-none-any.whl
 ```
-
-We have included a small module in the package in case you want to test it out.
-
 
 ### Full customization: A more complex example package
 
