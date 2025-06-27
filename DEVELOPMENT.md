@@ -17,7 +17,7 @@ version control, yet.
 If you are working on a branch, then you need to use the `--vcs-ref`
 flag to tell copier to use the template from that branch.
 
-`copier copy . _law_tests --vcs-ref branch-name-here`
+`copier copy . dir-name-here --vcs-ref branch-name-here`
 
 ## Linting & code style
 

@@ -81,9 +81,15 @@ dev = [
 # Tool Configuration
 ################################################################################
 
+# Hatch is building your package's wheel and sdist
+# This tells hatch to only include Python packages (i.e., folders with __init__.py) in the build.
+# read more about package building, here:
+# https://www.pyopensci.org/python-package-guide/package-structure-code/python-package-distribution-files-sdist-wheel.html
 [tool.hatch.build]
 only-packages = true
 
+# This tells Hatch to build the package from the src/me directory.
+# Read more about src layouts here: https://www.pyopensci.org/python-package-guide/package-structure-code/python-package-structure.html
 [tool.hatch.build.targets.wheel]
 packages = ["src/{{ package_name }}"]
 
@@ -96,9 +102,10 @@ source = "vcs"
 {%- endif %}
 
 {%- if use_test %}
+######## Configure pytest for your test suite ########
 [tool.pytest.ini_options]
-testpaths = ["tests"]
-markers = ["raises"]
+testpaths = ["tests"] # Tells pytest what directory tests are in
+markers = ["raises"] # Tells pytest to not raise a warning if you use @pytest.mark.raises
 
 [tool.coverage.paths]
 source = [
@@ -107,6 +114,7 @@ source = [
 ]
 
 [tool.coverage.run]
+# Ensures code coverage is measured for branches (conditional statements with different outcomes) in your code.
 branch = true
 parallel = true
 {%- if use_vcs_version %}
