@@ -102,6 +102,7 @@ source = "vcs"
 {%- endif %}
 
 {%- if use_test %}
+
 ######## Configure pytest for your test suite ########
 [tool.pytest.ini_options]
 testpaths = ["tests"] # Tells pytest what directory tests are in
@@ -124,6 +125,7 @@ omit = [
 {%- endif %}
 
 [tool.coverage.report]
+# This configures the output test coverage report
 exclude_lines = ["pragma: no cover"]
 precision = 2
 {%- endif %}
