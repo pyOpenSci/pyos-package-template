@@ -12,11 +12,11 @@ requires = ["hatchling"{% if use_vcs_version %}, "hatch-vcs"{% endif %}]
 
 [project]
 name = "{{ package_name }}"
-{% if use_vcs_version %}
+{%- if use_vcs_version -%}
 dynamic = ["version"]
 {% else %}
 version = "0.1.0"
-{% endif %}
+{%- endif %}
 {%- set wrapped_description = package_description | trim | wordwrap(width=88) %}
 description = {% if "\n" in wrapped_description -%}
 """
