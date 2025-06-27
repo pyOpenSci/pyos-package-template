@@ -28,3 +28,32 @@ style issues.
 
 We use [copier](https://copier.readthedocs.io/en/stable/) to manage the
 template. The `copier.yml` file is the main configuration file for the template.
+
+## Running tests
+
+You can run tests for this package using Hatch.
+
+To run the tests on a single python version use:
+`hatch run test.py3.11:run`
+
+To run all tests on all python versions use:
+
+`hatch run test:run`
+
+If you are using an IDE like VsCode you can help it find the hatch environment
+to support running your tests in the test explorer.
+
+To find the location or your Hatch environments, use:
+`hatch env find test`
+
+/Your/Path/hatch/env/virtual/pyos-package-template/CVSwGsfq/test.py3.10
+/Your/Path/hatch/env/virtual/pyos-package-template/CVSwGsfq/test.py3.11
+/Your/Path/hatch/env/virtual/pyos-package-template/CVSwGsfq/test.py3.12
+/Your/Path/hatch/env/virtual/pyos-package-template/CVSwGsfq/test.py3.13
+
+Then in VsCode, you can select the Hatch environment that you want to use.
+
+you can also enter the environment directly. The comman below will open a shell
+with the test environment for python 3.13.
+
+`hatch shell test.py3.13`
