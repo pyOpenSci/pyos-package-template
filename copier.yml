@@ -43,6 +43,12 @@ documentation:
     No: "I don't need documentation for my project."
   default: "sphinx"
 
+use_rtd:
+  when: "{{ use_default == 'no' }}"
+  type: bool
+  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
+  help: "Do you want to read the docs to publish your documentation?"
+
 project_slug:
   when: "{{ use_default == 'no' }}"
   type: str
@@ -96,7 +102,13 @@ use_lint:
   when: "{{ use_default == 'no' }}"
   type: bool
   default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
-  help: "Do you want to lint your code and generally check the formatting of your files?"
+  help: "Do you want to lint your code and check file formatting?"
+
+use_pre-commit:
+  when: "{{ use_default == 'no' }}"
+  type: bool
+  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
+  help: "Do you want to pre-commit hooks to format your code on save?"
 
 use_types:
   when: "{{ use_default == 'no' }}"
