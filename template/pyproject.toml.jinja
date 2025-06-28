@@ -177,7 +177,11 @@ lines-after-imports = 1
 
 [tool.pydoclint]
 style = "numpy"
+{%- if use_types %}
+arg-type-hints-in-signature = true
+{%- else  %}
 arg-type-hints-in-signature = false
+{%- endif %}
 arg-type-hints-in-docstring = true
 check-return-types = false
 check-yield-types = false
