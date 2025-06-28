@@ -104,7 +104,7 @@ use_lint:
   default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to lint your code and check file formatting?"
 
-use_pre-commit:
+use_precommit:
   when: "{{ use_default == 'no' }}"
   type: bool
   default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
