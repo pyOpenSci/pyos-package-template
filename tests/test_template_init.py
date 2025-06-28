@@ -135,7 +135,6 @@ def test_init_template(
     assert expected.issubset(project_files), expected.difference(project_files)
 
 
-@pytest.mark.hatch
 @pytest.mark.installs
 def test_template_suite(
     generated: Callable[..., Path],
