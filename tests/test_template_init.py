@@ -111,6 +111,27 @@ def init_git(path: Path):
     repo.index.commit("chore: initialize template")
 
 
+def run_command(command: str, cwd: Path, **kwargs) -> None:
+    """Run a command, showing stdout/stderr on errors."""
+    default_kwargs = {"shell": True}
+    kwargs = {**default_kwargs, **kwargs}
+    try:
+        subprocess.run(
+            command,
+            cwd=cwd,
+            check=True,
+            **kwargs,
+        )
+    except subprocess.CalledProcessError as error:
+        logger.error(  # noqa: TRY400
+            "Command = %r; Return code = %d.\nstdout: %s\nstderr: %s",
+            error.cmd,
+            error.returncode,
+            error.stdout,
+            error.stderr,
+        )
+        raise
+
 def test_init_template(
     dev_platform: str,
     license: str,
@@ -143,68 +164,33 @@ def test_template_suite(
     project_dir = generated()
 
     # Run the local test suite.
-    try:
-        subprocess.run(
-            "hatch build --clean",
-            cwd=project_dir,
-            check=True,
-            shell=True,
-        )
-        subprocess.run(
-            f"hatch run +py={sys.version_info.major}.{sys.version_info.minor} test:run",
-            cwd=project_dir,
-            check=True,
-            shell=True,
-        )
-        subprocess.run(
-            "hatch run style:check",
-            cwd=project_dir,
-            check=True,
-            shell=True,
-        )
-        subprocess.run(
-            "hatch run audit:check",
-            cwd=project_dir,
-            check=True,
-            shell=True,
-        )
-
-    except subprocess.CalledProcessError as error:
-        logger.error(  # noqa: TRY400
-            "Command = %r; Return code = %d.",
-            error.cmd,
-            error.returncode,
-        )
-        raise
+    run_command("hatch build --clean", project_dir)
+    run_command(f"hatch run +py={sys.version_info.major}.{sys.version_info.minor} test:run", project_dir)
+    run_command("hatch run style:check", project_dir)
+    run_command("hatch run audit:check", project_dir)
 
 
 @pytest.mark.docs
 @pytest.mark.installs
-def test_docs_build(documentation: str, generated: Callable[..., Path]):
+@pytest.mark.parametrize("use_hatch_envs", [True, False])
+def test_docs_build(documentation: str, generated: Callable[..., Path], use_hatch_envs: bool):
     """The docs should build."""
-    if not documentation:
+    if documentation == "no":
         return
 
-    project = generated(documentation=documentation)
+    project = generated(documentation=documentation, use_hatch_envs=use_hatch_envs)
 
-    subprocess.run(
-        "hatch run docs:build",
-        cwd=project,
-        check=True,
-        shell=True,
-    )
-    subprocess.run(
-        "pre-commit run --all-files -v check-readthedocs",
-        cwd=project,
-        check=True,
-        shell=True,
-    )
+    if use_hatch_envs:
+        run_command("hatch run docs:build", project)
+        run_command("pre-commit run --all-files -v check-readthedocs", project)
+    else:
+        pytest.skip("doing this in another commit...")
 
 
 @pytest.mark.installs
 def test_dev_platform_github(generated: Callable[..., Path]):
     """Test github stuff idk!."""
-    project = generated(use_git=True, dev_platform="GitHub")
+    project = generated(use_git=True, dev_platform="GitHub", use_precommit=True)
 
     workflows_dir =  project / ".github" / "workflows"
     assert workflows_dir.exists()
@@ -212,25 +198,14 @@ def test_dev_platform_github(generated: Callable[..., Path]):
     assert len(workflows) > 0
     assert all(workflow.suffix in (".yml", ".yaml") for workflow in workflows)
 
-    subprocess.run(
-        "pre-commit run --all-files -v check-github-workflows",
-        cwd=project,
-        check=True,
-        shell=True,
-    )
+    run_command("pre-commit run --all-files -v check-github-workflows", project)
 
 
 @pytest.mark.installs
 def test_dev_platform_gitlab(generated: Callable[..., Path]):
     """Test gitlab stuff idk!."""
     project = generated(use_git=True, dev_platform="GitLab")
-
-    subprocess.run(
-        "pre-commit run --all-files -v check-gitlab-ci",
-        cwd=project,
-        check=True,
-        shell=True,
-    )
+    run_command("pre-commit run --all-files -v check-gitlab-ci", project)
 
 
 def test_non_hatch_deps(
