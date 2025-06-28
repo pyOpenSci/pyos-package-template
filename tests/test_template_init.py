@@ -185,6 +185,10 @@ def test_docs_build(documentation: str, generated: Callable[..., Path], use_hatc
     elif documentation == "mkdocs":
         run_command("mkdocs build", project)
     elif documentation == "sphinx":
+        if sys.platform == "win32":
+            pytest.skip(
+                "Dont know enough about invoking shell commands on windows for this :(",
+            )
         run_command("sphinx-apidoc -o docs/api src/alien_clones", project)
         # prepend pythonpath so we don't have to actually install here...
         run_command(f"PYTHONPATH={str(project/'src')} sphinx-build -W -b html docs docs/_build", project)
