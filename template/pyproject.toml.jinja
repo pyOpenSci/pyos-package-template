@@ -12,9 +12,9 @@ requires = ["hatchling"{% if use_vcs_version %}, "hatch-vcs"{% endif %}]
 
 [project]
 name = "{{ package_name }}"
-{%- if use_vcs_version -%}
+{%- if use_vcs_version %}
 dynamic = ["version"]
-{% else %}
+{%- else %}
 version = "0.1.0"
 {%- endif %}
 {%- set wrapped_description = package_description | trim | wordwrap(width=88) %}
@@ -177,7 +177,11 @@ lines-after-imports = 1
 
 [tool.pydoclint]
 style = "numpy"
+{%- if use_types %}
+arg-type-hints-in-signature = true
+{%- else  %}
 arg-type-hints-in-signature = false
+{%- endif %}
 arg-type-hints-in-docstring = true
 check-return-types = false
 check-yield-types = false

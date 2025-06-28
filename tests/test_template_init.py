@@ -51,7 +51,7 @@ def dev_platform(request: pytest.FixtureRequest) -> str:
 
 @pytest.fixture(
     scope="module",
-    params=["mkdocs", "sphinx", "I don't need documentation for my project."],
+    params=["mkdocs", "sphinx", "no"],
 )
 def documentation(request: pytest.FixtureRequest) -> str:
     """Provide a documentation option."""
@@ -72,6 +72,7 @@ def answers() -> dict[str, str]:
         "package_description": "Wubba Lubba Dub-Dub",
         "username": "rickprime",
         "year": str(today.year),
+        "use_default": "no",
     }
 
 
@@ -110,6 +111,27 @@ def init_git(path: Path):
     repo.index.commit("chore: initialize template")
 
 
+def run_command(command: str, cwd: Path, **kwargs) -> None:
+    """Run a command, showing stdout/stderr on errors."""
+    default_kwargs = {"shell": True}
+    kwargs = {**default_kwargs, **kwargs}
+    try:
+        subprocess.run(
+            command,
+            cwd=cwd,
+            check=True,
+            **kwargs,
+        )
+    except subprocess.CalledProcessError as error:
+        logger.error(  # noqa: TRY400
+            "Command = %r; Return code = %d.\nstdout: %s\nstderr: %s",
+            error.cmd,
+            error.returncode,
+            error.stdout,
+            error.stderr,
+        )
+        raise
+
 def test_init_template(
     dev_platform: str,
     license: str,
@@ -133,108 +155,65 @@ def test_init_template(
     }
     assert expected.issubset(project_files), expected.difference(project_files)
 
-# This test is breaking things because we assume that the user is using hatch
-# environments. however this is not always the case. So we will need to rewrite
-# this part of the test suite if we want to test environments to ensure that
-# the copier path selected actually uses hatch environments.
-# For the time being, i'm ensuring that we can build the project.
-# @pytest.mark.installs
-# def test_template_suite(
-#     generated: Callable[..., Path],
-# ) -> None:
-#     """Expect that the test suite passes for the initialized template."""
-#     project_dir = generated()
 
-#     # Run the local test suite.
-#     try:
-#         subprocess.run(
-#             "hatch build --clean",
-#             cwd=project_dir,
-#             check=True,
-#             shell=True,
-#         )
-        # subprocess.run(
-        #     f"hatch run +py={sys.version_info.major}.{sys.version_info.minor} test:run",
-        #     cwd=project_dir,
-        #     check=True,
-        #     shell=True,
-        # )
-        # subprocess.run(
-        #     "hatch run style:check",
-        #     cwd=project_dir,
-        #     check=True,
-        #     shell=True,
-        # )
-        # subprocess.run(
-        #     "hatch run audit:check",
-        #     cwd=project_dir,
-        #     check=True,
-        #     shell=True,
-        # )
+@pytest.mark.installs
+def test_template_suite(
+    generated: Callable[..., Path],
+) -> None:
+    """Expect that the test suite passes for the initialized template."""
+    project_dir = generated()
 
-    # except subprocess.CalledProcessError as error:
-    #     logger.error(  # noqa: TRY400
-    #         "Command = %r; Return code = %d.",
-    #         error.cmd,
-    #         error.returncode,
-    #     )
-    #     raise
+    # Run the local test suite.
+    run_command("hatch build --clean", project_dir)
+    run_command(f"hatch run +py={sys.version_info.major}.{sys.version_info.minor} test:run", project_dir)
+    run_command("hatch run style:check", project_dir)
+    run_command("hatch run audit:check", project_dir)
 
 
 @pytest.mark.docs
 @pytest.mark.installs
-def test_docs_build(documentation: str, generated: Callable[..., Path]):
+@pytest.mark.parametrize("use_hatch_envs", [True, False])
+def test_docs_build(documentation: str, generated: Callable[..., Path], use_hatch_envs: bool):
     """The docs should build."""
-    if not documentation:
+    if documentation == "no":
         return
 
-    project = generated(documentation=documentation)
+    project = generated(documentation=documentation, use_hatch_envs=use_hatch_envs)
 
-    # Similar to other tests, we can't assume hatch is being used to run docs
-    # subprocess.run(
-    #     "hatch run docs:build",
-    #     cwd=project,
-    #     check=True,
-    #     shell=True,
-    # )
-    # subprocess.run(
-    #     "pre-commit run --all-files -v check-readthedocs",
-    #     cwd=project,
-    #     check=True,
-    #     shell=True,
-    # )
+    if use_hatch_envs:
+        run_command("hatch run docs:build", project)
+    elif documentation == "mkdocs":
+        run_command("mkdocs build", project)
+    elif documentation == "sphinx":
+        if sys.platform == "win32":
+            pytest.skip(
+                "Dont know enough about invoking shell commands on windows for this :(",
+            )
+        run_command("sphinx-apidoc -o docs/api src/alien_clones", project)
+        # prepend pythonpath so we don't have to actually install here...
+        run_command(f"PYTHONPATH={str(project/'src')} sphinx-build -W -b html docs docs/_build", project)
 
+    run_command("pre-commit run --all-files -v check-readthedocs", project)
 
-# @pytest.mark.installs
-# def test_dev_platform_github(generated: Callable[..., Path]):
-#     """Test github stuff idk!."""
-#     project = generated(use_git=True, dev_platform="GitHub")
+@pytest.mark.installs
+def test_dev_platform_github(generated: Callable[..., Path]):
+    """Test github stuff idk!."""
+    project = generated(use_git=True, dev_platform="GitHub", use_precommit=True)
 
-#     workflows_dir =  project / ".github" / "workflows"
-#     assert workflows_dir.exists()
-#     workflows = list(workflows_dir.iterdir())
-#     assert len(workflows) > 0
-#     assert all(workflow.suffix in (".yml", ".yaml") for workflow in workflows)
+    workflows_dir =  project / ".github" / "workflows"
+    assert workflows_dir.exists()
+    workflows = list(workflows_dir.iterdir())
+    assert len(workflows) > 0
+    assert all(workflow.suffix in (".yml", ".yaml") for workflow in workflows)
 
-#     subprocess.run(
-#         "pre-commit run --all-files -v check-github-workflows",
-#         cwd=project,
-#         check=True,
-#         shell=True,
-#     )
+    run_command("pre-commit run --all-files -v check-github-workflows", project)
 
 
-# @pytest.mark.installs
-# def test_dev_platform_gitlab(generated: Callable[..., Path]):
-#     """Test gitlab stuff idk!."""
-#     project = generated(use_git=True, dev_platform="GitLab")
-
-#     subprocess.run(
-#         "pre-commit run --all-files -v check-gitlab-ci",
-#         cwd=project,
-#         check=True,
-#         shell=True,
-#     )
+@pytest.mark.installs
+def test_dev_platform_gitlab(generated: Callable[..., Path]):
+    """Test gitlab stuff idk!."""
+    project = generated(use_git=True, dev_platform="GitLab")
+    run_command("pre-commit run --all-files -v check-gitlab-ci", project)
 
 
 def test_non_hatch_deps(
@@ -242,10 +221,6 @@ def test_non_hatch_deps(
     generated: Callable[..., Path],
 ) -> None:
     """When we aren't using hatch, we should still get the optional dependencies."""
-    # Skip if no documentation is selected as there won't be deps
-    if documentation == "I don't need documentation for my project.":
-        pytest.skip("No documentation selected.")
-
     project = generated(
         use_hatch_envs=False,
         use_lint=True,
@@ -271,6 +246,6 @@ def test_non_hatch_deps(
     # Instead, we just assume their presence and that the validity of the pyproject file
     # means that they have been correctly specified.
     # except for the docs, where we want to test our switch works :)
-    if documentation:
+    if documentation != "no":
         assert "docs" in optional_deps
         assert any(dep.startswith(documentation) for dep in optional_deps["docs"])

@@ -27,7 +27,10 @@ html_show_sphinx = False
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-version = importlib.metadata.version("{{ package_name }}")
+try:
+    version = importlib.metadata.version("{{ package_name }}")
+except importlib.metadata.PackageNotFoundError:
+    version = "0.0.0"
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "default"

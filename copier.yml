@@ -40,7 +40,7 @@ documentation:
   choices:
     "Sphinx (https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html)": sphinx
     "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
-    No: "I don't need documentation for my project."
+    "No, I don't need documentation for my project.": "no"
   default: "sphinx"
 
 use_rtd:
@@ -104,7 +104,7 @@ use_lint:
   default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to lint your code and check file formatting?"
 
-use_pre-commit:
+use_precommit:
   when: "{{ use_default == 'no' }}"
   type: bool
   default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
