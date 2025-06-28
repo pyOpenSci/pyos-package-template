@@ -40,7 +40,7 @@ documentation:
   choices:
     "Sphinx (https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html)": sphinx
     "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
-    No: "I don't need documentation for my project."
+    "No, I don't need documentation for my project.": "no"
   default: "sphinx"
 
 use_rtd:

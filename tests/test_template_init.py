@@ -51,7 +51,7 @@ def dev_platform(request: pytest.FixtureRequest) -> str:
 
 @pytest.fixture(
     scope="module",
-    params=["mkdocs", "sphinx", "I don't need documentation for my project."],
+    params=["mkdocs", "sphinx", "no"],
 )
 def documentation(request: pytest.FixtureRequest) -> str:
     """Provide a documentation option."""
@@ -242,10 +242,6 @@ def test_non_hatch_deps(
     generated: Callable[..., Path],
 ) -> None:
     """When we aren't using hatch, we should still get the optional dependencies."""
-    # Skip if no documentation is selected as there won't be deps
-    if documentation == "I don't need documentation for my project.":
-        pytest.skip("No documentation selected.")
-
     project = generated(
         use_hatch_envs=False,
         use_lint=True,
@@ -271,6 +267,6 @@ def test_non_hatch_deps(
     # Instead, we just assume their presence and that the validity of the pyproject file
     # means that they have been correctly specified.
     # except for the docs, where we want to test our switch works :)
-    if documentation:
+    if documentation != "no":
         assert "docs" in optional_deps
         assert any(dep.startswith(documentation) for dep in optional_deps["docs"])
