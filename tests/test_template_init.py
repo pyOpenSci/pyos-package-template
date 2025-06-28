@@ -182,10 +182,14 @@ def test_docs_build(documentation: str, generated: Callable[..., Path], use_hatc
 
     if use_hatch_envs:
         run_command("hatch run docs:build", project)
-        run_command("pre-commit run --all-files -v check-readthedocs", project)
-    else:
-        pytest.skip("doing this in another commit...")
+    elif documentation == "mkdocs":
+        run_command("mkdocs build", project)
+    elif documentation == "sphinx":
+        run_command("sphinx-apidoc -o docs/api src/alien_clones", project)
+        # prepend pythonpath so we don't have to actually install here...
+        run_command(f"PYTHONPATH={str(project/'src')} sphinx-build -W -b html docs docs/_build", project)
 
+    run_command("pre-commit run --all-files -v check-readthedocs", project)
 
 @pytest.mark.installs
 def test_dev_platform_github(generated: Callable[..., Path]):
