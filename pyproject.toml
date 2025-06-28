@@ -73,6 +73,12 @@ dependencies = [
     "validate-pyproject >=0.22",
     "trove-classifiers>=2021.10.20",
     "tomli >=2.0.2; python_version<'3.11'",
+    "mkdocs-material ~=9.5",
+    "mkdocstrings[python] ~=0.24",
+    "mkdocs-awesome-pages-plugin ~=2.9",
+    "pydata_sphinx_theme ~=0.16",
+    "myst-parser ~=4.0",
+    "Sphinx ~=8.0",
 ]
 
 [[tool.hatch.envs.test.matrix]]
