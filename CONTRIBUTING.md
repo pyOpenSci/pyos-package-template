@@ -16,7 +16,7 @@ You can contribute in many ways, for example:
 
 ### Report Bugs
 
-Report bugs at https://github.com//juno/issues.
+Report bugs at https://github.com/pyopensci/pyos-package-template/issues.
 
 **If you are reporting a bug, please follow the template guidelines. The more
 detailed your report, the easier and thus faster we can help you.**
@@ -40,30 +40,29 @@ happy for any support that they can get.
 
 ### Write Documentation
 
-juno could always use more documentation, whether as
-part of the official documentation, in docstrings, or even on the web in blog
-posts, articles, and such. Just [open an issue](https://github.com//
-juno/issues) to let us know what you will be working on
+Our `pyos-package-template` could always use more documentation, whether as
+part of the official documentation, in docstrings, an update to our Contributing or Development guide. To contribute, [open an issue](https://github.com//
+pyopensci/pyos-package-template/issues) to let us know what you will be working on
 so that we can provide you with guidance.
 
 ### Submit Feedback
 
 The best way to send feedback is to file an issue at https://github.com/
-/juno/issues. If your feedback fits the format of one of
+/pyopensci/pyos-package-template. If your feedback fits the format of one of
 the issue templates, please use that. Remember that this is a volunteer-driven
 project and everybody has limited time.
 
 ## Get Started!
 
-Ready to contribute? Here's how to set up juno for
+Ready to contribute? Here's how to set up for
 local development.
 
-1. Fork the https://github.com//juno
+1. Fork the https://github.com/pyopensci/pyos-package-template
    repository on GitHub.
 2. Clone your fork locally
 
     ```shell
-    git clone git@github.com:your_name_here/juno.git
+    git clone git@github.com:your_name_here/pyos-package-template.git
     ```
 
 3. [Install hatch](https://hatch.pypa.io/latest/install/).
@@ -86,8 +85,7 @@ local development.
     hatch run test:run
     ```
 
-6. Commit your changes and push your branch to GitHub. Please use [semantic
-   commit messages](https://www.conventionalcommits.org/).
+6. Commit your changes and push your branch to GitHub. Please use [semantic commit messages](https://www.conventionalcommits.org/).
 
     ```shell
     git add .
@@ -102,15 +100,12 @@ local development.
 
 Before you submit a pull request, check that it meets these guidelines:
 
-1. The pull request should include tests.
-2. If the pull request adds functionality, the docs should be updated. Put your
-   new functionality into a function with a docstring.
+1. The pull request should include tests or test modifications as needed.
+2. If needed, please add documentation around a change that you make by updating our DEVELOPMENT.md file.
 3. Your pull request will automatically be checked by the full test suite.
-   It needs to pass all of them before it can be considered for merging.
-
+   It needs to pass all tests before it can be considered for merging.
 
 ## Local development
-
 
 To work on the template locally, you can call the copier template directly. Note that by default, `copier` uses the latest tag in your commit history. To ensure it uses the latest commit on your current active branch use:
 
@@ -125,6 +120,5 @@ If you want to test it against the latest tag in your local commit history, you 
 You can use Hatch to run all of the tests for the template:
 
 `hatch run test:run`
-
 
 See our [DEVELOPMENT guide](DEVELOPMENT.md) for more information on local development.
