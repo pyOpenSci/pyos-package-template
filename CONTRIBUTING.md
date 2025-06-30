@@ -47,8 +47,7 @@ so that we can provide you with guidance.
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at https://github.com/
-/pyopensci/pyos-package-template. If your feedback fits the format of one of
+The best way to send feedback is to file an issue at https://github.com/pyopensci/pyos-package-template. If your feedback fits the format of one of
 the issue templates, please use that. Remember that this is a volunteer-driven
 project and everybody has limited time.
 
