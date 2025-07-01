@@ -92,6 +92,10 @@ dev_platform_url:
   when: false
   default: "https://{{ dev_platform|lower }}.com"
 
+python_package_name:
+  type: str
+  when: false
+  default: "{{ project_slug if project_slug else project_name }}"
 
 use_hatch_envs:
   when: "{{ use_default == 'no' }}"
