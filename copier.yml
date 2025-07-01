@@ -61,7 +61,7 @@ documentation:
     "Sphinx (https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html)": sphinx
     "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
     "No, I don't need documentation for my project.": "no"
-  default: "sphinx"
+  default: "{% if use_default != 'no' %}sphinx{% endif %}"
 
 use_rtd:
   when: "{{ use_default == 'no' }}"
@@ -100,7 +100,7 @@ python_package_name:
 use_hatch_envs:
   when: "{{ use_default == 'no' }}"
   type: bool
-  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
+  default: "{% if use_default != 'no' %}yes{% else %}no{% endif %}"
   help: "Do you want to use hatch environments for running isolated commands like linting, building docs, or testing?"
 
 use_lint:

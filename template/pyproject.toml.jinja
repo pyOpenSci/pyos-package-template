@@ -251,7 +251,8 @@ dependencies = [
 check = "mypy src/{{ package_name }}"
 {%- endif %}
 
-{%- if documentation != "" %}
+{% if documentation != "no" %}
+# This sets up a hatch environment with associated dependencies that need to be installed
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""
 {%- if documentation == "mkdocs" %}
@@ -270,6 +271,9 @@ dependencies = [
 ]
 {%- endif %}
 
+# This table contains the scripts that you can use to build and serve your docs
+# hatch run docs:build will build your documentation
+# hatch run docs:serve will serve them 'live' on your computer locally
 [tool.hatch.envs.docs.scripts]
 {%- if documentation == "mkdocs" %}
 build = "mkdocs build {args:--clean --strict}"
@@ -281,6 +285,7 @@ serve = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-autobuild do
 {%- endif %}
 {%- endif %}
 
+# This table installs teh tools you need to test and build your package
 [tool.hatch.envs.install]
 description = """Test the installation the package."""
 dependencies = [
@@ -289,6 +294,7 @@ dependencies = [
 ]
 detached = true
 
+# This table installs created the command hatch run install:check which will build and check your package.
 [tool.hatch.envs.install.scripts]
 check = [
     "pip check",
