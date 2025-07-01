@@ -1,4 +1,5 @@
-"""A test module that tests your example module.
+"""
+A test module that tests your example module.
 
 Some people prefer to write tests in a test file for each function or
 method/ class. Others prefer to write tests for each module. That decision
@@ -9,10 +10,11 @@ module.
 from {{ project_slug if project_slug else project_name }}.example import add_numbers
 
 def test_add_numbers():
-    """Test that add_numbers works as expected.
+    """
+    Test that add_numbers works as expected.
 
     A single line docstring for tests is generally sufficient.
     """
     out = add_numbers(1, 2)
-    EXPECTED_RESULT = 3
-    assert  out == EXPECTED_RESULT, f"Expected {EXPECTED_RESULT} but got {out}"
+    expected_out = 3
+    assert  out == expected_out, f"Expected {expected_out} but got {out}"
