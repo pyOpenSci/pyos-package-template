@@ -90,7 +90,7 @@ dev_platform_url:
 username:
   when: "{{ use_git }}"
   type: str
-  help: "Your or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
+  help: "You or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
 
 use_hatch_envs:
   when: "{{ use_default == 'no' }}"
