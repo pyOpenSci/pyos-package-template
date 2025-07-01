@@ -113,7 +113,12 @@ def init_git(path: Path):
 
 def run_command(command: str, cwd: Path, **kwargs) -> None:
     """Run a command, showing stdout/stderr on errors."""
-    default_kwargs = {"shell": True}
+    default_kwargs = {
+        "shell": True,
+        "stdout": subprocess.PIPE,
+        "stderr": subprocess.PIPE,
+        "text": True,
+    }
     kwargs = {**default_kwargs, **kwargs}
     try:
         subprocess.run(
