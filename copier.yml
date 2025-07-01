@@ -20,6 +20,11 @@ package_description:
   multiline: true
   help: "Please provide a short description for the package."
 
+use_git:
+  when: "{{ use_default == 'no' }}"
+  type: bool
+  default: "yes"
+  help: "Do you want to use git version control with a development platform, like GitHub or GitLab?"
 
 
 # This is the quick exit option for the template. It defaults to
@@ -32,6 +37,21 @@ use_default:
     "Yes, with all the bells and whistles.": "full"
     "Yes, but with a minimal setup (package, tests and docs only).": "minimal"
   default: "minimal"
+
+dev_platform:
+  when: "{{ use_default == 'no' and use_git }}"
+  type: str
+  help: "Which development platform are you planning to use? Used to generate certain documentation and hyperlinks."
+  choices:
+    - "GitHub"
+    - "GitLab"
+  default: "GitHub"
+
+username:
+  when: "{{ use_git }}"
+  type: str
+  help: "Provide you or your organization's {{ dev_platform }} username. Used to generate certain documentation and hyperlinks."
+
 
 documentation:
   when: "{{ use_default == 'no' }}"
@@ -67,30 +87,11 @@ use_vcs_version:
   default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to use dynamic versioning of your package or static? Dynamic means that versions use your version control system (VCS), such as git tags, for creating versions."
 
-use_git:
-  when: "{{ use_default == 'no' }}"
-  type: bool
-  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
-  help: "Do you want to use git with a development platform, like GitHub or GitLab?"
-
-dev_platform:
-  when: "{{ use_default == 'no' and use_git }}"
-  type: str
-  help: "Which development platform are you planning to use? Used to generate certain documentation and hyperlinks."
-  choices:
-    - "GitHub"
-    - "GitLab"
-  default: "GitHub"
-
 dev_platform_url:
   type: str
   when: false
   default: "https://{{ dev_platform|lower }}.com"
 
-username:
-  when: "{{ use_git }}"
-  type: str
-  help: "You or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
 
 use_hatch_envs:
   when: "{{ use_default == 'no' }}"
