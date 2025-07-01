@@ -31,7 +31,7 @@ use_git:
 # basic package setup (and we will add basic tests and docs)
 use_default:
   type: str
-  help: "Do you want to skip all remaining questions and use the default values?"
+  help: "Do you want to answer one more question, and skip the rest, using the default values?"
   choices:
     "No, I want to fully customize the template.": "no"
     "Yes, with all the bells and whistles.": "full"
