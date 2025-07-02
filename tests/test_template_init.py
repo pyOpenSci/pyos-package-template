@@ -291,7 +291,7 @@ def test_mypy(generated: Callable[..., Path], use_hatch_envs: bool, valid: bool,
         mypy_path = venv_path / "bin" / "mypy"
         python_path = venv_path / "bin" / "python"
         venv.EnvBuilder(with_pip=True).create(venv_path)
-        run_command(f"{python_path!s} -m pip install -e '.[types]'", root)
+        run_command(f'{python_path!s} -m pip install -e ".[types]"', root)
         command = f"{mypy_path!s} {pkg_path!s}"
 
     if valid:
