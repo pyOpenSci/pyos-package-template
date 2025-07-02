@@ -72,7 +72,7 @@ def answers() -> dict[str, str]:
         "package_description": "Wubba Lubba Dub-Dub",
         "username": "rickprime",
         "year": str(today.year),
-        "use_default": "no",
+        "template_mode": "full",
     }
 
 
