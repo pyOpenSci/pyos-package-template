@@ -27,7 +27,7 @@ description = {% if "\n" in wrapped_description -%}
 "{{ wrapped_description }}"
 {%- endif %}
 authors = [
-    { name = "{{ author_name }}", email = "{{ author_email }}" },
+    { name = "{{ author_name }}"{% if author_email  %}, email = "{{ author_email }}"{% endif %} },
 ]
 license = "{{ license }}"
 requires-python = ">= 3.10" # Adjust based on the minimum version of Python that you support

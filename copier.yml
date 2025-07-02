@@ -14,19 +14,6 @@ template_mode:
 
 ############### Basic Information ###################
 
-copyright_holder:
-  type: str
-  help: "Who is the copyright holder, for example, yourself or your organization? Used in the license file and project description."
-
-author_name:
-  type: str
-  help: "Who is the author of the package? Used in the package description."
-  default: "{{ copyright_holder }}"
-
-author_email:
-  type: str
-  help: "The author's email address. Used in the package description."
-
 project_name:
   type: str
   help: "What is the name of the project? Used as the README.md title, in the Docs and other places."
@@ -35,6 +22,22 @@ package_description:
   type: str
   multiline: true
   help: "Please provide a short description for the package."
+
+author_name:
+  type: str
+  help: "Who is the author of the package? Used in the package description."
+  default: "{{ copyright_holder }}"
+
+author_email:
+  when: "{{ template_mode == 'custom' }}"
+  type: str
+  help: "The author's email address. Used in the package description."
+
+copyright_holder:
+  when: "{{ template_mode == 'custom' }}"
+  type: str
+  help: "Who is the copyright holder, for example, yourself or your organization? Used in the license file and project description."
+  default: "{{ author_name }}"
 
 year:
   when: "{{ template_mode == 'custom' }}"
