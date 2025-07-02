@@ -22,8 +22,10 @@ import logging
 import os
 import subprocess
 import sys
+import venv
 from datetime import datetime, timezone
 from pathlib import Path
+from textwrap import dedent
 from typing import Callable
 
 import pytest
@@ -196,7 +198,7 @@ def test_docs_build(documentation: str, generated: Callable[..., Path], use_hatc
             )
         run_command("sphinx-apidoc -o docs/api src/alien_clones", project)
         # prepend pythonpath so we don't have to actually install here...
-        run_command(f"PYTHONPATH={str(project/'src')} sphinx-build -W -b html docs docs/_build", project)
+        run_command(f"PYTHONPATH={project/'src'!s} sphinx-build -W -b html docs docs/_build", project)
 
     run_command("pre-commit run --all-files -v check-readthedocs", project)
 
@@ -229,7 +231,7 @@ def test_non_hatch_deps(
     project = generated(
         use_hatch_envs=False,
         use_lint=True,
-        use_types=True,
+        use_mypy=True,
         use_test=True,
         use_git=False,
         documentation=documentation,
@@ -254,3 +256,46 @@ def test_non_hatch_deps(
     if documentation != "no":
         assert "docs" in optional_deps
         assert any(dep.startswith(documentation) for dep in optional_deps["docs"])
+
+@pytest.mark.parametrize("use_hatch_envs", [True, False])
+@pytest.mark.parametrize("valid", [True, False])
+def test_mypy(generated: Callable[..., Path], use_hatch_envs: bool, valid: bool, tmp_path: Path):
+    """Mypy type checking works out of the box."""
+    if valid:
+        module = dedent("""
+        def f1(value: int, other: int = 2) -> int:
+            return value * other
+
+        def f2(value: int) -> float:
+            return f1(value, 5) / 2
+        """)
+    else:
+        module = dedent("""
+        def f1(value: int, other: int = 2) -> int:
+            return value * other
+
+        def f2(value: str) -> str:
+            return f1(value, 5) / 2
+        """)
+
+    root = generated(use_hatch_envs=use_hatch_envs, use_mypy=True)
+    pkg_path = root / "src" / "alien_clones"
+    module_path = pkg_path / "typechecking.py"
+    with module_path.open("w") as f:
+        f.write(module)
+
+    if use_hatch_envs:
+        command = "hatch run types:check"
+    else:
+        venv_path = tmp_path / ".venv"
+        mypy_path = venv_path / "bin" / "mypy"
+        python_path = venv_path / "bin" / "python"
+        venv.EnvBuilder(with_pip=True).create(venv_path)
+        run_command(f"{python_path!s} -m pip install -e '.[types]'", root)
+        command = f"{mypy_path!s} {pkg_path!s}"
+
+    if valid:
+        run_command(command, root)
+    else:
+        with pytest.raises(subprocess.CalledProcessError):
+            run_command(command, root)
