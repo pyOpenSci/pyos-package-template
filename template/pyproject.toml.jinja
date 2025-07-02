@@ -45,7 +45,7 @@ classifiers = [
     {% endif -%}
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    {%- if use_types %}
+    {%- if use_mypy %}
     "Typing :: Typed",
     {%- endif %}
 ]
@@ -72,7 +72,7 @@ dev = [
         {%- if documentation!="" %}docs,{% endif -%}
         {%- if use_test %}tests,{% endif -%}
         {%- if use_lint %}style,{% endif -%}
-        {%- if use_types %}types,{% endif -%}
+        {%- if use_mypy %}types,{% endif -%}
     audit]",
     {%- endif %}
 ]
@@ -179,7 +179,7 @@ lines-after-imports = 1
 
 [tool.pydoclint]
 style = "numpy"
-{%- if use_types %}
+{%- if use_mypy %}
 arg-type-hints-in-signature = true
 {%- else  %}
 arg-type-hints-in-signature = false
@@ -192,24 +192,16 @@ exclude = "_version.py"
 {%- endif %}
 {%- endif %}
 
-{%- if use_types %}
-# TODO: Adjust mypy configuration.
-#[tool.mypy]
-#plugins = [
-#    "pydantic.mypy",
-#]
-
-# Stop mypy from complaining about missing types from imports.
-#[[tool.mypy.overrides]]
-#module = [
-#    "pandas",
-#]
-#ignore_missing_imports = true
-
-#[tool.pydantic-mypy]
-#init_forbid_extra = true
-#init_typed = true
-#warn_required_dynamic_aliases = true
+{%- if use_mypy %}
+[tool.mypy]
+packages = ["{{ package_name }}"]
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_context = true
+show_column_numbers = true
+show_error_code_links = true
+pretty = true
+color_output = true
 {%- endif %}
 
 {%- if use_hatch_envs %}
@@ -242,7 +234,7 @@ extra-dependencies = [
 [tool.hatch.envs.audit.scripts]
 check = ["pip-audit"]
 
-{%- if use_types %}
+{%- if use_mypy %}
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
 dependencies = [

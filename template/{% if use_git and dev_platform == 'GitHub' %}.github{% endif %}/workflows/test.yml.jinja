@@ -67,7 +67,7 @@ jobs:
     - name: Check dependencies
       run: hatch run audit:check
 
-{%- if use_types %}
+{%- if use_mypy %}
     - name: Check types
       run: hatch run types:check
 {%- endif %}
@@ -81,5 +81,28 @@ jobs:
       shell: bash
       run: bash <(curl -s https://codecov.io/bash)
 {%- endraw %}
+{%- endif %}
+{%- else %}
+
+    - name: Install package
+      run: python -m pip install '.[dev]'
+
+    - name: Check dependencies
+      run: python -m pip-audit
+
+{%- if use_mypy %}
+
+    - name: Check types
+      run: python -m mypy
+{%- endif %}
+
+{%- if use_test %}
+
+    - name: Run tests
+      run: python -m pytest --cov={{ package_name }} --cov-report=term-missing
+
+    - name: Report coverage
+      shell: bash
+      run: bash <(curl -s https://codecov.io/bash)
 {%- endif %}
 {%- endif %}
