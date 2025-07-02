@@ -217,42 +217,46 @@ exclude = "_version.py"
 # Hatch Environments
 ################################################################################
 
-{%- if use_lint %}
-[tool.hatch.envs.style]
-description = """Check the style of the codebase."""
+#--------------- Build and check your package ---------------#
+
+# This table installs the tools you need to test and build your package
+[tool.hatch.envs.install]
+description = """Test the installation the package."""
 dependencies = [
-    "pydoclint",
-    "ruff",
+    "pip",
+    "twine",
 ]
 detached = true
 
-[tool.hatch.envs.style.scripts]
-docstrings = "pydoclint src/ tests/"
-code = "ruff check {args}"
-format = "ruff format {args}"
-check = ["docstrings", "code"]
-{%- endif %}
+# This table installs created the command hatch run install:check which will build and check your package.
+[tool.hatch.envs.install.scripts]
+check = [
+    "pip check",
+    "hatch build {args:--clean}",
+    "twine check dist/*",
+]
 
-[tool.hatch.envs.audit]
-description = """Check dependencies for security vulnerabilities."""
+#--------------- Run tests ---------------#
+
+{% if use_test %}
+[tool.hatch.envs.test]
+description = """Run the test suite."""
 extra-dependencies = [
-    "pip-audit",
+    "pytest",
+    "pytest-cov",
+    "pytest-raises",
+    "pytest-randomly",
+    "pytest-xdist",
 ]
 
-[tool.hatch.envs.audit.scripts]
-check = ["pip-audit"]
+[[tool.hatch.envs.test.matrix]]
+python = ["3.10", "3.11", "3.12", "3.13"]
 
-{%- if use_types %}
-[tool.hatch.envs.types]
-description = """Check the static types of the codebase."""
-dependencies = [
-    "mypy",
-]
-
-[tool.hatch.envs.types.scripts]
-check = "mypy src/{{ package_name }}"
+[tool.hatch.envs.test.scripts]
+run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing}"
 {%- endif %}
 
+#--------------- Build and preview your documentation ---------------#
 {% if documentation != "no" %}
 # This sets up a hatch environment with associated dependencies that need to be installed
 [tool.hatch.envs.docs]
@@ -287,38 +291,46 @@ serve = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-autobuild do
 {%- endif %}
 {%- endif %}
 
-# This table installs teh tools you need to test and build your package
-[tool.hatch.envs.install]
-description = """Test the installation the package."""
+{%- if use_lint %}
+#--------------- Format & style your code ---------------#
+
+[tool.hatch.envs.style]
+description = """Check the style of the codebase."""
 dependencies = [
-    "pip",
-    "twine",
+    "pydoclint",
+    "ruff",
 ]
 detached = true
 
-# This table installs created the command hatch run install:check which will build and check your package.
-[tool.hatch.envs.install.scripts]
-check = [
-    "pip check",
-    "hatch build {args:--clean}",
-    "twine check dist/*",
-]
-
-{%- if use_test %}
-[tool.hatch.envs.test]
-description = """Run the test suite."""
-extra-dependencies = [
-    "pytest",
-    "pytest-cov",
-    "pytest-raises",
-    "pytest-randomly",
-    "pytest-xdist",
-]
-
-[[tool.hatch.envs.test.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13"]
-
-[tool.hatch.envs.test.scripts]
-run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing}"
+[tool.hatch.envs.style.scripts]
+docstrings = "pydoclint src/ tests/"
+code = "ruff check {args}"
+format = "ruff format {args}"
+check = ["docstrings", "code"]
 {%- endif %}
+
+#--------------- Check security for your dependencies ---------------#
+
+[tool.hatch.envs.audit]
+description = """Check dependencies for security vulnerabilities."""
+extra-dependencies = [
+    "pip-audit",
+]
+
+[tool.hatch.envs.audit.scripts]
+check = ["pip-audit"]
+
+#--------------- Typing ---------------#
+
+{%- if use_types %}
+[tool.hatch.envs.types]
+description = """Check the static types of the codebase."""
+dependencies = [
+    "mypy",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy src/{{ package_name }}"
+{%- endif %}
+
 {%- endif %}
