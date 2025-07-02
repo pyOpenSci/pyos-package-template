@@ -154,11 +154,11 @@ use_precommit:
   default: "{% if template_mode != 'minimal' %}yes{% else %}no{% endif %}"
   help: "Do you want to pre-commit hooks to format your code on save?"
 
-use_types:
+use_mypy:
   when: "{{ template_mode == 'custom' }}"
   type: bool
   default: "{% if template_mode != 'minimal' %}yes{% else %}no{% endif %}"
-  help: "Do you want to use typing annotations and type check your code?"
+  help: "Do you want to use mypy to check type annotations?"
 
 ############### All things related to testing ###################
 
