@@ -100,7 +100,7 @@ python_package_name:
 use_hatch_envs:
   when: "{{ use_default == 'no' }}"
   type: bool
-  default: "{% if use_default != 'no' %}yes{% else %}no{% endif %}"
+  default: "yes"
   help: "Do you want to use hatch environments for running isolated commands like linting, building docs, or testing?"
 
 use_lint:
