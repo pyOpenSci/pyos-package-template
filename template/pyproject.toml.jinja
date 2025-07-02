@@ -220,7 +220,7 @@ exclude = "_version.py"
 #--------------- Build and check your package ---------------#
 
 # This table installs the tools you need to test and build your package
-[tool.hatch.envs.install]
+[tool.hatch.envs.build]
 description = """Test the installation the package."""
 dependencies = [
     "pip",
@@ -229,7 +229,7 @@ dependencies = [
 detached = true
 
 # This table installs created the command hatch run install:check which will build and check your package.
-[tool.hatch.envs.install.scripts]
+[tool.hatch.envs.build.scripts]
 check = [
     "pip check",
     "hatch build {args:--clean}",
