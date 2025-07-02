@@ -95,7 +95,7 @@ dev_platform_url:
 python_package_name:
   type: str
   when: false
-  default: "{{ project_slug if project_slug else project_name }}"
+  default: "{{ project_slug|lower|replace('-', '_') if project_slug else project_name|lower|replace('-', '_') }}"
 
 use_hatch_envs:
   when: "{{ use_default == 'no' }}"
