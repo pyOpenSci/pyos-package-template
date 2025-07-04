@@ -29,7 +29,6 @@ author_name:
   default: "{{ copyright_holder }}"
 
 author_email:
-  when: "{{ template_mode == 'custom' }}"
   type: str
   help: "The author's email address. Used in the package description."
 
