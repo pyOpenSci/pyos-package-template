@@ -103,6 +103,12 @@ version-file = "src/{{ package_name }}/_version.py"
 source = "vcs"
 {%- endif %}
 
+{%- if use_hatch_envs %}
+# Use UV to create Hatch environments
+[tool.hatch.envs.default]
+installer = "uv"
+{%- endif %}
+
 {%- if use_test %}
 
 ######## Configure pytest for your test suite ########
