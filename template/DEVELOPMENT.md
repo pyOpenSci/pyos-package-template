@@ -8,7 +8,7 @@ This file is written using a `.toml` format. [You can learn more about toml here
 
 * Each `[]` section in the toml file is called a table. 
 * You can nest tables with double brackets like this`[[]]`
-* Tables contain information about a element that you want to configure. 
+* Tables contain information about a element that you want to configure.
 
 We are using Hatch as the default packaging tool.
 Hatch allows you to configure and run environments and scripts similar to workflow tools like tox or nox. 
