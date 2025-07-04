@@ -47,6 +47,7 @@ lines-after-imports = 1
 
 [tool.hatch.envs.default]
 skip-install = true
+installer = "uv"
 
 [tool.hatch.envs.dev]
 description = """
