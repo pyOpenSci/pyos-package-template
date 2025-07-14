@@ -1,113 +1,51 @@
-copyright_holder:
+# This is the quick exit option for the template. It defaults to
+# basic package setup (and we will add basic tests and docs)
+template_mode:
   type: str
-  help: "Who is the copyright holder, for example, yourself or your organization? Used in the license file and project description."
+  help: |
+    "Welcome to the pyOpenSci package template.
+    Please select the type of template that you want to create today."
+  choices:
+    "MINIMAL: I want a minimal setup (package, tests and docs; typing); linting not included).": "minimal"
+    "FULL DEFAULT: I want to use the default settings but I want it setup for me.": "full"
+    "FULL CUSTOM: I want it all but I want to fully customize all template elements.": "custom" # changed from no to to custom
 
-author_name:
-  type: str
-  help: "Who is the author of the package to be? Used in the package description."
-  default: "{{ copyright_holder }}"
+  default: "minimal"
 
-author_email:
-  type: str
-  help: "The author's email address. Used in the package description."
+############### Basic Information ###################
 
 project_name:
   type: str
-  help: "What is the name of the project? Used as the title in the README.md and other places."
+  help: "What is the name of the project? Used as the README.md title, in the Docs and other places."
 
 package_description:
   type: str
   multiline: true
   help: "Please provide a short description for the package."
 
-use_default:
+author_name:
   type: str
-  help: "Do you want to skip all remaining questions and simply use the provided default values?"
-  choices:
-    "No, I want to fully customize the template.": "no"
-    "Yes, with all the bells and whistles.": "full"
-    "Yes, but with a minimal setup.": "minimal"
-  default: "no"
+  help: "Who is the author of the package? Used in the package description."
+  default: "{{ copyright_holder }}"
 
-project_slug:
-  when: "{{ use_default == 'no' }}"
+author_email:
   type: str
-  help: "What is the project slug? Used in hyperlinks."
-  default: "{{ project_name|lower|replace(' ', '-') }}"
+  help: "The author's email address. Used in the package description."
 
-package_name:
-  when: "{{ use_default == 'no' }}"
+copyright_holder:
+  when: "{{ template_mode == 'custom' }}"
   type: str
-  help: "What is the Python package name? Used as the name of the package and the top-level import."
-  default: "{{ project_slug|replace('-', '_') }}"
+  help: "Who is the copyright holder, for example, yourself or your organization? Used in the license file and project description."
+  default: "{{ author_name }}"
 
-use_vcs_version:
-  when: "{{ use_default == 'no' }}"
-  type: bool
-  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
-  help: "Do you want to use dynamic versioning of your package or static? Dynamic means that versions use your version control system (VCS), such as git tags, for creating versions."
-
-use_git:
-  when: "{{ use_default == 'no' }}"
-  type: bool
-  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
-  help: "Do you want to use git with a development platform, like GitHub or GitLab?"
-
-dev_platform:
-  when: "{{ use_default == 'no' and use_git }}"
+year:
+  when: "{{ template_mode == 'custom' }}"
   type: str
-  help: "Which development platform are you planning to use? Used to generate certain documentation and hyperlinks."
-  choices:
-    - "GitHub"
-    - "GitLab"
-  default: "GitHub"
-
-dev_platform_url:
-  type: str
-  when: false
-  default: "https://{{ dev_platform|lower }}.com"
-
-username:
-  when: "{{ use_git }}"
-  type: str
-  help: "Your or your organization's username on {{ dev_platform }}. Used to generate certain documentation and hyperlinks."
-
-documentation:
-  when: "{{ use_default == 'no' }}"
-  type: str
-  help: "Do you want to include documentation for your project and which framework do you want to use?"
-  choices:
-    "Sphinx (https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html)": sphinx
-    "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
-    No: ""
-  default: "{% if use_default != 'minimal' %}sphinx{% else %}{% endif %}"
-
-use_hatch_envs:
-  when: "{{ use_default == 'no' }}"
-  type: bool
-  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
-  help: "Do you want to use hatch environments for running isolated commands like linting, building docs, or testing?"
-
-use_lint:
-  when: "{{ use_default == 'no' }}"
-  type: bool
-  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
-  help: "Do you want to lint your code and generally check the formatting of your files?"
-
-use_types:
-  when: "{{ use_default == 'no' }}"
-  type: bool
-  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
-  help: "Do you want to use typing annotations and type check your code?"
-
-use_test:
-  when: "{{ use_default == 'no' }}"
-  type: bool
-  default: "{% if use_default != 'minimal' %}yes{% else %}no{% endif %}"
-  help: "Do you want to test your code? Generally, we strongly recommend that you do, but for a quick demo you may want to avoid this."
+  help: "What is the starting year of the project? Used in copyright statements."
+  default: "{{ '%Y' | strftime }}"
 
 license:
-  when: "{{ use_default == 'no' }}"
+  when: "{{ template_mode == 'custom' }}"
   type: str
   help: |
     Which license do you want to use? Includes a LICENSE file in the repository root.
@@ -123,10 +61,111 @@ license:
     "Intermediate - MPL-2.0": "MPL-2.0"
   default: MIT
 
-year:
-  when: "{{ use_default == 'no' }}"
+############### All things related to vcs & git ###################
+
+use_git:
+  when: "{{ template_mode == 'custom' }}"
+  type: bool
+  default: "yes"
+  help: "Do you want to use git version control with a development platform, like GitHub or GitLab?"
+
+dev_platform:
+  when: "{{ template_mode == 'custom' and use_git }}"
   type: str
-  help: "What is the starting year of the project? Used in copyright statements."
-  default: "2024"
+  help: "Which development platform are you planning to use? Used in documentation links."
+  choices:
+    - "GitHub"
+    - "GitLab"
+  default: "GitHub"
+
+username:
+  when: "{{ use_git }}"
+  type: str
+  help: "Provide you or your organization's {{ dev_platform }} username. Used to generate certain documentation and hyperlinks."
+
+dev_platform_url:
+  type: str
+  when: false
+  default: "https://{{ dev_platform|lower }}.com"
+
+############### Things related to packaging ###################
+
+project_slug:
+  when: "{{ template_mode == 'custom' }}"
+  type: str
+  help: "What is the project slug? Used in hyperlinks."
+  default: "{{ project_name|lower|replace(' ', '-') }}"
+
+package_name:
+  when: "{{ template_mode == 'custom' }}"
+  type: str
+  help: "What is the Python package name? Used as the name of the package and the top-level import."
+  default: "{{ project_slug|replace('-', '_') }}"
+
+use_vcs_version:
+  when: "{{ template_mode == 'custom' }}"
+  type: bool
+  default: "{% if template_mode != 'minimal' %}yes{% else %}no{% endif %}"
+  help: "Do you want to use dynamic versioning of your package or static? Dynamic means that versions use your version control system (VCS), such as git tags, for creating versions."
+
+python_package_name:
+  type: str
+  when: false
+  default: "{{ project_slug|lower|replace('-', '_') if project_slug else project_name|lower|replace('-', '_') }}"
+
+############### Things related to docs ###################
+
+documentation:
+  when: "{{ template_mode == 'custom' }}"
+  type: str
+  help: "Do you want to include documentation for your project and which framework do you want to use?"
+  choices:
+    "Sphinx (https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html)": sphinx
+    "mkdocs-material (https://squidfunk.github.io/mkdocs-material)": mkdocs
+    "No, I don't need documentation for my project.": "no"
+  default: "{% if template_mode != 'no' %}sphinx{% endif %}"
+
+use_rtd:
+  when: "{{ template_mode == 'custom' }}"
+  type: bool
+  default: "{% if template_mode != 'minimal' %}yes{% else %}no{% endif %}"
+  help: "Do you want to Read the Docs to publish your documentation?"
+
+################ Packaging tools and settings ###################
+
+use_hatch_envs:
+  when: "{{ template_mode == 'custom' }}"
+  type: bool
+  default: "yes"
+  help: "Do you want to use hatch environments for running isolated commands like linting, building docs, and testing?"
+
+################ Linting, style, typing and format thangs ###################
+
+use_lint:
+  when: "{{ template_mode == 'custom' }}"
+  type: bool
+  default: "{% if template_mode != 'minimal' %}yes{% else %}no{% endif %}"
+  help: "Do you want to lint your code and check file formatting?"
+
+use_precommit:
+  when: "{{ template_mode == 'custom' }}"
+  type: bool
+  default: "{% if template_mode != 'minimal' %}yes{% else %}no{% endif %}"
+  help: "Do you want to pre-commit hooks to format your code on save?"
+
+use_types:
+  when: "{{ template_mode == 'custom' }}"
+  type: bool
+  default: "{% if template_mode != 'minimal' %}yes{% else %}no{% endif %}"
+  help: "Do you want to use typing annotations and type check your code?"
+
+############### All things related to testing ###################
+
+use_test:
+  when: "{{ template_mode == 'custom' }}"
+  type: bool
+  default: "yes"
+  help: "Do you want to test your code? We strongly recommend that you add tests to your package."
+
 
 _subdirectory: "template"
