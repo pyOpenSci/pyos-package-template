@@ -62,6 +62,10 @@ Homepage = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}"
 {%- endif %}
 {%- if use_rtd %}
 Documentation = "https://{{ project_slug }}.readthedocs.io"
+{%- else %}
+{%- if use_git %}
+Documentation = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}/README.md"
+{%- endif %}
 {%- endif %}
 Download = "https://pypi.org/project/{{ project_slug }}/#files"
 
