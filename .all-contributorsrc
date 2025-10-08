@@ -77,6 +77,15 @@
         "code",
         "review"
       ]
+    },
+    {
+      "login": "Michael-Howes",
+      "name": "Michael-Howes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/50608711?v=4",
+      "profile": "https://github.com/Michael-Howes",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
