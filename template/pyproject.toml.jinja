@@ -60,7 +60,13 @@ Homepage = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}"
 "Source Code" = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}"
 "Bug Tracker" = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}/issues"
 {%- endif %}
+{%- if use_rtd %}
 Documentation = "https://{{ project_slug }}.readthedocs.io"
+{%- else %}
+{%- if use_git %}
+Documentation = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}/blob/main/README.md"
+{%- endif %}
+{%- endif %}
 Download = "https://pypi.org/project/{{ project_slug }}/#files"
 
 [project.optional-dependencies]
