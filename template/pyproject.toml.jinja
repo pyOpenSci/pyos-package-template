@@ -323,6 +323,7 @@ extra-dependencies = [
 
 [tool.hatch.envs.audit.scripts]
 check = ["pip-audit"]
+test_check = "pip-audit || exit 0"
 
 #--------------- Typing ---------------#
 
