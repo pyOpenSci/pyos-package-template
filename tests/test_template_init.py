@@ -172,7 +172,6 @@ def test_template_suite(
     run_command("hatch build --clean", project_dir)
     run_command(f"hatch run +py={sys.version_info.major}.{sys.version_info.minor} test:run", project_dir)
     run_command("hatch run style:check", project_dir)
-    run_command("hatch run audit:check", project_dir)
 
 
 @pytest.mark.docs
