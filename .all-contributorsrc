@@ -86,6 +86,16 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "erik-whiting",
+      "name": "Erik Whiting",
+      "avatar_url": "https://avatars.githubusercontent.com/u/47164199?v=4",
+      "profile": "https://erikwhiting.com",
+      "contributions": [
+        "code",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
