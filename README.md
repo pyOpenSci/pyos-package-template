@@ -1,6 +1,6 @@
 # pyOpenSci Python Package Template
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14052273.svg)](https://doi.org/10.5281/zenodo.14052273)
 [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-black.json)](https://github.com/copier-org/copier)
@@ -241,6 +241,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Michael-Howes"><img src="https://avatars.githubusercontent.com/u/50608711?v=4?s=100" width="100px;" alt="Michael-Howes"/><br /><sub><b>Michael-Howes</b></sub></a><br /><a href="https://github.com/pyOpenSci/pyos-package-template/issues?q=author%3AMichael-Howes" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://erikwhiting.com"><img src="https://avatars.githubusercontent.com/u/47164199?v=4?s=100" width="100px;" alt="Erik Whiting"/><br /><sub><b>Erik Whiting</b></sub></a><br /><a href="https://github.com/pyOpenSci/pyos-package-template/commits?author=erik-whiting" title="Code">💻</a> <a href="https://github.com/pyOpenSci/pyos-package-template/pulls?q=is%3Apr+reviewed-by%3Aerik-whiting" title="Reviewed Pull Requests">👀</a></td>
     </tr>
   </tbody>
 </table>
