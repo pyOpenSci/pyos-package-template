@@ -77,6 +77,34 @@
         "code",
         "review"
       ]
+    },
+    {
+      "login": "Michael-Howes",
+      "name": "Michael-Howes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/50608711?v=4",
+      "profile": "https://github.com/Michael-Howes",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "erik-whiting",
+      "name": "Erik Whiting",
+      "avatar_url": "https://avatars.githubusercontent.com/u/47164199?v=4",
+      "profile": "https://erikwhiting.com",
+      "contributions": [
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "mathematicalmichael",
+      "name": "Michael Pilosov, PhD",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40366263?v=4",
+      "profile": "https://mpilosov.com",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
