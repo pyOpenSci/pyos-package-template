@@ -5,7 +5,7 @@ updates:
     directories:
       - "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     commit-message:
       prefix: "dependencies: "
       include: scope
