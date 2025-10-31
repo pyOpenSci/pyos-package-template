@@ -63,7 +63,7 @@ jobs:
       id-token: write  # this permission is mandatory for PyPI publishing
     steps:
       - name: Download dists
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v4
         with:
           name: python-package-distributions
           path: dist/
