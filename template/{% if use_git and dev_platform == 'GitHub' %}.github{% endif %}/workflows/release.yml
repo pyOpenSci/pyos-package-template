@@ -15,7 +15,7 @@ jobs:
     # Environment is encouraged for increased security
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           # This fetch element is only important if you are use SCM based
           # versioning (that looks at git tags to gather the version).
@@ -23,14 +23,14 @@ jobs:
           fetch-tags: true
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           # You can modify what version of Python you want to use for your release
           python-version: "3.11"
 
       # Security recommends we should pin deps. Should we pin the workflow version?
       - name: Install hatch
-        uses: pypa/hatch@a3c83ab3d481fbc2dc91dd0088628817488dd1d5
+        uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc
 
       - name: Build package using Hatch
         run: |
@@ -41,7 +41,7 @@ jobs:
 
       # Store an artifact of the build to use in the publish step below
       - name: Store the distribution packages
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: python-package-distributions
           path: dist/
@@ -63,7 +63,7 @@ jobs:
       id-token: write  # this permission is mandatory for PyPI publishing
     steps:
       - name: Download dists
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: python-package-distributions
           path: dist/
