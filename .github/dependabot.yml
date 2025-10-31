@@ -6,7 +6,7 @@ updates:
       - "/"
       - "template/{% if use_git and dev_platform == 'GitHub' %}.github{% endif %}/workflows"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     commit-message:
       prefix: "dependencies: "
       include: scope
