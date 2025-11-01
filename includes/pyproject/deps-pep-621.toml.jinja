@@ -1,17 +1,3 @@
-{% if documentation == "mkdocs" -%}
-docs = [
-    "mkdocs-material ~=9.5",
-    "mkdocstrings[python] ~=0.24",
-    "mkdocs-awesome-pages-plugin ~=2.9",
-]
-{% elif documentation == "sphinx" -%}
-docs = [
-    "pydata_sphinx_theme ~=0.16",
-    "myst-parser ~=4.0",
-    "Sphinx ~=8.0",
-    "sphinx-autobuild ==2024.10.3"
-]
-{% endif %}
 {%- if use_test -%}
 tests = [
     "pytest",
