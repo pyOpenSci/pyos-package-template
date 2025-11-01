@@ -123,9 +123,17 @@ Copying from template version 0.6.4.1
 ```
 
 Once you have created your package, you can install it in editable mode using
-pip.
+pip or uv.
 
-First, CD to the directory where your new package lives and install the package in editable mode:
+### For UV users
+```console
+$ cd my_directory
+$ uv sync # Run uv sync to create a venv and install your dependencies
+$ UV run python # Open a python prompt using the UV managed environment
+
+### For pip users
+
+First, CD to the directory where your new package lives, and install the package in editable mode:
 
 ```console
 $ cd my_directory
