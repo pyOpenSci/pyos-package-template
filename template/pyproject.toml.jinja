@@ -99,9 +99,36 @@ docs = [
 {% endif %}
 ]
 
-{%- if not use_hatch_envs %}
-{% include pathjoin('includes', 'pyproject', 'deps-pep-621.toml.jinja') %}
+build = [
+    "pip-audit",
+    "pip",
+    "twine",
+]
+
+{%- if use_test %}
+tests = [
+    "pytest",
+    "pytest-cov",
+    "pytest-raises",
+    "pytest-randomly",
+    "pytest-xdist",
+]
+{% endif %}
+
+{%- if use_lint %}
+style = [
+    "pydoclint",
+    "ruff",
+]
 {%- endif %}
+
+{%- if use_types %}
+types = [
+    "mypy",
+]
+{%- endif %}
+
+
 ################################################################################
 # Tool Configuration
 ################################################################################
@@ -240,6 +267,7 @@ exclude = "_version.py"
 # Use UV to create Hatch environments
 [tool.hatch.envs.default]
 installer = "uv"
+
 ################################################################################
 # Hatch Environments
 ################################################################################
@@ -249,16 +277,14 @@ installer = "uv"
 # This table installs the tools you need to test and build your package
 [tool.hatch.envs.build]
 description = """Test the installation the package."""
-dependencies = [
-    "pip",
-    "twine",
+features = [
+    "build",
 ]
 detached = true
 
 # This table installs created the command hatch run install:check which will build and check your package.
 [tool.hatch.envs.build.scripts]
 check = [
-    "pip check",
     "hatch build {args:--clean}",
     "twine check dist/*",
 ]
@@ -268,12 +294,8 @@ check = [
 {% if use_test %}
 [tool.hatch.envs.test]
 description = """Run the test suite."""
-extra-dependencies = [
-    "pytest",
-    "pytest-cov",
-    "pytest-raises",
-    "pytest-randomly",
-    "pytest-xdist",
+features = [
+    "tests",
 ]
 
 [[tool.hatch.envs.test.matrix]]
@@ -311,10 +333,9 @@ serve = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-autobuild do
 #--------------- Format & style your code ---------------#
 
 [tool.hatch.envs.style]
-description = """Check the style of the codebase."""
-dependencies = [
-    "pydoclint",
-    "ruff",
+description = """Check the code and documentation style."""
+features = [
+    "style",
 ]
 detached = true
 
@@ -329,8 +350,8 @@ check = ["docstrings", "code"]
 
 [tool.hatch.envs.audit]
 description = """Check dependencies for security vulnerabilities."""
-extra-dependencies = [
-    "pip-audit",
+features = [
+    "build",
 ]
 
 [tool.hatch.envs.audit.scripts]
@@ -341,9 +362,7 @@ check = ["pip-audit"]
 {%- if use_types %}
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
-dependencies = [
-    "mypy",
-]
+features = ["types"]
 
 [tool.hatch.envs.types.scripts]
 check = "mypy src/{{ package_name }}"

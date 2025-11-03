@@ -242,7 +242,7 @@ def test_non_hatch_deps(
     validator_api.Validator()(pyproject)
 
     optional_deps = pyproject["project"]["optional-dependencies"]
-    groups = ("dev", "tests", "style", "types", "audit")
+    groups = ("dev", "tests", "style", "types", "build")
     assert all(group in optional_deps for group in groups)
 
     # we don't want to hardcode all our deps here,
