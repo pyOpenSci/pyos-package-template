@@ -8,7 +8,7 @@ template_mode:
   choices:
     "MINIMAL: I want a minimal setup (package, tests and docs; typing); linting not included).": "minimal"
     "FULL DEFAULT: I want to use the default settings but I want it setup for me.": "full"
-    "FULL CUSTOM: I want it all but I want to fully customize all template elements.": "custom" # changed from no to to custom
+    "FULL CUSTOM: I want it all but I want to fully customize all template elements.": "custom"
 
   default: "minimal"
 
@@ -156,7 +156,7 @@ use_precommit:
 use_types:
   when: "{{ template_mode == 'custom' }}"
   type: bool
-  default: "{% if template_mode != 'minimal' %}yes{% else %}no{% endif %}"
+  default: "{% if template_mode == 'custom' %}yes{% else %}no{% endif %}"
   help: "Do you want to use typing annotations and type check your code?"
 
 ############### All things related to testing ###################

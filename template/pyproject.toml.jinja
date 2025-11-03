@@ -193,8 +193,6 @@ ignore = [
     "D203",  # '1 blank line required before class docstring' ignored because we want no blank line.
     "D212",  # 'Multi-line docstring summary should start at the first line' ignored because we want the summary to start on the second line.
     "D407",  # 'Missing dashed underline after section' ignored because Google style docstrings don't underline.
-    "ANN101",  # 'Missing type annotation for {self} in method'.
-    "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
     "D413",  # 'Missing blank line after section' ignored .
     "D401",  # 'First line should be in imperative mood' ignored
     "ANN001",  # Missing type annotation for {arg} in function" ignored
@@ -242,7 +240,7 @@ exclude = "_version.py"
 {%- endif %}
 {%- endif %}
 
-{%- if use_types %}
+{% if use_types %}
 # TODO: Adjust mypy configuration.
 #[tool.mypy]
 #plugins = [
@@ -357,9 +355,9 @@ features = [
 [tool.hatch.envs.audit.scripts]
 check = ["pip-audit"]
 
-#--------------- Typing ---------------#
 
 {%- if use_types %}
+#--------------- Typing ---------------#
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
 features = ["types"]
