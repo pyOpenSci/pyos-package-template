@@ -3,9 +3,15 @@
 #
 from datetime import datetime
 import importlib.metadata
+import os
 import subprocess
+import sys
 
 current_year = datetime.now().year
+
+# If you use a src/ layout, make sure the src folder is on sys.path
+sys.path.insert(0, os.path.abspath("../src"))
+
 
 # General information about the project.
 project = "{{ project_name }}"
