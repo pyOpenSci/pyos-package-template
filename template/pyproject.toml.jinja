@@ -105,7 +105,7 @@ build = [
     "twine",
 ]
 
-{% if use_test %}
+{%- if use_test %}
 tests = [
     "pytest",
     "pytest-cov",
@@ -128,9 +128,9 @@ types = [
 ]
 {%- endif %}
 
-{%- if not use_hatch_envs %}
+{# {%- if not use_hatch_envs %}
 {% include pathjoin('includes', 'pyproject', 'deps-pep-621.toml.jinja') %}
-{%- endif %}
+{%- endif %} #}
 
 ################################################################################
 # Tool Configuration
