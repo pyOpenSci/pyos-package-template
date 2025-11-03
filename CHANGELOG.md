@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+## [v0.6.6]
+
+### Fixed
 * Fix RTD build for sphinx and move to optional.dependencies for docs (@lwasser, #126)
 * Move all dependencies to `optional.deps` and use hatch features (@lwasser, #131)
 * Remove typing in FULL template mode (@lwasser, #134)
