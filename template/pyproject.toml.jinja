@@ -322,7 +322,6 @@ build = "mkdocs build {args:--clean --strict}"
 serve = "mkdocs serve {args}"
 {%- endif %}
 {%- if documentation == "sphinx" %}
-[tool.hatch.envs.docs.scripts]
 build = ["sphinx-build {args:-W -b html docs docs/_build}"]
 serve = ["sphinx-autobuild docs --watch src/mypackage {args:-b html docs/_build/serve}"]
 {%- endif %}
