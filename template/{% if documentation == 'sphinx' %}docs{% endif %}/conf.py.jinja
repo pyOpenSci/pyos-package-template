@@ -2,35 +2,61 @@
 # {{ project_name }} documentation build configuration file
 #
 import importlib.metadata
+from datetime import datetime
+
+current_year = datetime.now().year
+
+# General information about the project.
+project = "{{ project_name }}"
+copyright = "Copyright © {{ year }} {{ copyright_holder }}"
+author = "{{ author_name }}"
+
+# *********** RELEASE NUMBER **************
+# This is optional - if you want the release of your docs to align with your
+# package release cycle then the code below will get the recent tag and use
+# that to generate your documentation release value.
+try:
+    release_value = (
+        subprocess.check_output(["git", "describe", "--tags"])
+        .decode("utf-8")
+        .strip()
+    )
+    release_value = release_value[:4]
+except subprocess.CalledProcessError:
+    release_value = "0.1"  # Default value in case there's no tag
+
+# Update the release value
+release = release_value
 
 # -- General configuration -----------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    "myst_parser",
+    "autoapi.extension",
+    "sphinx_design",
+    "sphinx_copybutton",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.autodoc",
+    # This allows you to create :::{todo} sections that will not be rendered
+    # in the live docs
+    "sphinx.ext.todo",
+    "myst_parser",
 ]
 
-# The suffix of source filenames.
-source_suffix = ".rst"
 
-# The master toctree document.
-master_doc = "index"
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-# General information about the project.
-project = "{{ project_name }}"
-copyright = "Copyright © {{ year }} {{ copyright_holder }}"
-html_show_sphinx = False
+# ****** setup MYST ******
+# colon fence for card support in md
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "attrs_block",
+]
+myst_heading_anchors = 3
+myst_footnote_transition = False
 
-# The version info for the project you're documenting, acts as replacement for
-# |version| and |release|, also used in various other places throughout the
-# built documents.
-try:
-    version = importlib.metadata.version("{{ package_name }}")
-except importlib.metadata.PackageNotFoundError:
-    version = "0.0.0"
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "default"
@@ -41,15 +67,11 @@ pygments_style = "default"
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
 language = "en"
-
-# -- Options for extensions ----------------------------------------------------
-# https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
-myst_enable_extensions = ["html_image"]
-
-
-# -- Options for HTML output ---------------------------------------------------
-
 html_theme = "pydata_sphinx_theme"
+html_static_path = ["_static"]
+
+# Configure autoapi
+autoapi_dirs = ["../src"]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
