@@ -82,6 +82,23 @@ dev = [
     audit]",
     {%- endif %}
 ]
+
+docs = [
+{%- if documentation == "sphinx" %}
+    "sphinx~=8.0",
+    "myst-parser>=4.0",
+    "pydata-sphinx-theme~=0.16",
+    "sphinx-autobuild>=2024.10.3",
+    "sphinx-autoapi>=3.6.0",
+    "sphinx-design>=0.6.1",
+    "sphinx-copybutton>=0.5.2",
+{%- elif documentation == "mkdocs" %}
+    "mkdocs-material ~=9.5",
+    "mkdocstrings[python] ~=0.24",
+    "mkdocs-awesome-pages-plugin ~=2.9",
+{% endif %}
+]
+
 {%- if not use_hatch_envs %}
 {% include pathjoin('includes', 'pyproject', 'deps-pep-621.toml.jinja') %}
 {%- endif %}
@@ -271,21 +288,10 @@ run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing}"
 # This sets up a hatch environment with associated dependencies that need to be installed
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""
-{%- if documentation == "mkdocs" %}
-extra-dependencies = [
-    "mkdocs-material ~=9.5",
-    "mkdocstrings[python] ~=0.24",
-    "mkdocs-awesome-pages-plugin ~=2.9",
+# Install optional dependency test for docs
+features = [
+    "docs",
 ]
-{%- elif documentation == "sphinx" %}
-python = "3.10"
-dependencies = [
-    "pydata_sphinx_theme ~=0.16",
-    "myst-parser ~=4.0",
-    "Sphinx ~=8.0",
-    "sphinx-autobuild ==2024.10.3"
-]
-{%- endif %}
 
 # This table contains the scripts that you can use to build and serve your docs
 # hatch run docs:build will build your documentation
