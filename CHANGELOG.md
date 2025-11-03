@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-## [v0.6.6]
+## [v0.6.7]
 
 ### Fixed
 * Fix RTD build for sphinx and move to optional.dependencies for docs (@lwasser, #126)
