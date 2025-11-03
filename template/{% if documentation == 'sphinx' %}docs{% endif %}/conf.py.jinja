@@ -1,8 +1,9 @@
 #
 # {{ project_name }} documentation build configuration file
 #
-import importlib.metadata
 from datetime import datetime
+import importlib.metadata
+import subprocess
 
 current_year = datetime.now().year
 
@@ -46,6 +47,10 @@ extensions = [
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+# Configure AutoAPI: don't auto-add a toctree and don't keep generated files
+autoapi_add_toctree = False
+autoapi_keep_files = False
 
 # ****** setup MYST ******
 # colon fence for card support in md
