@@ -105,7 +105,7 @@ build = [
     "twine",
 ]
 
-{%- if use_test -%}
+{% if use_test %}
 tests = [
     "pytest",
     "pytest-cov",
@@ -123,7 +123,7 @@ style = [
 {%- endif %}
 
 {%- if use_types %}
-typing = [
+types = [
     "mypy",
 ]
 {%- endif %}
@@ -366,7 +366,7 @@ check = ["pip-audit"]
 {%- if use_types %}
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
-features = ["typing"]
+features = ["types"]
 
 [tool.hatch.envs.types.scripts]
 check = "mypy src/{{ package_name }}"
