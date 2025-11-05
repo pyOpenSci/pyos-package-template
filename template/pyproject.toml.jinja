@@ -70,6 +70,9 @@ Documentation = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}/blob/m
 Download = "https://pypi.org/project/{{ project_slug }}/#files"
 
 [project.optional-dependencies]
+# The groups below should be in the [development-groups] table
+# They are here now because hatch hasn't released support for them but plans to
+# in Mid November 2025.
 dev = [
     "hatch",
     "pre-commit",
@@ -101,7 +104,6 @@ docs = [
 
 build = [
     "pip-audit",
-    "pip",
     "twine",
 ]
 
@@ -113,7 +115,7 @@ tests = [
     "pytest-randomly",
     "pytest-xdist",
 ]
-{% endif %}
+{%- endif %}
 
 {%- if use_lint %}
 style = [
@@ -140,12 +142,12 @@ types = [
 [tool.hatch.build]
 only-packages = true
 
-# This tells Hatch to build the package from the src/me directory.
+# This tells Hatch to build the package from the src/ directory.
 # Read more about src layouts here: https://www.pyopensci.org/python-package-guide/package-structure-code/python-package-structure.html
 [tool.hatch.build.targets.wheel]
 packages = ["src/{{ package_name }}"]
 
-{%- if use_vcs_version %}
+{% if use_vcs_version %}
 [tool.hatch.build.hooks.vcs]
 version-file = "src/{{ package_name }}/_version.py"
 
@@ -182,7 +184,7 @@ exclude_lines = ["pragma: no cover"]
 precision = 2
 {%- endif %}
 
-{%- if use_lint %}
+{% if use_lint %}
 [tool.ruff]
 line-length = 88
 
@@ -238,7 +240,7 @@ check-yield-types = false
 {%- if use_vcs_version %}
 exclude = "_version.py"
 {%- endif %}
-{%- endif %}
+{%- endif -%}
 
 {% if use_types %}
 # TODO: Adjust mypy configuration.
@@ -261,7 +263,6 @@ exclude = "_version.py"
 {%- endif %}
 
 {%- if use_hatch_envs %}
-
 # Use UV to create Hatch environments
 [tool.hatch.envs.default]
 installer = "uv"
@@ -289,7 +290,7 @@ check = [
 
 #--------------- Run tests ---------------#
 
-{% if use_test %}
+{%- if use_test %}
 [tool.hatch.envs.test]
 description = """Run the test suite."""
 features = [
@@ -300,7 +301,7 @@ features = [
 python = ["3.10", "3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.test.scripts]
-run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing}"
+run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing --cov-report=xml}"
 {%- endif %}
 
 #--------------- Build and preview your documentation ---------------#
@@ -327,7 +328,7 @@ serve = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-autobuild do
 {%- endif %}
 {%- endif %}
 
-{%- if use_lint %}
+{% if use_lint %}
 #--------------- Format & style your code ---------------#
 
 [tool.hatch.envs.style]
