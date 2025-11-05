@@ -80,7 +80,10 @@ dependencies = [
     "mkdocs-awesome-pages-plugin ~=2.9",
     "pydata_sphinx_theme ~=0.16",
     "myst-parser ~=4.0",
-    "Sphinx ~=8.0",
+    "sphinx~=8.0",
+    "sphinx-autobuild>=2024.10.3",
+    "sphinx-autoapi>=3.6.0",
+    "sphinx-design>=0.6.1",
 ]
 
 [[tool.hatch.envs.test.matrix]]
