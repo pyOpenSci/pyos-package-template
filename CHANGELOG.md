@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+## [v0.6.8]
+
+### Fixed
 * Bug: small bug in the release ci  and update conf.py (@lwasser, #140)
 
 ## [v0.6.8]
