@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+* Bug: small bug in the release ci (@lwasser, #140)
+
+## [v0.6.8]
 * Fix docs CI builds to to simplify maintenance and feedback on jobs (@lwasser, #127, #138)
 
 ## [v0.6.7]
