@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Fix docs CI builds to to simplify maintenance and feedback on jobs (@lwasser, #127, #138)
+
 ## [v0.6.7]
 
 ### Fixed
@@ -13,7 +15,7 @@
 * bug: ensure sphinx build works by @lwasser in https://github.com/pyOpenSci/pyos-package-template/pull/130
 * Move all dependencies to `optional.deps` and use hatch features (@lwasser, #131)
 
-### Added 
+### Added
 * Add and configure Dependabot (@agriyakhetarpal, #79)
 
 ### Contributors
