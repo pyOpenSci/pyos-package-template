@@ -178,7 +178,7 @@ def test_template_suite(
 @pytest.mark.installs
 @pytest.mark.parametrize("use_hatch_envs", [True, False])
 def test_docs_build(documentation: str, generated: Callable[..., Path], use_hatch_envs: bool):
-    """The docs should build."""
+    """The docs should build both with and without hatch environments."""
     if documentation == "no":
         return
 
@@ -193,7 +193,8 @@ def test_docs_build(documentation: str, generated: Callable[..., Path], use_hatc
             pytest.skip(
                 "Dont know enough about invoking shell commands on windows for this :(",
             )
-        run_command("sphinx-apidoc -o docs/api src/alien_clones", project)
+        # With autoapi we shouldn't have to manually run sphinx-apidoc anymore
+        #run_command("sphinx-apidoc -o docs/api src/alien_clones", project)
         # prepend pythonpath so we don't have to actually install here...
         run_command(f"PYTHONPATH={str(project/'src')} sphinx-build -W -b html docs docs/_build", project)
 

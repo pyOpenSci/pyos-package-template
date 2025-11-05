@@ -54,8 +54,8 @@ jobs:
   publish:
     name: >-
       Publish Python 🐍 distribution 📦 to PyPI
-    # Modify the repo name below to be your project's repo name.
-    if: github.repository_owner == '{{ username }}'
+    # Only publish to PyPI with a release trigger in your repository.
+    if: github.repository_owner == '{{ username }}' && github.event_name == 'release'
     needs:
       - build
     runs-on: ubuntu-latest

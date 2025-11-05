@@ -93,7 +93,7 @@ docs = [
     "pydata-sphinx-theme~=0.16",
     "sphinx-autobuild>=2024.10.3",
     "sphinx-autoapi>=3.6.0",
-    "sphinx-design>=0.6.1",
+    "sphinx_design>=0.6.1",
     "sphinx-copybutton>=0.5.2",
 {%- elif documentation == "mkdocs" %}
     "mkdocs-material ~=9.5",
@@ -323,8 +323,8 @@ build = "mkdocs build {args:--clean --strict}"
 serve = "mkdocs serve {args}"
 {%- endif %}
 {%- if documentation == "sphinx" %}
-build = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-build {args:-W -b html docs docs/_build}"]
-serve = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-autobuild docs --watch src/{{ package_name }} {args:-b html docs/_build/serve}"]
+build = ["sphinx-build {args:-W -b html docs docs/_build}"]
+serve = ["sphinx-autobuild docs --watch src/{{ package_name }} {args:-b html docs/_build/serve}"]
 {%- endif %}
 {%- endif %}
 
