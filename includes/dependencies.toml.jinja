@@ -1,0 +1,20 @@
+{# Import this macro like `from .. import render_deps with context` to give it access to the deps data #}
+{% macro render_deps(group, inner=False) %}
+{#- for some reason copier insists on loading things as nested lists inconsistently across versions #}
+{%- if not deps[0] is mapping %}
+  {%- set d=deps[0][0] %}
+{%- else -%}
+  {%- set d=deps[0] %}
+{%- endif -%}
+{%- if group and group in d -%}
+{%- if not inner -%}
+{{ group if "_rename" not in d[group] else d[group]["_rename"] }} = [
+{%- endif %}
+{%- for package, constraint in d[group].items() if package != "_rename" %}
+    "{{ package }}{% if constraint %}{{ constraint }}{% endif %}",
+{%- endfor %}
+{%- if not inner %}
+]
+{%- endif -%}
+{%- endif -%}
+{% endmacro %}

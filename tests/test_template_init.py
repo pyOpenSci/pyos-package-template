@@ -242,7 +242,7 @@ def test_non_hatch_deps(
     # validate pyproject.toml file if present
     validator_api.Validator()(pyproject)
 
-    optional_deps = pyproject["project"]["optional-dependencies"]
+    optional_deps = pyproject["dependency-groups"]
     groups = ("dev", "tests", "style", "types", "build")
     assert all(group in optional_deps for group in groups)
 

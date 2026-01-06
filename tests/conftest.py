@@ -1,13 +1,16 @@
 """Provide fixtures to the entire test suite."""
 
 import shutil
-from pathlib import Path
-from typing import TYPE_CHECKING, Generator
+from pathlib import Path, PurePosixPath
+from typing import TYPE_CHECKING, Any, Generator
 
 import pytest
+from funcy import lflatten
 from _pytest.monkeypatch import MonkeyPatch
 from jinja2 import Environment, FileSystemLoader
-from ruamel.yaml import YAML
+from ruamel.yaml import YAML, Loader
+from ruamel.yaml.constructor import Constructor
+from ruamel.yaml.nodes import ScalarNode
 
 if TYPE_CHECKING:
     from _pytest.config.argparsing import Parser
@@ -16,9 +19,25 @@ if TYPE_CHECKING:
 COPIER_CONFIG_PATH = Path(__file__).parents[1] / "copier.yml"
 INCLUDES_PATH = Path(__file__).parents[1] / "includes"
 
+# handle copier's !include tags - 
+# they went and did us the favor of making their entire package private,
+# so to respect their wishes to touch nothing we copy it here
+# with mild modifications for our use case and for ruamel.yaml
+# https://github.com/copier-org/copier/blob/24e842d838cf41b90a024ae4f80834add0ea95c2/copier/_template.py#L86
+def _include(loader: Constructor, node: ScalarNode) -> Any:
+    if not isinstance(node, ScalarNode):
+        raise ValueError(f"Unsupported YAML node: {node!r}")
+    include_file = str(loader.construct_scalar(node))
+    if PurePosixPath(include_file).is_absolute():
+        raise ValueError("YAML include file path must be a relative path")
+    path = next(COPIER_CONFIG_PATH.parent.glob(include_file))
+    return [YAML(typ="safe").load(path.read_bytes())]
+
 
 def _load_copier_config() -> dict:
     yaml = YAML(typ="safe")
+    yaml.constructor.add_constructor("!include", _include)
+
     with COPIER_CONFIG_PATH.open("r") as yfile:
         return yaml.load(yfile)
 
