@@ -168,6 +168,12 @@ dist/yourpackage-0.1.0.tar.gz
 dist/yourpackage-0.1.0-py2.py3-none-any.whl
 ```
 
+> [!IMPORTANT]  
+> This template makes use of [PEP-735 `dependency-groups`](https://peps.python.org/pep-0735/)
+> which are only supported in versions of hatch [greater than v1.16.0](https://hatch.pypa.io/dev/blog/2025/11/24/hatch-v1160/#dependency-groups).
+> To see which version of hatch you have installed use `hatch --version`,
+> and to update hatch use [`hatch self update`](https://hatch.pypa.io/dev/cli/reference/#hatch-self-update).
+
 To use the hatch build environment run:
 
 `hatch run build:check`
