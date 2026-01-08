@@ -10,8 +10,8 @@
 {%- if not inner -%}
 {{ group if "_rename" not in d[group] else d[group]["_rename"] }} = [
 {%- endif %}
-{%- for package, constraint in d[group].items() if package != "_rename" %}
-    "{{ package }}{% if constraint %}{{ constraint }}{% endif %}",
+{%- for package in d[group]|sort if package != "_rename" %}
+    "{{ package }}{% if d[group][package] %}{{ d[group][package] }}{% endif %}",
 {%- endfor %}
 {%- if not inner %}
 ]

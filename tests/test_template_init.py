@@ -29,6 +29,7 @@ from typing import Callable
 import pytest
 from copier import run_copy
 from git import Repo
+from ruamel.yaml import YAML
 from validate_pyproject import api as validator_api
 
 try:
@@ -254,3 +255,21 @@ def test_non_hatch_deps(
     if documentation != "no":
         assert "docs" in optional_deps
         assert any(dep.startswith(documentation) for dep in optional_deps["docs"])
+
+def test_deps_sorted(generated: Callable[..., Path]):
+    """Dependencies in dep groups are sorted when rendering."""
+    unsorted = {"z": None, "x": None, "y": None}
+    with (TEMPLATE / "data" / "dependencies.yml").open() as f:
+        deps = YAML(typ="safe").load(f)
+
+    deps["tests"] = unsorted
+    project = generated(
+        use_test=True,
+        deps=[deps],
+    )
+    pyproject_file = project / "pyproject.toml"
+    with pyproject_file.open("rb") as pfile:
+        pyproject = tomllib.load(pfile)
+
+    assert "tests" in pyproject["dependency-groups"]
+    assert pyproject["dependency-groups"]["tests"] == ["x", "y", "z"]
