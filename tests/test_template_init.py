@@ -166,10 +166,14 @@ def test_template_suite(
     generated: Callable[..., Path],
 ) -> None:
     """Expect that the test suite passes for the initialized template."""
-    project_dir = generated()
+    # Explicitly enable hatch environments to ensure build environment exists
+    project_dir = generated(use_hatch_envs=True)
 
     # Run the local test suite.
-    run_command("hatch build --clean", project_dir)
+    # Use hatch run build:check to ensure we use the build environment
+    # (Hatch 1.16+ requires builder environments to have builder=true)
+    # This runs "hatch build --clean" and "twine check" in the build environment
+    run_command("hatch run build:check", project_dir)
     run_command(f"hatch run +py={sys.version_info.major}.{sys.version_info.minor} test:run", project_dir)
     run_command("hatch run style:check", project_dir)
 
