@@ -344,7 +344,7 @@ detached = true
 [tool.hatch.envs.build.scripts]
 check = [
     "hatch build {args:--clean}",
-    "python -m twine check dist/*",
+    "twine check dist/*",
 ]
 
 #--------------- Run tests ---------------#
