@@ -101,7 +101,6 @@ docs = [
 
 build = [
     "pip-audit",
-    "twine",
 ]
 
 {%- if use_test %}
@@ -337,6 +336,12 @@ description = """Test the installation the package."""
 builder = true
 dependency-groups = [
     "build",
+]
+# Explicit dependencies are required as a workaround for dependency-groups
+# not being installed in builder environments (see https://github.com/pypa/hatch/issues/2152)
+# This ensures twine is available when scripts run
+dependencies = [
+    "twine",
 ]
 detached = true
 
