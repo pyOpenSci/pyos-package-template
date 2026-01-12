@@ -69,21 +69,18 @@ Documentation = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}/blob/m
 {%- endif %}
 Download = "https://pypi.org/project/{{ project_slug }}/#files"
 
+{%- if not use_hatch_envs %}
 [project.optional-dependencies]
-# The groups below should be in the [development-groups] table
-# They are here now because hatch hasn't released support for them but plans to
-# in Mid November 2025.
+# When not using hatch environments, we keep optional-dependencies for backward compatibility
 dev = [
     "hatch",
     "pre-commit",
-    {%- if not use_hatch_envs %}
     "{{ package_name }}[
         {%- if documentation!="" %}docs,{% endif -%}
         {%- if use_test %}tests,{% endif -%}
         {%- if use_lint %}style,{% endif -%}
         {%- if use_types %}types,{% endif -%}
     audit]",
-    {%- endif %}
 ]
 
 docs = [
@@ -128,6 +125,67 @@ style = [
 types = [
     "mypy",
 ]
+{%- endif %}
+{%- endif %}
+
+{%- if use_hatch_envs %}
+################################################################################
+# Dependency Groups (PEP 735)
+################################################################################
+
+[dependency-groups]
+# Development tools that are used across multiple environments
+dev = [
+    "hatch",
+    "pre-commit",
+]
+
+{%- if documentation != "no" %}
+docs = [
+{%- if documentation == "sphinx" %}
+    "sphinx~=8.0",
+    "myst-parser>=4.0",
+    "pydata-sphinx-theme~=0.16",
+    "sphinx-autobuild>=2024.10.3",
+    "sphinx-autoapi>=3.6.0",
+    "sphinx_design>=0.6.1",
+    "sphinx-copybutton>=0.5.2",
+{%- elif documentation == "mkdocs" %}
+    "mkdocs-material ~=9.5",
+    "mkdocstrings[python] ~=0.24",
+    "mkdocs-awesome-pages-plugin ~=2.9",
+{% endif %}
+]
+
+{%- endif %}
+build = [
+    "pip-audit",
+    "twine",
+]
+
+{%- if use_test %}
+tests = [
+    "pytest",
+    "pytest-cov",
+    "pytest-raises",
+    "pytest-randomly",
+    "pytest-xdist",
+]
+
+{%- endif %}
+{%- if use_lint %}
+style = [
+    "pydoclint",
+    "ruff",
+]
+
+{%- endif %}
+{%- if use_types %}
+types = [
+    "mypy",
+]
+
+{%- endif %}
 {%- endif %}
 
 
@@ -276,7 +334,7 @@ installer = "uv"
 # This table installs the tools you need to test and build your package
 [tool.hatch.envs.build]
 description = """Test the installation the package."""
-features = [
+dependency-groups = [
     "build",
 ]
 detached = true
@@ -293,7 +351,7 @@ check = [
 {%- if use_test %}
 [tool.hatch.envs.test]
 description = """Run the test suite."""
-features = [
+dependency-groups = [
     "tests",
 ]
 
@@ -309,8 +367,8 @@ run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing --cov-rep
 # This sets up a hatch environment with associated dependencies that need to be installed
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""
-# Install optional dependency test for docs
-features = [
+# Install dependency group for docs
+dependency-groups = [
     "docs",
 ]
 
@@ -333,7 +391,7 @@ serve = ["sphinx-autobuild docs --watch src/{{ package_name }} {args:-b html doc
 
 [tool.hatch.envs.style]
 description = """Check the code and documentation style."""
-features = [
+dependency-groups = [
     "style",
 ]
 detached = true
@@ -349,7 +407,7 @@ check = ["docstrings", "code"]
 
 [tool.hatch.envs.audit]
 description = """Check dependencies for security vulnerabilities."""
-features = [
+dependency-groups = [
     "build",
 ]
 
@@ -361,7 +419,7 @@ check = ["pip-audit"]
 #--------------- Typing ---------------#
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
-features = ["types"]
+dependency-groups = ["types"]
 
 [tool.hatch.envs.types.scripts]
 check = "mypy src/{{ package_name }}"
