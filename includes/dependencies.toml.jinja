@@ -1,5 +1,5 @@
 {# Import this macro like `from .. import render_deps with context` to give it access to the deps data #}
-{% macro render_deps(group, inner=False) %}
+{% macro render_deps(group, inner=False, key=None) %}
 {#- for some reason copier insists on loading things as nested lists inconsistently across versions #}
 {%- if not deps[0] is mapping %}
   {%- set d=deps[0][0] %}
@@ -8,9 +8,9 @@
 {%- endif -%}
 {%- if group and group in d -%}
 {%- if not inner -%}
-{{ group if "_rename" not in d[group] else d[group]["_rename"] }} = [
+{{ group if not key else key }} = [
 {%- endif %}
-{%- for package in d[group]|sort if package != "_rename" %}
+{%- for package in d[group]|sort %}
     "{{ package }}{% if d[group][package] %}{{ d[group][package] }}{% endif %}",
 {%- endfor %}
 {%- if not inner %}

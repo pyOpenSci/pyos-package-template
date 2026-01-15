@@ -86,7 +86,7 @@ dev = [
     {include-group = "types"},
     {%- endif %}
 ]
-{{ render_deps(documentation) }}
+{{ render_deps(documentation, key="docs") }}
 {{ render_deps("build") }}
 {%- if use_test %}{{ "\n" }}{{ render_deps("tests") }}{% endif %}
 {%- if use_lint %}{{ "\n" }}{{ render_deps("style") }}{% endif %}
@@ -227,7 +227,6 @@ exclude = "_version.py"
 # Use UV to create Hatch environments
 [tool.hatch.envs.default]
 installer = "uv"
-builder = true
 
 ################################################################################
 # Hatch Environments
@@ -241,6 +240,7 @@ description = """Test the installation the package."""
 dependency-groups = [
     "build",
 ]
+{{ render_deps("build", key="dependencies") }}
 detached = true
 builder = true
 
@@ -259,7 +259,6 @@ description = """Run the test suite."""
 dependency-groups = [
     "tests",
 ]
-builder = true
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.10", "3.11", "3.12", "3.13"]
@@ -301,7 +300,6 @@ dependency-groups = [
     "style",
 ]
 detached = true
-builder = true
 
 [tool.hatch.envs.style.scripts]
 docstrings = "pydoclint src/ tests/"
