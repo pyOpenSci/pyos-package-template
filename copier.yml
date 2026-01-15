@@ -167,5 +167,10 @@ use_test:
   default: "yes"
   help: "Do you want to test your code? We strongly recommend that you add tests to your package."
 
+deps:
+  when: false
+  type: yaml
+  multiselect: false
+  default: !include data/dependencies.yml
 
 _subdirectory: "template"

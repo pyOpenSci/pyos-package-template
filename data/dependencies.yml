@@ -1,0 +1,45 @@
+# Deps are specified as dicts of dicts
+#
+# The top-level key is the key that will be used within the pyproject.toml file,
+# unless "key" is specified in the render_deps macro
+#
+# Within each group, 
+# the key is the package name, and the value, if present, is the version constraint.
+# Use empty values to indicate no version constraint.
+
+
+build:
+  pip-audit:
+  twine:
+
+dev:
+  hatch: ">=1.16.0"
+  pre-commit:
+
+mkdocs:
+  mkdocs-material: '~=9.5'
+  mkdocstrings[python]: '~=0.24'
+  mkdocs-awesome-pages-plugin: '~=2.9'
+
+sphinx:
+  sphinx: '~=8.0'
+  myst-parser: '>=4.0'
+  pydata-sphinx-theme: '~=0.16'
+  sphinx-autobuild: '>=2024.10.3'
+  sphinx-autoapi: '>=3.6.0'
+  sphinx_design: '>=0.6.1'
+  sphinx-copybutton: '>=0.5.2'
+
+style:
+  pydoclint:
+  ruff:
+
+tests:
+  pytest:
+  pytest-cov:
+  pytest-raises:
+  pytest-randomly:
+  pytest-xdist:
+
+types:
+  mypy:
