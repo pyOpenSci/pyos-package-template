@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Changed
+* Migrate from `optional-dependencies` to PEP 735 `dependency-groups` for hatch environments (@mathematicalmichael, #145)
+* All development dependencies now use the standard `[dependency-groups]` table instead of `[project.optional-dependencies]`
+* Hatch environments now use `dependency-groups = [...]` instead of `features = [...]`
+* This change requires Hatch 1.16+ (which supports dependency groups in builder and non-dev environments)
+* When `use_hatch_envs=False`, optional-dependencies are still used for backward compatibility
+
 ## [v0.6.8]
 
 ### Fixed

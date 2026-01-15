@@ -166,10 +166,14 @@ def test_template_suite(
     generated: Callable[..., Path],
 ) -> None:
     """Expect that the test suite passes for the initialized template."""
-    project_dir = generated()
+    # Explicitly enable hatch environments to ensure build environment exists
+    project_dir = generated(use_hatch_envs=True)
 
     # Run the local test suite.
-    run_command("hatch build --clean", project_dir)
+    # Use hatch run build:check to ensure we use the build environment
+    # (Hatch 1.16+ requires builder environments to have builder=true)
+    # This runs "hatch build --clean" and "twine check" in the build environment
+    run_command("hatch run build:check", project_dir)
     run_command(f"hatch run +py={sys.version_info.major}.{sys.version_info.minor} test:run", project_dir)
     run_command("hatch run style:check", project_dir)
 
@@ -254,3 +258,50 @@ def test_non_hatch_deps(
     if documentation != "no":
         assert "docs" in optional_deps
         assert any(dep.startswith(documentation) for dep in optional_deps["docs"])
+
+
+def test_hatch_deps_groups(
+    documentation: str,
+    generated: Callable[..., Path],
+) -> None:
+    """When using hatch environments, we should use dependency-groups (PEP 735)."""
+    project = generated(
+        use_hatch_envs=True,
+        use_lint=True,
+        use_types=True,
+        use_test=True,
+        use_git=False,
+        documentation=documentation,
+    )
+
+    pyproject_file = project / "pyproject.toml"
+    with pyproject_file.open("rb") as pfile:
+        pyproject = tomllib.load(pfile)
+
+    # validate pyproject.toml file if present
+    validator_api.Validator()(pyproject)
+
+    # When using hatch_envs, dependencies should be in dependency-groups, not optional-dependencies
+    assert "dependency-groups" in pyproject
+    dep_groups = pyproject["dependency-groups"]
+
+    # Check that expected groups exist
+    groups = ("dev", "tests", "style", "types", "build")
+    assert all(group in dep_groups for group in groups)
+
+    # Check that docs group exists if documentation is enabled
+    if documentation != "no":
+        assert "docs" in dep_groups
+        assert any(dep.startswith(documentation) for dep in dep_groups["docs"])
+
+    # Verify that hatch environments use dependency-groups
+    if "tool" in pyproject and "hatch" in pyproject["tool"]:
+        hatch_envs = pyproject["tool"]["hatch"].get("envs", {})
+        for env_name, env_config in hatch_envs.items():
+            if env_name != "default" and isinstance(env_config, dict):
+                # Check that environments use dependency-groups instead of features
+                if "dependency-groups" in env_config:
+                    # Verify the dependency-groups reference valid groups
+                    env_dep_groups = env_config["dependency-groups"]
+                    for group in env_dep_groups:
+                        assert group in dep_groups, f"Environment {env_name} references unknown dependency group: {group}"
