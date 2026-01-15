@@ -242,6 +242,7 @@ dependency-groups = [
     "build",
 ]
 detached = true
+builder = true
 
 # This table installs created the command hatch run install:check which will build and check your package.
 [tool.hatch.envs.build.scripts]
@@ -258,6 +259,7 @@ description = """Run the test suite."""
 dependency-groups = [
     "tests",
 ]
+builder = true
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.10", "3.11", "3.12", "3.13"]
@@ -275,7 +277,7 @@ description = """Build or serve the documentation."""
 dependency-groups = [
     "docs",
 ]
-
+builder = true
 # This table contains the scripts that you can use to build and serve your docs
 # hatch run docs:build will build your documentation
 # hatch run docs:serve will serve them 'live' on your computer locally
@@ -299,6 +301,7 @@ dependency-groups = [
     "style",
 ]
 detached = true
+builder = true
 
 [tool.hatch.envs.style.scripts]
 docstrings = "pydoclint src/ tests/"
@@ -314,6 +317,7 @@ description = """Check dependencies for security vulnerabilities."""
 dependency-groups = [
     "build",
 ]
+builder = true
 
 [tool.hatch.envs.audit.scripts]
 check = ["pip-audit"]
@@ -324,6 +328,7 @@ check = ["pip-audit"]
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
 dependency-groups = ["types"]
+builder = true
 
 [tool.hatch.envs.types.scripts]
 check = "mypy src/{{ package_name }}"
