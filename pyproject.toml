@@ -23,6 +23,10 @@ check-return-types = false
 check-yield-types = false
 exclude = "_version.py"
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["raises"]
+
 ################################################################################
 # Hatch Environments
 ################################################################################
@@ -43,37 +47,21 @@ path = ".venv"
 
 [tool.hatch.envs.test]
 description = """
-Test the instantiation of the template.
+Run test suite
 """
 dependencies = [
-    "copier ~=9.3",
-    "GitPython ~=3.1",
-    "hatch ~=1.12",
-    "jinja2 ~=3.1",
-    "pytest ~=8.3",
-    "pytest-xdist ~=3.6",
-    "pre-commit",
-    "ruamel.yaml>=0.18.0",
-    "validate-pyproject >=0.22",
-    "trove-classifiers>=2021.10.20",
-    "tomli >=2.0.2; python_version<'3.12'",
-    "mkdocs-material ~=9.5",
-    "mkdocstrings[python] ~=0.24",
-    "mkdocs-awesome-pages-plugin ~=2.9",
-    "pydata_sphinx_theme ~=0.16",
-    "myst-parser ~=4.0",
-    "sphinx ~=8.0",
-    "sphinx-autobuild>=2024.10.3",
-    "sphinx-autoapi>=3.6.0",
-    "sphinx_design>=0.6.1",
-    "sphinx-copybutton",
+    "pytest",
+    "pytest-cov",
+    "pytest-raises",
+    "pytest-randomly",
+    "pytest-xdist",
 ]
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.12", "3.13", "3.14"]
 
 [tool.hatch.envs.test.scripts]
-run = "pytest {args:--numprocesses=auto}"
+run = "pytest {args:--cov=<project_name> --cov-report=term-missing --cov-report=xml}"
 
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
