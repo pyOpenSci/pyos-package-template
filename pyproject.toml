@@ -116,15 +116,12 @@ precision = 2
 
 [tool.hatch.envs.default]
 skip-install = true
-installer = "uv"
 
 [tool.hatch.envs.dev]
 description = """
 Describe the environment for local development.
 """
-dependencies = [
-    "copier ~=9.3",
-]
+dependencies = []
 path = ".venv"
 
 [tool.hatch.envs.install]
