@@ -127,6 +127,22 @@ dependencies = [
 ]
 path = ".venv"
 
+[tool.hatch.envs.install]
+description = """Test the installation the package."""
+dependencies = [
+    "pip",
+    "twine",
+]
+detached = true
+builder = true
+
+[tool.hatch.envs.install.scripts]
+check = [
+    "pip check",
+    "hatch build {args:--clean}",
+    "twine check dist/*",
+]
+
 [tool.hatch.envs.test]
 description = """
 Run test suite
