@@ -69,13 +69,6 @@ version-file = "<package_path>/_version.py"
 [tool.hatch.version]
 source = "vcs"
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-markers = [
-    "docs: Tests relating to generated documentation!",
-    "installs: Tests that install packages, e.g. from executing hatch env scripts",
-]
-
 # The default isort output conflicts with black autoformatting.
 # Tell isort to behave nicely with black
 # See https://pycqa.github.io/isort/docs/configuration/black_compatibility.html
