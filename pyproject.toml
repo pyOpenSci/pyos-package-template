@@ -1,4 +1,50 @@
 ################################################################################
+# Project Configuration
+################################################################################
+
+[project]
+name = "<project_name>"
+
+dynamic = ["version"]
+
+description = "<project_description>"
+authors = [
+    { name = "<your_name>", email = "<your_email>" },
+]
+license = "BSD-3-Clause"
+readme = {"file" = "README.md", "content-type" = "text/markdown"}
+# Please consult https://pypi.org/classifiers/ for a full list.
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Typing :: Typed",
+]
+
+keywords = []
+
+# Package dependencies
+dependencies = []
+
+[project.urls]
+Homepage = ""
+"Source Code" = ""
+"Bug Tracker" = ""
+Documentation = ""
+Download = ""
+
+# [project.scripts]
+# script = "<package>.__main__:<entrypoint>"
+
+[project.optional-dependencies]
+dev = [
+    "hatch",
+    "pre-commit",
+]
+
+################################################################################
 # Tool Configuration
 ################################################################################
 
