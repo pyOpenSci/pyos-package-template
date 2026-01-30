@@ -172,3 +172,12 @@ dependencies = [
 
 [tool.hatch.envs.types.scripts]
 check = "mypy <package_path>"
+
+[tool.hatch.envs.docs]
+description = """Build or serve the documentation."""
+python = "3.14"
+dependencies = []
+
+# [tool.hatch.envs.docs.scripts]
+# build = []
+# serve = []
