@@ -27,6 +27,22 @@ exclude = "_version.py"
 testpaths = ["tests"]
 markers = ["raises"]
 
+# [tool.coverage.paths]
+# source = [
+#     "src/<project_name",
+# ]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+# omit = [
+#     "src/<project_name>/_version.py",
+# ]
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover"]
+precision = 2
+
 ################################################################################
 # Hatch Environments
 ################################################################################
