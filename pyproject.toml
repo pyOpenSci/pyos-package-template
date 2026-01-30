@@ -1,4 +1,12 @@
 ################################################################################
+# Build Configuration
+################################################################################
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling", "hatch-vcs"]
+
+################################################################################
 # Project Configuration
 ################################################################################
 
@@ -47,6 +55,19 @@ dev = [
 ################################################################################
 # Tool Configuration
 ################################################################################
+
+# Exclude files outside package
+[tool.hatch.build]
+only-packages = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["<package_path>"]
+
+[tool.hatch.build.hooks.vcs]
+version-file = "<package_path>/_version.py"
+
+[tool.hatch.version]
+source = "vcs"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -106,7 +127,6 @@ dependencies = [
 ]
 path = ".venv"
 
-
 [tool.hatch.envs.test]
 description = """
 Run test suite
@@ -135,3 +155,20 @@ detached = true
 [tool.hatch.envs.style.scripts]
 docstrings = "pydoclint"
 check = ["docstrings"]
+
+[tool.hatch.envs.audit]
+description = """Check dependencies for security vulnerabilities."""
+extra-dependencies = [
+    "pip-audit",
+]
+
+[tool.hatch.envs.audit.scripts]
+check = ["pip-audit"]
+[tool.hatch.envs.types]
+description = """Check the static types of the codebase."""
+dependencies = [
+    "mypy",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy <package_path>"
