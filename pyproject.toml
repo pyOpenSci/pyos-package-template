@@ -16,6 +16,13 @@ markers = [
 [tool.isort]
 profile = "black"
 
+[tool.pydoclint]
+style = "google"  # TODO: Other styles are possible here, like 'numpy'
+arg-type-hints-in-docstring = false
+check-return-types = false
+check-yield-types = false
+exclude = "_version.py"
+
 ################################################################################
 # Hatch Environments
 ################################################################################
@@ -67,3 +74,14 @@ python = ["3.12", "3.13", "3.14"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest {args:--numprocesses=auto}"
+
+[tool.hatch.envs.style]
+description = """Check the style of the codebase."""
+dependencies = [
+    "pydoclint",
+]
+detached = true
+
+[tool.hatch.envs.style.scripts]
+docstrings = "pydoclint"
+check = ["docstrings"]
