@@ -74,7 +74,7 @@ dependencies = [
     "ruamel.yaml>=0.18.0",
     "validate-pyproject >=0.22",
     "trove-classifiers>=2021.10.20",
-    "tomli >=2.0.2; python_version<'3.11'",
+    "tomli >=2.0.2; python_version<'3.12'",
     "mkdocs-material ~=9.5",
     "mkdocstrings[python] ~=0.24",
     "mkdocs-awesome-pages-plugin ~=2.9",
@@ -88,7 +88,7 @@ dependencies = [
 ]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13"]
+python = ["3.12", "3.13", "3.14"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest {args:--numprocesses=auto}"
