@@ -30,7 +30,7 @@ authors = [
     { name = "{{ author_name }}"{% if author_email  %}, email = "{{ author_email }}"{% endif %} },
 ]
 license = "{{ license }}"
-requires-python = ">= 3.10" # Adjust based on the minimum version of Python that you support
+requires-python = ">= 3.11" # Adjust based on the minimum version of Python that you support
 readme = {"file" = "README.md", "content-type" = "text/markdown"}
 # Please consult https://pypi.org/classifiers/ for a full list.
 classifiers = [
@@ -67,12 +67,10 @@ Documentation = "https://{{ project_slug }}.readthedocs.io"
 Documentation = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}/blob/main/README.md"
 {%- endif %}
 {%- endif %}
+# Note: update this url when you have published your package to pypi. (or delete it)
 Download = "https://pypi.org/project/{{ project_slug }}/#files"
 
-[project.optional-dependencies]
-# The groups below should be in the [development-groups] table
-# They are here now because hatch hasn't released support for them but plans to
-# in Mid November 2025.
+[dependency-groups]
 dev = [
     "hatch",
     "pre-commit",
@@ -293,12 +291,12 @@ check = [
 {%- if use_test %}
 [tool.hatch.envs.test]
 description = """Run the test suite."""
-features = [
-    "tests",
+dependency-groups = [
+  "test",
 ]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13"]
+python = ["3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing --cov-report=xml}"
