@@ -88,10 +88,9 @@ docs = [
 {%- if documentation == "sphinx" %}
     "sphinx~=8.0",
     "myst-parser>=4.0",
-    "pydata-sphinx-theme~=0.16",
+    "pydata-sphinx-theme>=0.16",
     "sphinx-autobuild>=2024.10.3",
     "sphinx-autoapi>=3.6.0",
-    "sphinx_design>=0.6.1",
     "sphinx-copybutton>=0.5.2",
 {%- elif documentation == "mkdocs" %}
     "mkdocs-material ~=9.5",
@@ -109,9 +108,6 @@ build = [
 tests = [
     "pytest",
     "pytest-cov",
-    "pytest-raises",
-    "pytest-randomly",
-    "pytest-xdist",
 ]
 {%- endif %}
 
