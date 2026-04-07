@@ -113,11 +113,17 @@ def init_git(path: Path):
 
 def run_command(command: str, cwd: Path, **kwargs) -> None:
     """Run a command, showing stdout/stderr on errors."""
+    # Strip HATCH_ENV_ACTIVE so inner hatch calls don't inherit the outer
+    # matrix environment name (e.g. test.py3.10), which would cause hatch
+    # to fail with "Unknown environment" in the generated project.
+    env = os.environ.copy()
+    env.pop("HATCH_ENV_ACTIVE", None)
     default_kwargs = {
         "shell": True,
         "stdout": subprocess.PIPE,
         "stderr": subprocess.PIPE,
         "text": True,
+        "env": env,
     }
     kwargs = {**default_kwargs, **kwargs}
     try:
@@ -170,7 +176,10 @@ def test_template_suite(
 
     # Run the local test suite.
     run_command("hatch build --clean", project_dir)
-    run_command(f"hatch run +py={sys.version_info.major}.{sys.version_info.minor} test:run", project_dir)
+    # The template requires Python >= 3.11; clamp to that minimum so this test
+    # works even when the outer test suite runs on an older interpreter.
+    py = max(sys.version_info[:2], (3, 11))
+    run_command(f"hatch run +py={py[0]}.{py[1]} test:run", project_dir)
     run_command("hatch run style:check", project_dir)
 
 
@@ -225,7 +234,7 @@ def test_non_hatch_deps(
     documentation: str,
     generated: Callable[..., Path],
 ) -> None:
-    """When we aren't using hatch, we should still get the optional dependencies."""
+    """When we aren't using hatch, we should still get the dependency groups."""
     project = generated(
         use_hatch_envs=False,
         use_lint=True,
@@ -242,9 +251,9 @@ def test_non_hatch_deps(
     # validate pyproject.toml file if present
     validator_api.Validator()(pyproject)
 
-    optional_deps = pyproject["project"]["optional-dependencies"]
+    dep_groups = pyproject["dependency-groups"]
     groups = ("dev", "tests", "style", "types", "build")
-    assert all(group in optional_deps for group in groups)
+    assert all(group in dep_groups for group in groups)
 
     # we don't want to hardcode all our deps here,
     # bc that would be a very fragile test indeed.
@@ -252,5 +261,5 @@ def test_non_hatch_deps(
     # means that they have been correctly specified.
     # except for the docs, where we want to test our switch works :)
     if documentation != "no":
-        assert "docs" in optional_deps
-        assert any(dep.startswith(documentation) for dep in optional_deps["docs"])
+        assert "docs" in dep_groups
+        assert any(dep.startswith(documentation) for dep in dep_groups["docs"])

@@ -92,6 +92,7 @@ docs = [
     "sphinx-autobuild>=2024.10.3",
     "sphinx-autoapi>=3.6.0",
     "sphinx-copybutton>=0.5.2",
+    "sphinx-design>=0.6.1",
 {%- elif documentation == "mkdocs" %}
     "mkdocs-material ~=9.5",
     "mkdocstrings[python] ~=0.24",
@@ -312,7 +313,7 @@ serve = ["sphinx-autobuild docs --watch src/{{ package_name }} {args:-b html doc
 
 [tool.hatch.envs.style]
 description = """Check the code and documentation style."""
-features = [
+dependency-groups = [
     "style",
 ]
 detached = true
@@ -328,7 +329,7 @@ check = ["docstrings", "code"]
 
 [tool.hatch.envs.audit]
 description = """Check dependencies for security vulnerabilities."""
-features = [
+dependency-groups = [
     "build",
 ]
 
@@ -340,7 +341,7 @@ check = ["pip-audit"]
 #--------------- Typing ---------------#
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
-features = ["types"]
+dependency-groups = ["types"]
 
 [tool.hatch.envs.types.scripts]
 check = "mypy src/{{ package_name }}"
