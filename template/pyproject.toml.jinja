@@ -45,7 +45,7 @@ classifiers = [
     {% endif -%}
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    {%- if use_mypy %}
+    {%- if use_types %}
     "Typing :: Typed",
     {%- endif %}
 ]
@@ -72,7 +72,7 @@ dev = [
         {%- if documentation!="" %}docs,{% endif -%}
         {%- if use_test %}tests,{% endif -%}
         {%- if use_lint %}style,{% endif -%}
-        {%- if use_mypy %}types,{% endif -%}
+        {%- if use_types %}types,{% endif -%}
     audit]",
     {%- endif %}
 ]
@@ -179,7 +179,7 @@ lines-after-imports = 1
 
 [tool.pydoclint]
 style = "numpy"
-{%- if use_mypy %}
+{%- if use_types %}
 arg-type-hints-in-signature = true
 {%- else  %}
 arg-type-hints-in-signature = false
@@ -234,7 +234,7 @@ extra-dependencies = [
 [tool.hatch.envs.audit.scripts]
 check = ["pip-audit"]
 
-{%- if use_mypy %}
+{%- if use_types %}
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
 dependencies = [

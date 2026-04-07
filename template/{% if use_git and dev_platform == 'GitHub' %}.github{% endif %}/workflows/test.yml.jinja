@@ -67,7 +67,7 @@ jobs:
     - name: Check dependencies
       run: hatch run audit:check
 
-{%- if use_mypy %}
+{%- if use_types %}
     - name: Check types
       run: hatch run types:check
 {%- endif %}
