@@ -289,7 +289,7 @@ run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing --cov-rep
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""
 # Install optional dependency test for docs
-features = [
+dependency-groups = [
     "docs",
 ]
 
