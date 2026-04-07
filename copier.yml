@@ -6,7 +6,7 @@ template_mode:
     "Welcome to the pyOpenSci package template.
     Please select the type of template that you want to create today."
   choices:
-    "MINIMAL: I want a minimal setup (package, tests and docs; typing); linting not included).": "minimal"
+    "MINIMAL: I want a minimal setup (package, tests and docs); linting & typing not included).": "minimal"
     "FULL DEFAULT: I want to use the default settings but I want it setup for me.": "full"
     "FULL CUSTOM: I want it all but I want to fully customize all template elements.": "custom"
 
