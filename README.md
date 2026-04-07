@@ -1,6 +1,6 @@
 # pyOpenSci Python Package Template
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14052273.svg)](https://doi.org/10.5281/zenodo.14052273)
 [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-black.json)](https://github.com/copier-org/copier)
@@ -8,8 +8,10 @@
 > A Python package template that supports the pyOpenSci
 > pure [Python packaging tutorial](https://www.pyopensci.org/python-package-guide/tutorials/intro.html).
 This template can be used with [copier](https://copier.readthedocs.io) to initialize a
-new Python package project structure following the practices outlined in the pyOpenSci
-tutorial.
+new Python package project structure following the practices outlined in the
+[pyOpenSci pure Python packaging tutorial](https://www.pyopensci.org/python-package-guide/tutorials/installable-code.html).
+
+If you want to learn more about packaging, check out our [Python packaging guide](https://www.pyopensci.org/python-package-guide/).
 
 ## Get started
 
@@ -73,51 +75,65 @@ short. This workflow creates the simplest version of a Python package including 
 `tests\` directory and a `docs\` directory using Sphinx.
 
 ```console
-pyos-package-template (☊ minimal) [🏎️ 💨 ×6] via 🐍 v3.12.5 (test.py3.12)
-➜ copier copy . _law_tests --vcs-ref minimal
-🎤 Who is the copyright holder, for example, yourself or your organization? Used in the license file and project description.
-   Your Name
-🎤 Who is the author of the package to be? Used in the package description.
-  Your Name
-🎤 The author's email address. Used in the package description.
-   email@youremail.com
-🎤 What is the name of the project? Used as the title in the README.md and other places.
-   project_name
+➜ copier copy gh:pyopensci/pyos-package-template .
+🎤 "Welcome to the pyOpenSci package template.
+Please select the type of template that you want to create today."
+ >> MINIMAL: I want a minimal setup (package, tests and docs; typing); linting not included).
+    FULL DEFAULT: I want to use the default settings but I want it setup for me.
+    FULL CUSTOM: I want it all but I want to fully customize all template elements.
+🎤 What is the name of the project? Used as the README.md title, in the
+   pyospackage_juno
 🎤 Please provide a short description for the package.
     (Finish with 'Alt+Enter' or 'Esc then Enter')
-> An example Python package with a minimal setup.
-🎤 Do you want to skip all remaining questions and use the default values?
-   >> Yes, but with a minimal setup (package, tests and docs only).
+> A great package that adds and subtracts numbers.
 
-Copying from template version 0.6.1.post44.dev0+7863796
+🎤 Who is the author of the package? Used in the package description.
+   juno dawg
+🎤 Provide you or your organization's GitHub username. Used to generate
+   pyopensci
+
+Copying from template version 0.6.4.1
+ identical  .
     create  CODE_OF_CONDUCT.md
+    create  .gitignore
     create  CHANGELOG.md
-    create  CONTRIBUTING.md
     create  LICENSE
     create  README.md
     create  tests
     create  tests/unit
-    create  tests/unit/.keep
-    create  tests/integration
-    create  tests/integration/.keep
-    create  tests/system
-    create  tests/system/test_import.py
-    create  tests/system/.keep
+    create  tests/unit/test_example.py
  identical  .editorconfig
- identical  .gitignore
+    create  .github
+    create  .github/workflows
+    create  .github/workflows/release.yml
+    create  .github/workflows/test.yml
+    create  .github/PULL_REQUEST_TEMPLATE.md
+    create  .github/ISSUE_TEMPLATE
+    create  .github/ISSUE_TEMPLATE/config.yml
+    create  .github/ISSUE_TEMPLATE/01-bug-report.yml
+    create  CONTRIBUTING.md
     create  docs
     create  docs/conf.py
     create  docs/index.md
     create  pyproject.toml
     create  src
-    create  src/pyopensci
-    create  src/pyopensci/example.py
-    create  src/pyopensci/__init__.py
+    create  src/pyospackage_juno
+    create  src/pyospackage_juno/example.py
+    create  src/pyospackage_juno/__init__.py
 ```
 
-Once you have created your package, you can install it in editable mode using pip:
+Once you have created your package, you can install it in editable mode using
+pip or uv.
 
-First, CD to the directory where your new package lives and install the package in editable mode:
+### For UV users
+```console
+$ cd my_directory
+$ uv sync # Run uv sync to create a venv and install your dependencies
+$ UV run python # Open a python prompt using the UV managed environment
+
+### For pip users
+
+First, CD to the directory where your new package lives, and install the package in editable mode:
 
 ```console
 $ cd my_directory
@@ -126,7 +142,8 @@ $ pip install -e . # install your package in editable mode
 $ python # open up a python prompt
 ```
 
-We have included a small module in the package in case you want to test it out.
+We have included a small module in the package template in case you want to
+test drive that package in an environment before adding to it.
 
 ```python
 >>> from your_package import example # we have called the sample module, example.py
@@ -136,6 +153,9 @@ We have included a small module in the package in case you want to test it out.
 ```
 
 ### Build your package
+
+The template has Hatch environments setup.
+
 You can build your package using `Hatch` which is included in the template.
 First, make sure you have `Hatch` installed in your environment. Then,
 run `hatch build`.
@@ -147,6 +167,13 @@ dist/yourpackage-0.1.0.tar.gz
 ─────────────────── wheel ──────────────────
 dist/yourpackage-0.1.0-py2.py3-none-any.whl
 ```
+
+To use the hatch build environment run:
+
+`hatch run build:check`
+
+This will create a new `venv` environment and build your package's wheel and
+source distributions.
 
 ### Full customization: A more complex example package
 
@@ -219,6 +246,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="http://www.leahwasser.com"><img src="https://avatars.githubusercontent.com/u/7649194?v=4?s=100" width="100px;" alt="Leah Wasser"/><br /><sub><b>Leah Wasser</b></sub></a><br /><a href="https://github.com/pyOpenSci/pyos-package-template/commits?author=lwasser" title="Code">💻</a> <a href="https://github.com/pyOpenSci/pyos-package-template/pulls?q=is%3Apr+reviewed-by%3Alwasser" title="Reviewed Pull Requests">👀</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/agriyakhetarpal"><img src="https://avatars.githubusercontent.com/u/74401230?v=4?s=100" width="100px;" alt="Agriya Khetarpal"/><br /><sub><b>Agriya Khetarpal</b></sub></a><br /><a href="https://github.com/pyOpenSci/pyos-package-template/pulls?q=is%3Apr+reviewed-by%3Aagriyakhetarpal" title="Reviewed Pull Requests">👀</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/yuvipanda"><img src="https://avatars.githubusercontent.com/u/30430?v=4?s=100" width="100px;" alt="Yuvi Panda"/><br /><sub><b>Yuvi Panda</b></sub></a><br /><a href="https://github.com/pyOpenSci/pyos-package-template/commits?author=yuvipanda" title="Code">💻</a> <a href="https://github.com/pyOpenSci/pyos-package-template/pulls?q=is%3Apr+reviewed-by%3Ayuvipanda" title="Reviewed Pull Requests">👀</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Michael-Howes"><img src="https://avatars.githubusercontent.com/u/50608711?v=4?s=100" width="100px;" alt="Michael-Howes"/><br /><sub><b>Michael-Howes</b></sub></a><br /><a href="https://github.com/pyOpenSci/pyos-package-template/issues?q=author%3AMichael-Howes" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://erikwhiting.com"><img src="https://avatars.githubusercontent.com/u/47164199?v=4?s=100" width="100px;" alt="Erik Whiting"/><br /><sub><b>Erik Whiting</b></sub></a><br /><a href="https://github.com/pyOpenSci/pyos-package-template/commits?author=erik-whiting" title="Code">💻</a> <a href="https://github.com/pyOpenSci/pyos-package-template/pulls?q=is%3Apr+reviewed-by%3Aerik-whiting" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://mpilosov.com"><img src="https://avatars.githubusercontent.com/u/40366263?v=4?s=100" width="100px;" alt="Michael Pilosov, PhD"/><br /><sub><b>Michael Pilosov, PhD</b></sub></a><br /><a href="https://github.com/pyOpenSci/pyos-package-template/pulls?q=is%3Apr+reviewed-by%3Amathematicalmichael" title="Reviewed Pull Requests">👀</a></td>
     </tr>
   </tbody>
 </table>

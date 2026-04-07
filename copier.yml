@@ -6,17 +6,22 @@ template_mode:
     "Welcome to the pyOpenSci package template.
     Please select the type of template that you want to create today."
   choices:
-    "Yes, but with a minimal setup (package, tests and docs; typing, linting not included).": "minimal"
-    "I want to use the default settings but I want it setup for me. ": "full"
-    "I want it all but I want to fully customize all elements of the template.": "custom" # changed from no to to custom
+    "MINIMAL: I want a minimal setup (package, tests and docs); linting & typing not included).": "minimal"
+    "FULL DEFAULT: I want to use the default settings but I want it setup for me.": "full"
+    "FULL CUSTOM: I want it all but I want to fully customize all template elements.": "custom"
 
   default: "minimal"
 
 ############### Basic Information ###################
 
-copyright_holder:
+project_name:
   type: str
-  help: "Who is the copyright holder, for example, yourself or your organization? Used in the license file and project description."
+  help: "What is the name of the project? Used as the README.md title, in the Docs and other places."
+
+package_description:
+  type: str
+  multiline: true
+  help: "Please provide a short description for the package."
 
 author_name:
   type: str
@@ -27,14 +32,11 @@ author_email:
   type: str
   help: "The author's email address. Used in the package description."
 
-project_name:
+copyright_holder:
+  when: "{{ template_mode == 'custom' }}"
   type: str
-  help: "What is the name of the project? Used as the README.md title, in the Docs and other places."
-
-package_description:
-  type: str
-  multiline: true
-  help: "Please provide a short description for the package."
+  help: "Who is the copyright holder, for example, yourself or your organization? Used in the license file and project description."
+  default: "{{ author_name }}"
 
 year:
   when: "{{ template_mode == 'custom' }}"

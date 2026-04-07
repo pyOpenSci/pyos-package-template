@@ -27,10 +27,10 @@ description = {% if "\n" in wrapped_description -%}
 "{{ wrapped_description }}"
 {%- endif %}
 authors = [
-    { name = "{{ author_name }}", email = "{{ author_email }}" },
+    { name = "{{ author_name }}"{% if author_email  %}, email = "{{ author_email }}"{% endif %} },
 ]
 license = "{{ license }}"
-requires-python = ">= 3.10" # Adjust based on the minimum version of Python that you support
+requires-python = ">= 3.11" # Adjust based on the minimum version of Python that you support
 readme = {"file" = "README.md", "content-type" = "text/markdown"}
 # Please consult https://pypi.org/classifiers/ for a full list.
 classifiers = [
@@ -60,10 +60,17 @@ Homepage = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}"
 "Source Code" = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}"
 "Bug Tracker" = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}/issues"
 {%- endif %}
+{%- if use_rtd %}
 Documentation = "https://{{ project_slug }}.readthedocs.io"
+{%- else %}
+{%- if use_git %}
+Documentation = "{{ dev_platform_url }}/{{ username }}/{{ project_slug }}/blob/main/README.md"
+{%- endif %}
+{%- endif %}
+# Note: update this url when you have published your package to pypi. (or delete it)
 Download = "https://pypi.org/project/{{ project_slug }}/#files"
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "hatch",
     "pre-commit",
@@ -76,9 +83,49 @@ dev = [
     audit]",
     {%- endif %}
 ]
-{%- if not use_hatch_envs %}
-{% include pathjoin('includes', 'pyproject', 'deps-pep-621.toml.jinja') %}
+
+docs = [
+{%- if documentation == "sphinx" %}
+    "sphinx~=8.0",
+    "myst-parser>=4.0",
+    "pydata-sphinx-theme>=0.16",
+    "sphinx-autobuild>=2024.10.3",
+    "sphinx-autoapi>=3.6.0",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx-design>=0.6.1",
+{%- elif documentation == "mkdocs" %}
+    "mkdocs-material ~=9.5",
+    "mkdocstrings[python] ~=0.24",
+    "mkdocs-awesome-pages-plugin ~=2.9",
+{% endif %}
+]
+
+build = [
+    "pip-audit",
+    "twine",
+]
+
+{%- if use_test %}
+tests = [
+    "pytest",
+    "pytest-cov",
+]
 {%- endif %}
+
+{%- if use_lint %}
+style = [
+    "pydoclint",
+    "ruff",
+]
+{%- endif %}
+
+{%- if use_types %}
+types = [
+    "mypy",
+]
+{%- endif %}
+
+
 ################################################################################
 # Tool Configuration
 ################################################################################
@@ -90,12 +137,12 @@ dev = [
 [tool.hatch.build]
 only-packages = true
 
-# This tells Hatch to build the package from the src/me directory.
+# This tells Hatch to build the package from the src/ directory.
 # Read more about src layouts here: https://www.pyopensci.org/python-package-guide/package-structure-code/python-package-structure.html
 [tool.hatch.build.targets.wheel]
 packages = ["src/{{ package_name }}"]
 
-{%- if use_vcs_version %}
+{% if use_vcs_version %}
 [tool.hatch.build.hooks.vcs]
 version-file = "src/{{ package_name }}/_version.py"
 
@@ -132,7 +179,7 @@ exclude_lines = ["pragma: no cover"]
 precision = 2
 {%- endif %}
 
-{%- if use_lint %}
+{% if use_lint %}
 [tool.ruff]
 line-length = 88
 
@@ -143,8 +190,6 @@ ignore = [
     "D203",  # '1 blank line required before class docstring' ignored because we want no blank line.
     "D212",  # 'Multi-line docstring summary should start at the first line' ignored because we want the summary to start on the second line.
     "D407",  # 'Missing dashed underline after section' ignored because Google style docstrings don't underline.
-    "ANN101",  # 'Missing type annotation for {self} in method'.
-    "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
     "D413",  # 'Missing blank line after section' ignored .
     "D401",  # 'First line should be in imperative mood' ignored
     "ANN001",  # Missing type annotation for {arg} in function" ignored
@@ -190,9 +235,9 @@ check-yield-types = false
 {%- if use_vcs_version %}
 exclude = "_version.py"
 {%- endif %}
-{%- endif %}
+{%- endif -%}
 
-{%- if use_mypy %}
+{% if use_types %}
 [tool.mypy]
 packages = ["{{ package_name }}"]
 warn_redundant_casts = true
@@ -202,68 +247,61 @@ show_column_numbers = true
 show_error_code_links = true
 pretty = true
 color_output = true
+
+
 {%- endif %}
 
 {%- if use_hatch_envs %}
+# Use UV to create Hatch environments
+[tool.hatch.envs.default]
+installer = "uv"
+
 ################################################################################
 # Hatch Environments
 ################################################################################
 
-{%- if use_lint %}
-[tool.hatch.envs.style]
-description = """Check the style of the codebase."""
-dependencies = [
-    "pydoclint",
-    "ruff",
-]
-detached = true
+#--------------- Build and check your package ---------------#
 
-[tool.hatch.envs.style.scripts]
-docstrings = "pydoclint src/ tests/"
-code = "ruff check {args}"
-format = "ruff format {args}"
-check = ["docstrings", "code"]
+# This table installs the tools you need to test and build your package
+[tool.hatch.envs.build]
+description = """Test the installation the package."""
+dependency-groups = [
+    "build",
+]
+builder = true
+
+# This table installs created the command hatch run install:check which will build and check your package.
+[tool.hatch.envs.build.scripts]
+check = [
+    "hatch build {args:--clean}",
+    "twine check dist/*",
+]
+
+#--------------- Run tests ---------------#
+
+{%- if use_test %}
+[tool.hatch.envs.test]
+description = """Run the test suite."""
+dependency-groups = [
+  "tests",
+]
+
+[[tool.hatch.envs.test.matrix]]
+python = ["3.11", "3.12", "3.13"]
+
+[tool.hatch.envs.test.scripts]
+run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing --cov-report=xml}"
 {%- endif %}
 
-[tool.hatch.envs.audit]
-description = """Check dependencies for security vulnerabilities."""
-extra-dependencies = [
-    "pip-audit",
-]
-
-[tool.hatch.envs.audit.scripts]
-check = ["pip-audit"]
-
-{%- if use_types %}
-[tool.hatch.envs.types]
-description = """Check the static types of the codebase."""
-dependencies = [
-    "mypy",
-]
-
-[tool.hatch.envs.types.scripts]
-check = "mypy src/{{ package_name }}"
-{%- endif %}
-
+#--------------- Build and preview your documentation ---------------#
 {% if documentation != "no" %}
 # This sets up a hatch environment with associated dependencies that need to be installed
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""
-{%- if documentation == "mkdocs" %}
-extra-dependencies = [
-    "mkdocs-material ~=9.5",
-    "mkdocstrings[python] ~=0.24",
-    "mkdocs-awesome-pages-plugin ~=2.9",
+# Install optional dependency test for docs
+dependency-groups = [
+    "docs",
 ]
-{%- elif documentation == "sphinx" %}
-python = "3.10"
-dependencies = [
-    "pydata_sphinx_theme ~=0.16",
-    "myst-parser ~=4.0",
-    "Sphinx ~=8.0",
-    "sphinx-autobuild ==2024.10.3"
-]
-{%- endif %}
 
 # This table contains the scripts that you can use to build and serve your docs
 # hatch run docs:build will build your documentation
@@ -274,43 +312,48 @@ build = "mkdocs build {args:--clean --strict}"
 serve = "mkdocs serve {args}"
 {%- endif %}
 {%- if documentation == "sphinx" %}
-build = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-build {args:-W -b html docs docs/_build}"]
-serve = ["sphinx-apidoc -o docs/api src/{{ package_name}}", "sphinx-autobuild docs --watch src/{{ package_name }} {args:-b html docs/_build/serve}"]
+build = ["sphinx-build {args:-W -b html docs docs/_build}"]
+serve = ["sphinx-autobuild docs --watch src/{{ package_name }} {args:-b html docs/_build/serve}"]
 {%- endif %}
 {%- endif %}
 
-# This table installs teh tools you need to test and build your package
-[tool.hatch.envs.install]
-description = """Test the installation the package."""
-dependencies = [
-    "pip",
-    "twine",
+{% if use_lint %}
+#--------------- Format & style your code ---------------#
+
+[tool.hatch.envs.style]
+description = """Check the code and documentation style."""
+dependency-groups = [
+    "style",
 ]
 detached = true
 
-# This table installs created the command hatch run install:check which will build and check your package.
-[tool.hatch.envs.install.scripts]
-check = [
-    "pip check",
-    "hatch build {args:--clean}",
-    "twine check dist/*",
-]
-
-{%- if use_test %}
-[tool.hatch.envs.test]
-description = """Run the test suite."""
-extra-dependencies = [
-    "pytest",
-    "pytest-cov",
-    "pytest-raises",
-    "pytest-randomly",
-    "pytest-xdist",
-]
-
-[[tool.hatch.envs.test.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13"]
-
-[tool.hatch.envs.test.scripts]
-run = "pytest {args:--cov={{ package_name }} --cov-report=term-missing}"
+[tool.hatch.envs.style.scripts]
+docstrings = "pydoclint src/ tests/"
+code = "ruff check {args}"
+format = "ruff format {args}"
+check = ["docstrings", "code"]
 {%- endif %}
+
+#--------------- Check security for your dependencies ---------------#
+
+[tool.hatch.envs.audit]
+description = """Check dependencies for security vulnerabilities."""
+dependency-groups = [
+    "build",
+]
+
+[tool.hatch.envs.audit.scripts]
+check = ["pip-audit"]
+
+
+{%- if use_types %}
+#--------------- Typing ---------------#
+[tool.hatch.envs.types]
+description = """Check the static types of the codebase."""
+dependency-groups = ["types"]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy src/{{ package_name }}"
+{%- endif %}
+
 {%- endif %}

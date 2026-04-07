@@ -7,13 +7,14 @@ build:
   tools:
     python: "3.12"
   commands:
-    - pip install --upgrade pip setuptools wheel
-    - pip install hatch
-{%- if documentation == "mkdocs" %}
+    - pip install --upgrade pip
+    - pip install -e '.[docs]'
+{%- if documentation == "sphinx" %}
+    # Make sure RTD can find the html output
+    - sphinx-build -b html docs $READTHEDOCS_OUTPUT/html
+{%- elif documentation == "mkdocs" %}
     - hatch run docs:build -- --strict --site-dir "${READTHEDOCS_OUTPUT}/html"
 
 mkdocs:
   configuration: mkdocs.yml
-{%- elif documentation == "sphinx" %}
-    - hatch run docs:build
 {%- endif %}
