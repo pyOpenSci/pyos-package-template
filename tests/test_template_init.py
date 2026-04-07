@@ -231,7 +231,7 @@ def test_non_hatch_deps(
     project = generated(
         use_hatch_envs=False,
         use_lint=True,
-        use_mypy=True,
+        use_types=True,
         use_test=True,
         use_git=False,
         documentation=documentation,
